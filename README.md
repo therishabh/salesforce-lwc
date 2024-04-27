@@ -131,4 +131,16 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
     </targets>
 </LightningComponentBundle>
 ```
-- 
+
+### Local Properties and Data Binding
+- variables which are declared in js file are local properties
+- Data binding in the Lightning web component is a synchronization between the controller and the template (HTML)
+- ![Screenshot Capture - 2024-04-28 - 01-43-30](https://github.com/therishabh/salesforce-lwc/assets/7955435/98c5e2d0-8f93-43b0-a3e8-7ef3c36db960)
+
+#### Things to remember
+
+1) In template we can access property value directly if it's primitive or object.
+2) Dot notation is used to access the property from an object
+3) LWC doesn't allow computed expressions like Names [2] or {2+2}
+4) The property in f } must be a valid JavaScript identifier or member expression. Like {name} or {user.name}
+5) Avoid adding spaces around the property, for example, { data }
