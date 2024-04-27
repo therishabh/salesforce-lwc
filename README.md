@@ -36,7 +36,7 @@ It is a set of tools that streamlines the entire development life cycle. It impr
 2. Salesforce CLI
 3. Salesforce Extension Pack
 
-### Setting Up My Domain and Dev Hub
+## Setting Up My Domain and Dev Hub
 Setup my domain in for salesforce org.
 
 Choose a unique name
@@ -50,6 +50,19 @@ Once you'll enable Dev Hub then you can not disable it.
 
 ![Screenshot Capture - 2024-04-27 - 13-28-28](https://github.com/therishabh/salesforce-lwc/assets/7955435/01b7a0d3-6323-4ea4-837a-6f461b0e156a)
 
+## Setting Up Project and Scratch Org
+We'll create project with the help of Visual studio and it's extension Salesforce Extension Pack
+
+Following steps we need to follow for setting up project
+
+Step 1: Open Visual Studio and then click on View and then select Command Palette..
+![Screenshot 2024-04-27 at 1 46 36 PM (2)](https://github.com/therishabh/salesforce-lwc/assets/7955435/b26f3823-67ca-4c92-8396-15a01fa7acd9)
+
+Step 2: Type SFDX _(Salesforce Developer Experience)_ in command palette then dropdown will be there then select create project with Manifest.
+![Screenshot 2024-04-27 at 1 46 18 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/337b883b-bf49-4e60-97d1-2c40f7dced01)
+![Screenshot 2024-04-27 at 1 50 47 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/72f02ede-a35f-4537-80cc-12b64f1d43e5)
+![Screenshot 2024-04-27 at 1 51 23 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/7c81b5ab-f97b-474b-990a-75f727af0d00)
+![Screenshot 2024-04-27 at 1 51 37 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/dc58214d-cc25-47cb-9d0d-3a4101ca2e9e)
 
 
 
