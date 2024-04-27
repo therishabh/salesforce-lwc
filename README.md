@@ -79,6 +79,26 @@ Step 4: Create Scratch org and connect that scratch org with project. **Before c
 ![Screenshot 2024-04-27 at 3 26 33 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/8bac4a07-9c68-4f39-b0a0-2352ad7566c6)
 ![Screenshot 2024-04-27 at 3 30 02 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/c143454f-870d-4f58-b275-26bf1bc4f274)
 
+## Create First Component in LWC
 
+#### Component Naming Convention
+The folder and its files must follow these naming rules.
+• Must begin with a lowercase letter
+• Contain only alphanumeric or underscore characters
+• Must be unique in the namespace
+• Can't include whitespace
+• Can't end with an underscore
+• Can't contain two consecutive underscores
+• Can't contain a hyphen (dash)
+
+#### Two ways to Create Component
+1. Using Terminal
+
+```terminal
+sfdx force:lightning:component:create --type Iwc -n helloWorld
+```
+
+2. Using Command Palette </br>
+VsCode => View => Command Palette => Type Create Lightning Web Component => Hit Enter => Enter desired filename => hit enter => Again hit enter to choose default path
 
 
