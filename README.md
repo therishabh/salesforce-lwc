@@ -107,7 +107,16 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 
 ![Screenshot Capture - 2024-04-27 - 17-47-09](https://github.com/therishabh/salesforce-lwc/assets/7955435/2f821429-dbd5-4b0f-b8a1-0b0fb92ca57b)
 
+#### Naming Conventions for LWC
 
+1. **camelCase:** Each word in the middle of the respective phrase begins with a capital letter.
+2. **PascalCase:** It is same like Camel Case where first letter always is capitalized.
+3. **kebab-case:** Respective phrase will be transferred to all lowercase with hyphen(-) separating words.
+
+| Case Name  | camelCase | PascalCase | kabab-case |
+| ------------- | ------------- | ------------- | ------------- |
+| Example  | helloWorld  | HelloWorld  | hello-world  |
+| Usage  | component Name  | Component class Name  | Component reference and HTML attribute name  |
 
 
 
