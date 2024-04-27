@@ -35,3 +35,22 @@ It is a set of tools that streamlines the entire development life cycle. It impr
 1. Visual Studio Code
 2. Salesforce CLI
 3. Salesforce Extension Pack
+
+### Setting Up My Domain and Dev Hub
+Setup my domain in for salesforce org.
+
+Choose a unique name
+![Screenshot Capture - 2024-04-27 - 13-24-40](https://github.com/therishabh/salesforce-lwc/assets/7955435/2735bc98-9ab1-402f-bef2-b299f0df9587)
+
+Deploy to users
+![Screenshot Capture - 2024-04-27 - 13-26-42](https://github.com/therishabh/salesforce-lwc/assets/7955435/749f08e4-f7e8-4ced-aa5e-ef7931675275)
+
+##### Dev Hub
+Once you'll enable Dev Hub then you can not disable it.
+
+![Screenshot Capture - 2024-04-27 - 13-28-28](https://github.com/therishabh/salesforce-lwc/assets/7955435/01b7a0d3-6323-4ea4-837a-6f461b0e156a)
+
+
+
+
+
