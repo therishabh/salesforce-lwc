@@ -118,5 +118,17 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 | Example  | helloWorld  | HelloWorld  | hello-world  |
 | Usage  | component Name  | Component class Name  | Component reference and HTML attribute name  |
 
+## Component Deployment
 
-
+- First of all we need to configure xml file of newly created component, we need to add targets and isExposed should be true.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+    </targets>
+</LightningComponentBundle>
+```
+- 
