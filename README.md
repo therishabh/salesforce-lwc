@@ -95,7 +95,7 @@ The folder and its files must follow these naming rules.
 1. Using Terminal
 
 ```terminal
-sfdx force:lightning:component:create --type Iwc -n helloWorld
+sfdx force:lightning:component:create --type lwc -n helloWorld
 ```
 
 2. Using Command Palette </br>
