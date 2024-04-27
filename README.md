@@ -1,4 +1,4 @@
-![Screenshot 2024-04-27 at 3 26 33 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/42e4d24a-3190-4086-b046-41e80448ddfd)# Salesforce LWC
+# Salesforce LWC
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
