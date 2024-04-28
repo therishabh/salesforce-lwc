@@ -144,3 +144,83 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 3) LWC doesn't allow computed expressions like Names [2] or {2+2}
 4) The property in f } must be a valid JavaScript identifier or member expression. Like {name} or {user.name}
 5) Avoid adding spaces around the property, for example, { data }
+
+### Getters
+
+#### What is Getter and when to use it
+![Screenshot Capture - 2024-04-29 - 02-02-17](https://github.com/therishabh/salesforce-lwc/assets/7955435/9412482b-8985-4ccf-88b3-e5df3d759c8c)
+
+File : helloWorld.js
+```javascript
+import { LightningElement, track } from "lwc";
+
+export default class HelloWorld extends LightningElement {
+  fullName = "Rishabh Agrawal";
+  course = "Aura";
+
+  @track address = {
+    country: "India",
+    city: "Delhi",
+    pincode: 112233
+  };
+
+  users = ["Risahbh", "Shikha", "Madhav", "Ram"];
+  num_1 = 10;
+  num_2 = 20;
+
+  onKeyUpHandler(event) {
+    this.course = event.target.value;
+  }
+
+  onCityKeyUpHandler(event) {
+    this.address.city = event.target.value;
+  }
+
+  get getFirstUser() {
+    return this.users[0];
+  }
+
+  get calculationValue() {
+    return this.num_1 * this.num_2;
+  }
+}
+
+```
+
+File : helloWorld.html
+```html
+<template>
+  <lightning-card title="Two way data binding">
+    <div class="slds-m-around_medium">
+      <lightning-input
+        type="text"
+        label="Enter Course Name"
+        onkeyup={onKeyUpHandler}
+      ></lightning-input>
+      <div>Hello, {fullName}, learning new course that is : {course}</div>
+    </div>
+  </lightning-card>
+
+  <lightning-card title="@track Property">
+    <div class="slds-m-around_medium">
+      <lightning-input
+        type="text"
+        label="Enter City Name"
+        onkeyup={onCityKeyUpHandler}
+      ></lightning-input>
+      <div>I am from {address.city} city.</div>
+    </div>
+  </lightning-card>
+
+  <lightning-card title="Getter function">
+    <div class="slds-m-around_medium">
+      <div>{getFirstUser}</div>
+      <div>The multiplication of {num_1} and {num_2} is {calculationValue}</div>
+    </div>
+  </lightning-card>
+</template>
+
+```
+
+
+
