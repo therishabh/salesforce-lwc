@@ -145,6 +145,17 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 4) The property in f } must be a valid JavaScript identifier or member expression. Like {name} or {user.name}
 5) Avoid adding spaces around the property, for example, { data }
 
+### Methods and Two way Data binding
+Example : See getters section js and HTML file
+
+### @track properties
+When a field contains an object or an array, there's a limit to the depth of changes that are tracked. To tell the framework to observe changes to the properties of an object or to the elements of an array, decorate the field with @track.
+
+**Normal Property vs @track property**
+Without using @track, the framework observes changes that assign a new value to a field/property. If the new value is not === to the previous value, the component re-renders.
+
+Example : See getters example
+
 ### Getters
 
 #### What is Getter and when to use it
