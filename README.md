@@ -233,5 +233,62 @@ File : helloWorld.html
 
 ```
 
+### Conditional Rendering
+
+File : conditionalComponent.html
+```html
+<template>
+    <lightning-card title="Conditional rendring">
+
+        <div class="slds-m-around_medium">
+            <lightning-button variant="brand" label="Show Data" title="Show Data" onclick={handleShowDataButtonClick} class="slds-m-left_x-small"></lightning-button>
+            <div>
+                <template lwc:if={isVisible}>
+                    Button Clicked
+                </template>
+                <template lwc:else>
+                    Please click button to show data.
+                </template> 
+            </div>
+            <div class="slds-m-top_medium">
+                <lightning-input type="text" label="Enter some text" onkeyup={handleCondtionalInputText}></lightning-input>
+                <template lwc:if={checkHelloText}>
+                    yooo... you typed hello
+                </template>
+                <template lwc:elseif={checkJapanText}>
+                    yooo... you typed Japan
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>
+```
+
+File : conditionalComponent.js
+```javascript
+import { LightningElement } from "lwc";
+
+export default class ConditionalComponent extends LightningElement {
+  isVisible = false;
+  text;
+
+  handleShowDataButtonClick() {
+    this.isVisible = true;
+  }
+
+  handleCondtionalInputText(event) {
+    this.text = event.target.value;
+  }
+
+  get checkHelloText() {
+    return this.text?.toLowerCase() === 'hello'
+  }
+
+  get checkJapanText() {
+    return this.text?.toLowerCase() === 'japan'
+  }
+}
+
+```
 
 
