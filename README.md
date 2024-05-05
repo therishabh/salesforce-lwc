@@ -1,8 +1,8 @@
 # Salesforce LWC
 
 ##### Table of Contents  
-[Lightning Framework](#Lightning_Framework)  
-[Create Static Resources](#Create_Static_Resources)  
+[Lightning Framework](#lightning-framework)  
+[Create Static Resources](#create-static-resources)  
 
 
 ## Lightning Framework
