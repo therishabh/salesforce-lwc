@@ -309,6 +309,61 @@ export default class ConditionalComponent extends LightningElement {
 }
 
 ```
+
+## Setter Method
+This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
+File Name : setterDemoChild.js
+```javascript
+import { LightningElement, api } from 'lwc';
+
+export default class SetterDemoChild extends LightningElement {
+    userDetail
+
+    @api
+    get detail(){
+        return  this.userDetail
+    }
+    set detail(data){
+        let newAge = data.age*2
+        this.userDetail = {...data, age:newAge, "location":"Melbourne"}
+    }
+}
+```
+
+File Name : setterDemoChild.html
+```html
+<template>
+    <p><strong>Name</strong> - {detail.name}</p>
+    <p><strong>Age</strong> - {detail.age}</p>
+    <p><strong>location</strong> - {detail.location}</p>
+</template>
+```
+
+
+File Name : setterDemoParent.js
+```javascript
+import { LightningElement } from 'lwc';
+
+export default class SetterDemoParent extends LightningElement {
+    userDetails = {
+        name:"salesforcetroop",
+        age:25
+    }
+}
+```
+
+File Name : setterDemoParent.html
+```html
+<template>
+    <lightning-card title="Setter Method Demo">
+        <c-setter-demo-child detail={userDetails}></c-setter-demo-child>
+    </lightning-card>
+</template>
+```
+
+
+
+
 ## Create Static Resources
 https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
 
