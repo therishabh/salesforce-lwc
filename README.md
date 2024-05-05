@@ -13,6 +13,7 @@
     4. [lightning-record-form](#lightning-record-form)
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
+    7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
 7. [Base Lightning Components](#base-lightning-components)
 8. 
      
@@ -543,7 +544,7 @@ File Name : recordEditForm.html
 </template>
 ```
 
-**Custom Validation in lightning-record-edit-form**
+#### Custom Validation in lightning-record-edit-form
 
 File Name : recordEditForm.js
 ```javascript
