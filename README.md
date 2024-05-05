@@ -509,6 +509,15 @@ export default class RecordEditForm extends LightningElement {
         phoneField:PHONE_FIELD,
         emailField:EMAIL_FIELD
     }
+
+    handleReset(){ 
+        const inputFields = this.template.querySelectorAll('lightning-input-field')
+        if(inputFields){ 
+            Array.from(inputFields).forEach(field=>{ 
+                field.reset()
+            })
+        }
+    }
 }
 ```
 
@@ -525,9 +534,80 @@ File Name : recordEditForm.html
             <lightning-input-field field-name={fields.nameField}></lightning-input-field>
             <lightning-input-field field-name={fields.titleField}></lightning-input-field>
             <lightning-input-field field-name={fields.phoneField}></lightning-input-field>
-            <lightning-input-field field-name={fields.emailField}></lightning-input-field>
-            <lightning-button class="slds-m-around_xx-small" label="cancel"></lightning-button>
+            <label class="slds-p-left_x-small">Enter your email</label>
+            <lightning-input-field variant="label-hidden" field-name={fields.emailField}></lightning-input-field>
+            <lightning-button class="slds-m-around_xx-small" label="cancel" onclick={handleReset}></lightning-button>
             <lightning-button variant="brand" type="submit" class="slds-m-around_xx-small" label="Save"></lightning-button>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>
+```
+
+**Custom Validation in lightning-record-edit-form**
+
+File Name : recordEditForm.js
+```javascript
+import { LightningElement } from 'lwc';
+import ACCOUNT_OBJECT from '@salesforce/schema/Account'
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+export default class RecordEditCustom extends LightningElement {
+    objectName = ACCOUNT_OBJECT
+    inputValue=''
+    handleChange(event){ 
+        this.inputValue = event.target.value
+    }
+    handleSubmit(event){ 
+        event.preventDefault()
+        const inputCmp = this.template.querySelector('lightning-input')
+        const value= inputCmp.value
+        if(!value.includes('Australia')){ 
+            inputCmp.setCustomValidity("The account name must include 'Australia'")
+        } else { 
+            inputCmp.setCustomValidity("")
+            const fields = event.detail.fields
+            fields.Name = value
+            this.template.querySelector('lightning-record-edit-form').submit(fields)
+        }
+        inputCmp.reportValidity()
+
+    }
+    successHandler(event){ 
+        const toastEvent = new ShowToastEvent({ 
+            title:"Account created",
+            message: "Record ID: "+ event.detail.id,
+            variant:"success"
+        })
+        this.dispatchEvent(toastEvent)
+
+    }
+    handleError(event){ 
+        const toastEvent = new ShowToastEvent({ 
+            title:"Error creating Account",
+            message: event.detail.message,
+            variant:"error"
+        })
+        this.dispatchEvent(toastEvent)
+    }
+}
+```
+
+File Name : recordEditForm.html
+```html
+<template>
+    <lightning-card title="Custom validation in lightning record edit form">
+        <lightning-record-edit-form
+        object-api-name={objectName}
+        onsubmit={handleSubmit}
+        onsuccess={successHandler}
+        onerror={handleError}
+        >
+            <lightning-input label="Name"
+            value={inputValue}
+            onkeyup={handleChange}
+            class="slds-m-bottom_x-small"></lightning-input>
+    
+            <lightning-button class="slds-m-top_small" type="submit" label="Create Account"></lightning-button>
         </lightning-record-edit-form>
     </lightning-card>
 </template>
