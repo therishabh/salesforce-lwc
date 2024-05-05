@@ -1,8 +1,10 @@
 # Salesforce LWC
 
 ##### Table of Contents  
-[Lightning Framework](#lightning-framework)  
-[Create Static Resources](#create-static-resources)  
+1. [Lightning Framework](#lightning-framework)
+2. [Web Stack Transformation](#web-stack-transformation)
+3. [Conditional Rendering](#conditional-rendering)
+4. [Create Static Resources](#create-static-resources)
 
 
 ## Lightning Framework
