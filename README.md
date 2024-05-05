@@ -7,7 +7,7 @@
 4. [Create Static Resources](#create-static-resources)
 5. [Navi](#navi)
 6. [Base Lightning Components](#base-lightning-components)
-    1. [Introduction to Work With Data In LWC](#ss)
+    1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Introduction to Work With Data In LWC](#ss)
 7. [Base Lightning Components](#base-lightning-components)
 8. 
