@@ -5,6 +5,13 @@
 2. [Web Stack Transformation](#web-stack-transformation)
 3. [Conditional Rendering](#conditional-rendering)
 4. [Create Static Resources](#create-static-resources)
+5. [Navi](#navi)
+6. [Base Lightning Components](#base-lightning-components)
+    1. [Introduction to Work With Data In LWC](#ss)
+    2. [Introduction to Work With Data In LWC](#ss)
+7. [Base Lightning Components](#base-lightning-components)
+8. 
+     
 
 
 ## Lightning Framework
@@ -299,3 +306,8 @@ export default class ConditionalComponent extends LightningElement {
 ```
 ## Create Static Resources
 https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
+
+## Base Lightning Components
+### Introduction to Work With Data In LWC
+
+
