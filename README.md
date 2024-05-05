@@ -11,6 +11,8 @@
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
     4. [lightning-record-form](#lightning-record-form)
+    5. [lightning-record-view-form](#lightning-record-view-form)
+    6. [lightning-record-edit-form](#lightning-record-edit-form)
 7. [Base Lightning Components](#base-lightning-components)
 8. 
      
@@ -450,4 +452,83 @@ File Name : recordFormDemo.html
 </template>
 ```
 
+### lightning-record-view-form
+- Use the lightning-record-view-form component to create a form that displays Salesforce record data for specified fields associated with that record. The fields are rendered with their labels and current values as read-only.
+- You can customize the form layout or provide custom rendering of record data. If you don't require customizations, use lightning-record-form instead.
+- To specify read-only fields, use lightning-output-field components inside lightning-record-view-form.
 
+File Name : recordViewFormDemo.js
+```javascript
+import { LightningElement } from 'lwc';
+
+export default class RecordViewFormDemo extends LightningElement {}
+```
+
+File Name : recordViewFormDemo.html
+```html
+<template>
+    <lightning-card title="lightning record view form">
+        <lightning-record-view-form
+        object-api-name="Account"
+        record-id="001N000001zcknoIAA"
+        >
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_6-of-12">
+                <lightning-output-field field-name="Name"></lightning-output-field>
+                <lightning-output-field field-name="Phone"></lightning-output-field>
+                <lightning-output-field field-name="Industry"></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <lightning-output-field field-name="AnnualRevenue"></lightning-output-field>
+            </div>
+        </div>
+        </lightning-record-view-form>
+    </lightning-card>
+</template>
+```
+
+### lightning-record-edit-form
+- This component is used to create and edit the records.
+- It provides custom layout of fields and custom rendering of record data.
+
+File Name : recordEditForm.js
+```javascript
+import { LightningElement } from 'lwc';
+import CONTACT_OBJECT from '@salesforce/schema/Contact'
+import NAME_FIELD from '@salesforce/schema/Contact.Name'
+import TITLE_FIELD from '@salesforce/schema/Contact.Title'
+import PHONE_FIELD from '@salesforce/schema/Contact.Phone'
+import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
+import ACCOUNT_FIELD from '@salesforce/schema/Contact.AccountId';
+export default class RecordEditForm extends LightningElement {
+    objectName = CONTACT_OBJECT
+    fields={ 
+        accountField:ACCOUNT_FIELD,
+        nameField:NAME_FIELD,
+        titleField:TITLE_FIELD,
+        phoneField:PHONE_FIELD,
+        emailField:EMAIL_FIELD
+    }
+}
+```
+
+
+File Name : recordEditForm.html
+```html
+<template>
+    <lightning-card title="lightning record edit form">
+        <lightning-record-edit-form 
+        object-api-name={objectName}
+        >
+            <lightning-messages></lightning-messages>
+            <lightning-input-field field-name={fields.accountField}></lightning-input-field>
+            <lightning-input-field field-name={fields.nameField}></lightning-input-field>
+            <lightning-input-field field-name={fields.titleField}></lightning-input-field>
+            <lightning-input-field field-name={fields.phoneField}></lightning-input-field>
+            <lightning-input-field field-name={fields.emailField}></lightning-input-field>
+            <lightning-button class="slds-m-around_xx-small" label="cancel"></lightning-button>
+            <lightning-button variant="brand" type="submit" class="slds-m-around_xx-small" label="Save"></lightning-button>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>
+```
