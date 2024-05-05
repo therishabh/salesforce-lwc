@@ -8,8 +8,8 @@
 5. [Navi](#navi)
 6. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
-    2. [Lightning Data Service](#ss)
-    3. [Base Lightning Components](#a)
+    2. [Lightning Data Service](#lightning-data-service)
+    3. [Base Lightning Components](#base-lightning-components-1)
     4. [lightning-record-form](#lightning-record-form)
 7. [Base Lightning Components](#base-lightning-components)
 8. 
