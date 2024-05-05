@@ -370,6 +370,84 @@ _Note- Event and Task objects are not supported._
     - **readonly** - Creates a form to display a record that the user can also edit
 - **columns** - Use this attribute to show multiple columns in the form
 
+File Name : recordFormDemo.js
+```javascript
+import { LightningElement, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+import ACCOUNT_OBJECT from '@salesforce/schema/Account'
+import NAME_FIELD from '@salesforce/schema/Account.Name'
+import ANNUAL_REVENUE_FIELD from '@salesforce/schema/Account.AnnualRevenue'
+import TYPE_FIELD from '@salesforce/schema/Account.Type'
+import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry'
+export default class RecordFormDemo extends LightningElement {
+    @api recordId
+    @api objectApiName
+    objectName = ACCOUNT_OBJECT
+    fieldList = [NAME_FIELD, ANNUAL_REVENUE_FIELD, TYPE_FIELD, INDUSTRY_FIELD]
+
+    successHandler(event){ 
+        console.log(event.detail.id)
+        const toastEvent = new ShowToastEvent({ 
+            title:"Account created",
+            message:"Record ID: "+ event.detail.id,
+            variant:"success"
+        })
+        this.dispatchEvent(toastEvent)
+    }
+}
+```
+
+File Name : recordFormDemo.html
+```html
+<template>
+    <lightning-card title="Create record using lightning-record-form">
+        <lightning-record-form
+        object-api-name={objectName}
+        fields={fieldList}
+        onsuccess={successHandler}
+        ></lightning-record-form>
+    </lightning-card>
+
+    <lightning-card title="Display record using lightning-record-form">
+        <lightning-record-form
+        record-id="001N000001zcknoIAA"
+        object-api-name={objectName}
+        fields={fieldList}
+        ></lightning-record-form>
+    </lightning-card>
+
+    <lightning-card title="Display record in readonly mode using lightning-record-form">
+        <lightning-record-form
+        record-id="001N000001zcknoIAA"
+        object-api-name={objectName}
+        fields={fieldList}
+        mode="readonly"
+        ></lightning-record-form>
+    </lightning-card>
+
+    <lightning-card title="Edit record using lightning-record-form">
+        <lightning-record-form
+        record-id="001N000001zcknoIAA"
+        object-api-name={objectName}
+        fields={fieldList}
+        mode="edit"
+        columns="2"
+        ></lightning-record-form>
+    </lightning-card>
+
+    <!-- that will only work in record page because we are using recordId and objectApiName which will automatic fill when we will use this component in record page-->
+    <lightning-card title="Edit record with layout using lightning-record-form">
+        <lightning-record-form
+        record-id={recordId}
+        object-api-name={objectApiName}
+        mode="edit"
+        columns="2"
+        layout-type="Compact"
+        ></lightning-record-form>
+    </lightning-card>
+
+</template>
+```
 
 
