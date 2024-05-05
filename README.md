@@ -8,7 +8,9 @@
 5. [Navi](#navi)
 6. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
-    2. [Introduction to Work With Data In LWC](#ss)
+    2. [Lightning Data Service](#ss)
+    3. [Base Lightning Components](#a)
+    4. [lightning-record-form](#lightning-record-form)
 7. [Base Lightning Components](#base-lightning-components)
 8. 
      
@@ -309,5 +311,65 @@ https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
 
 ## Base Lightning Components
 ### Introduction to Work With Data In LWC
+There are many ways of interacting with Salesforce data in the Lightning web components. Knowing which approach to use for a particular use case helps you to write less code, easier code, and code that is more maintainable. The efficiency of your components is improved by using the best solution for each situation.
+
+![Screenshot Capture - 2024-05-05 - 18-58-24](https://github.com/therishabh/salesforce-lwc/assets/7955435/b7dbe4e8-4133-4b16-9679-867bbee91b14)
+
+### Lightning Data Service
+Lightning Data Service is a centralized data caching framework and it is built on top of User Interface API 
+https://developer.salesforce.com/docs/platform/lwc/guide/data-ui-api.html
+
+![Screenshot Capture - 2024-05-05 - 19-01-36](https://github.com/therishabh/salesforce-lwc/assets/7955435/25ef2090-c02f-4a08-9390-3b0eb9f6de3c)
+
+### Base Lightning Components
+Base Lightning Components are built on Lightning Data Service. So, Lightning Data Service is used behind the scenes by base components and inherits its caching and synchronisation capabilities
+
+There are three types of base lightning components built on LDS are
+
+1) lightning-record-form
+2) lightning-record-edit-form
+3) lightning-record-view-form
+
+**When to Use these form?**
+- Create a metadata-driven Ul or form-based Ul similar to the record detail page in Salesforce.
+- Display record values based on the field metadata.
+- Hide or show localized field labels.
+- Display the help text on a custom field.
+- Perform client-side validation and enforce validation rules.
+
+https://developer.salesforce.com/docs/platform/lwc/guide/data-get-user-input.html
+
+- lightning-record-edit-form—Displays an editable form.
+- lightning-record-view-form—Displays a read-only form.
+- lightning-record-form—Supports edit, view, and read-only modes.
+
+<img width="1057" alt="Screenshot 2024-05-05 at 7 08 58 PM" src="https://github.com/therishabh/salesforce-lwc/assets/7955435/14ba5360-dcd4-4102-9787-aa2f5c90b933">
+
+For most use cases, lightning-record-form provides a great starting point. It combines and simplifies the functionality of lightning-record-view-form and lightning-record-edit-form. All three components support a multi column layout. For example, you can use <div class="slds-grid"> to create a column.
+
+### lightning-record-form
+Use the lightning-record-form component to quickly create forms to add, view, or update a record.
+
+The lightning-record-form component provides these helpful features:
+- Switches between view and edit modes automatically when the user begins editing a field in a view form
+- Provides Cancel and Save buttons automatically in edit forms
+- Uses the object's default record layout with support for multiple columns
+- Loads all fields in the object's compact or full layout, or only the fields you specify
+
+lightning-record-form is less customizable. To customize the form layout or provide custom rendering of record data, use lightning-record-edit-form (add or update a record) and lightning-record-view-form (view a record).
+
+**Key Attributes**
+- **object-api-name** - This attribute is always required. The lightning-record-form component requires you to specify the object-api-name attribute to establish the relationship between a record and an object.
+_Note- Event and Task objects are not supported._
+- **record-id** - This attribute is required only when you're editing or viewing a record.
+- **fields** - pass record fields as an array of strings. The fields display in the order you list them.
+- **layout-type** - Use this attribute to specify a Full or Compact layout. Layouts are typically defined (created and modified) by administrators..
+- **modes** - This form support three mode
+    - **edit** - Creates an editable form to add a record or update an existing one.. Edit mode is the default when record-id is not provided, and displays a form to create new records.
+    - **view** - Creates a form to display a record that the user can also edit. The record fields each have an edit button. View mode is the default when record-id is provided.
+    - **readonly** - Creates a form to display a record that the user can also edit
+- **columns** - Use this attribute to show multiple columns in the form
+
+
 
 
