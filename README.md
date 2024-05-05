@@ -291,4 +291,5 @@ export default class ConditionalComponent extends LightningElement {
 
 ```
 
-
+## Create Static Resources
+https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
