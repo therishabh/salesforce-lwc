@@ -20,6 +20,8 @@
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
+    4. [getObjectInfos adapter](#getObjectInfos-adapter)
+    5. [getPicklistValues adapter](#getPicklistValues-adapter)
      
 
 
@@ -882,11 +884,66 @@ export default class GetObjectInfoDemo extends LightningElement {
 </template>
 ```
 
+### getObjectInfos adapter
+Use this wire adapter to get metadata for multiple objects. The response includes metadata describing the fields, child relationships, record type, and theme for each object.
 
+```javascript
+import { LightningElement, wire } from 'lwc';
+import {getObjectInfos} from 'lightning/uiObjectInfoApi'
+import ACCOUNT_OBJECT from '@salesforce/schema/Account'
+import OPPORTUNITY_OBJECT from '@salesforce/schema/Opportunity'
+export default class GetObjectInfoDemo extends LightningElement {
 
+    objectApiNames = [ACCOUNT_OBJECT, OPPORTUNITY_OBJECT]
 
+    objectInfos
+    @wire(getObjectInfos, { objectApiNames: '$objectApiNames' })
+    objectInfosHandler({data}){
+        if(data){
+            console.log(data)
+            this.objectInfos = data
+        }
+    }
+}
+```
 
+```html
+<template>
+    <lightning-card title="getObjectInfos Adapter">
+        <div class="slds-var-p-around_medium">
+            <template if:true={objectInfos}>
+                <template for:each={objectInfos.results} for:item="obj">
+                    <div key={obj.result.apiName}>
+                        <div>Object Api Name - {obj.result.apiName}</div>
+                        <div>defaultRecordTypeId - {obj.result.defaultRecordTypeId}</div>
+                    </div>
+                </template>
+            </template>
+            
+        </div>
+    </lightning-card>    
+</template>
+```
 
+### getPicklistValues adapter
+Use this wire adapter to get the picklist values for a specified field.
+
+Syntax
+```javascript
+import { LightningElement, wire } from 'Iwc';
+import { getPicklistvalues } from 'lightning/uiobjectInfoApi';
+import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
+
+export default class Example extends LightningElement {
+    @wire(getPicklistvalues, { recordTypeId: 012000000000000AAA', fieldApiName: INDUSTRY_FIELD })
+    propertyOrFunction;
+｝
+```
+
+> **_NOTE:_**
+
+recordTypeld - The ID of the record type. Use the Object Info defaultRecord Typeld property, which is returned from getObjectinfo
+fieldApiName - The API name of the picklist field
 
 
 
