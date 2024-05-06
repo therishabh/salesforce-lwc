@@ -794,7 +794,7 @@ File Name : wireDemoUserDetail.html
 </template>
 ```
 
-Output : 
+Output : </br>
 <img width="721" alt="Screenshot 2024-05-06 at 5 57 27 PM" src="https://github.com/therishabh/salesforce-lwc/assets/7955435/4f01e0c9-bd20-429d-ba5c-7197b50c201a">
 
 **How to Import Reference of Salesforce Standard Object**
@@ -814,3 +814,39 @@ import objectName from '@salesforce/schema/object';
 // Example
 import PROPERTY_OBJECT from '@salesforce/schema/Property_c';
 ```
+
+**How to Import References to Salesforce Fields**
+```javascript
+// Syntax
+import FIELD_NAME from '@salesforce/schema/object.field'
+// Example
+import ACCOUNT_NAME from '@salesforce/schema/Account.Name'; import PROPERTY_NAME from '@salesforce/schema/Property_c.Name';
+```
+
+**How to Import Reference to a field via a relationship**
+```javascript
+// Syntax
+import REF_FIELD_NAME from @salesforce/schema/object.relationship.field
+// Example
+import ACCOUNT_OWNER from '@salesforce/schema/Account.Owner.Name';
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
