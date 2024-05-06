@@ -15,7 +15,7 @@
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
 7. [Base Lightning Components](#base-lightning-components)
-8. 
+8. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
      
 
 
@@ -668,3 +668,7 @@ File Name : recordEditForm.html
     </lightning-card>
 </template>
 ```
+
+## Lightning Data Service Wire Adapter and Functions
+
+
