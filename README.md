@@ -819,15 +819,18 @@ import PROPERTY_OBJECT from '@salesforce/schema/Property_c';
 **How to Import References to Salesforce Fields**
 ```javascript
 // Syntax
-import FIELD_NAME from '@salesforce/schema/object.field'
+import FIELD_NAME from '@salesforce/schema/object.field'\
+
 // Example
-import ACCOUNT_NAME from '@salesforce/schema/Account.Name'; import PROPERTY_NAME from '@salesforce/schema/Property_c.Name';
+import ACCOUNT_NAME from '@salesforce/schema/Account.Name'; '
+import PROPERTY_NAME from '@salesforce/schema/Property_c.Name';
 ```
 
 **How to Import Reference to a field via a relationship**
 ```javascript
 // Syntax
 import REF_FIELD_NAME from @salesforce/schema/object.relationship.field
+
 // Example
 import ACCOUNT_OWNER from '@salesforce/schema/Account.Owner.Name';
 ```
