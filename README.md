@@ -942,8 +942,8 @@ export default class Example extends LightningElement {
 
 > **_NOTE:_**
 
-recordTypeld - The ID of the record type. Use the Object Info defaultRecord Typeld property, which is returned from getObjectinfo
-fieldApiName - The API name of the picklist field
+**recordTypeld -** The ID of the record type. Use the Object Info _defaultRecordTypeId_ property, which is returned from _getObjectInfo_
+**fieldApiName -** The API name of the picklist field
 
 
 
