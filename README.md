@@ -369,7 +369,44 @@ File Name : setterDemoParent.html
 https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
 
 ## Internationalization
+Import internationalization properties from the @salesforce/i18n scoped module. Lightning web components have internationalization properties that you can use to adapt your components for users worldwide, across languages, currencies, and timezones.
 
+File Name : internationalization.js
+```javascript
+import { LightningElement } from 'lwc';
+import LOCALE from '@salesforce/i18n/locale';
+import CURRENCY from '@salesforce/i18n/currency';
+import DIR from '@salesforce/i18n/dir';
+import LANG from "@salesforce/i18n/lang";
+
+export default class Internationalization extends LightningElement {
+    dir = DIR;
+    lang = LANG;
+
+    today = new Date();
+    formatedDate = new Intl.DateTimeFormat(LOCALE).format(this.today);
+
+    number  = 45847584.33;
+    formatedNumber = new Intl.NumberFormat(LOCALE, {
+        style : 'currency',
+        currency : CURRENCY,
+        currencyDisplay : 'symbol'
+    }).format(this.number)
+}
+```
+
+File Name : internationalization.html
+```html
+<template>
+    <lightning-card title="Internationalization">
+        <div class="slds-p-around_medium">
+            <p dir={dir} lang={lang}>
+                {formatedNumber} {formatedDate}
+            </p>
+        </div>
+    </lightning-card>
+</template>
+```
 
 ## Base Lightning Components
 ### Introduction to Work With Data In LWC
