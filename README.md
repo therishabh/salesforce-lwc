@@ -711,5 +711,6 @@ File Name : recordEditForm.html
 ```
 
 ## Lightning Data Service Wire Adapter and Functions
+### @wire service
 
 
