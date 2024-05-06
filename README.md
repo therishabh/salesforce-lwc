@@ -712,5 +712,105 @@ File Name : recordEditForm.html
 
 ## Lightning Data Service Wire Adapter and Functions
 ### @wire service
+**What is @wire service ?**
+1. Wire service is built on Lightning Data Service
+2. LWC component use @wire in their JavaScript class to read data from one of the wire adapters in the lightning/ui*Api namespace.
+3. @wire is a reactive service
+4. The wire adapter defines the data shape that the wire service provisions in an immutable stream
 
+File Name : wireDemoUserDetail.js
+```javascript
+import { LightningElement, wire } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
+import NAME_FIELD from '@salesforce/schema/User.Name';
+import EMAIL_FIELD from '@salesforce/schema/User.Email';
+import CITY_FIELD from '@salesforce/schema/User.City';
+import id from '@salesforce/user/Id';
 
+const fields = [NAME_FIELD, EMAIL_FIELD, CITY_FIELD]
+
+export default class WireDemoUserDetail extends LightningElement {
+    userId = id; // will return current login user id;
+    userInfo;
+    //005F3000007xXBPIA2
+
+    @wire(getRecord, {recordId: '005F3000007xXBPIA2', fields: ['User.Name', 'User.Email']})
+    userDetailHandler({data, error}){
+        if(data){
+            this.userInfo = data.fields;
+            console.log(this.userInfo)
+        }else {
+            console.error(error)
+        }
+    }
+
+   
+    @wire(getRecord, {recordId: '005F3000007xXBPIA2', fields})
+    userData;
+    connectedCallback(){
+        console.log('userData', this.userData);
+    }
+    
+}
+```
+
+File Name : wireDemoUserDetail.html
+```html
+<template>
+    <lightning-card title="User Detail using @wire as function">
+        <div class="slds-p-around_medium">
+            <template if:true={userInfo}>
+                <div>
+                    <p>
+                        <strong>Name : </strong> {userInfo.Name.value}
+                    </p>
+                    <p>
+                        <strong>Email : </strong> {userInfo.Email.value}
+                    </p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <div class="slds-m-top_medium"></div>
+
+    <lightning-card title="User Detail using @wire as property" >
+        <div class="slds-p-around_medium">
+            <template if:true={userInfo}>
+                <div>
+                    <p>
+                        <strong>Name : </strong> {userData.data.fields.Name.value}
+                    </p>
+                    <p>
+                        <strong>Email : </strong> {userData.data.fields.Email.value}
+                    </p>
+                    <p>
+                        <strong>City : </strong> {userData.data.fields.City.value}
+                    </p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+Output : 
+<img width="721" alt="Screenshot 2024-05-06 at 5 57 27 PM" src="https://github.com/therishabh/salesforce-lwc/assets/7955435/4f01e0c9-bd20-429d-ba5c-7197b50c201a">
+
+**How to Import Reference of Salesforce Standard Object**
+```javascript
+// Syntax
+import objectName from '@salesforce/schema/object;
+
+// Example
+import ACCOUNT_OBJECT from '@salesforce/schema/Account';
+```
+
+**How to Import Reference to Salesforce custom Object**
+```javascript
+// Syntax
+import objectName from '@salesforce/schema/object';
+
+// Example
+import PROPERTY_OBJECT from '@salesforce/schema/Property_c';
+```
