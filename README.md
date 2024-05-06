@@ -18,6 +18,8 @@
 8. [Base Lightning Components](#base-lightning-components)
 9. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
+    2. [How @wire is reactive]
+    3. [getObjectInfo adapter]
      
 
 
@@ -835,12 +837,50 @@ import REF_FIELD_NAME from @salesforce/schema/object.relationship.field
 import ACCOUNT_OWNER from '@salesforce/schema/Account.Owner.Name';
 ```
 
+### How @wire is reactive
+By adding “$” to the recordId parameter, we made it reactive. From now, every change of the variable recordId value will run the getRecord function.
 
+```javascript
+userId = id; // will return current login user id;
+userInfo;
 
+@wire(getRecord, {recordId: '$userId', fields: ['User.Name', 'User.Email']})
+userDetailHandler({data, error}){
+    if(data){
+        this.userInfo = data.fields;
+        console.log(this.userInfo)
+    }else {
+        console.error(error)
+    }
+}
+```
 
+### getObjectInfo adapter
+Use this wire adapter to get metadata about a specific object. The response includes metadata describing the object's fields, child relationships, record type, and theme.
 
+```javascript
+import { LightningElement, wire } from 'lwc';
+import {getObjectInfo} from 'lightning/uiObjectInfoApi'
+import ACCOUNT_OBJECT from '@salesforce/schema/Account'
+export default class GetObjectInfoDemo extends LightningElement {
 
+    @wire(getObjectInfo, {objectApiName:ACCOUNT_OBJECT})
+    objectInfo
+}
+```
 
+```html
+<template>
+    <lightning-card title="getObjectInfo Adapter">
+        <div class="slds-var-p-around_medium">
+            <template if:true={objectInfo.data}>
+                <div>defaultRecordTypeId: {objectInfo.data.defaultRecordTypeId}</div>
+                <div>Object API Name: {objectInfo.data.apiName}</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
 
 
 
