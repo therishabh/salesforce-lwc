@@ -18,8 +18,8 @@
 8. [Base Lightning Components](#base-lightning-components)
 9. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
-    2. [How @wire is reactive]
-    3. [getObjectInfo adapter]
+    2. [How @wire is reactive](#how-wire-is-reactive)
+    3. [getObjectInfo adapter](#getobjectinfo-adapter)
      
 
 
