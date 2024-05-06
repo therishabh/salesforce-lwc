@@ -945,8 +945,69 @@ export default class Example extends LightningElement {
 **recordTypeld -** The ID of the record type. Use the Object Info _defaultRecordTypeId_ property, which is returned from _getObjectInfo_
 **fieldApiName -** The API name of the picklist field
 
+**Example**
 
+File Name : getPicklistValuesDemo.js
+```javascript
+import { LightningElement, wire } from "lwc";
+import { getObjectInfo, getPicklistValues } from "lightning/uiObjectInfoApi";
+import INDUSTRY_FIELD from "@salesforce/schema/Account.Industry";
+import ACCOUNT_OBJECT from "@salesforce/schema/Account";
 
+export default class GetPicklistValuesDemo extends LightningElement {
+  industryOptions = [];
+  selectedIndustry;
+
+  @wire(getObjectInfo, { objectApiName: ACCOUNT_OBJECT })
+  objectInfo;
+
+  @wire(getPicklistValues, {
+    recordTypeId: "$objectInfo.data.defaultRecordTypeId",
+    fieldApiName: INDUSTRY_FIELD
+  })
+  industryPicklist({ data, error }) {
+    if (data) {
+      this.industryOptions = this.generateIndustryOptions([...data.values]);
+    } else {
+      console.error(error);
+    }
+  }
+
+  generateIndustryOptions(data){
+	return data.map(val => {
+		return {
+			value : val.value,
+			label : val.label
+		}
+	})
+  }
+
+  handleIndustryChange(event) {
+    this.selectedIndustry = event.detail.value;
+    console.log(this.selectedIndustry);
+  }
+}
+
+```
+
+File Name : getPicklistValuesDemo.html
+```html
+<template>
+    <lightning-card title="getPicklistValues Demo">
+        <div class="slds-var-p-around_medium">
+            <lightning-combobox
+            name="Industry"
+            label="Industry"
+            value={value}
+            placeholder="Select Industry"
+            options={industryOptions}
+            onchange={handleIndustryChange} ></lightning-combobox>
+
+    <p>Selected value is: {selectedIndustry}</p>
+        </div> 
+    </lightning-card>
+</template>
+```
 
 
 
