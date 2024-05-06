@@ -17,6 +17,7 @@
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
 8. [Base Lightning Components](#base-lightning-components)
 9. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+    1. [wire Service](#wire-service)
      
 
 
