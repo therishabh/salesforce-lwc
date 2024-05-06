@@ -6,7 +6,8 @@
 3. [Conditional Rendering](#conditional-rendering)
 4. [Setter Method](#setter-method)
 5. [Create Static Resources](#create-static-resources)
-6. [Base Lightning Components](#base-lightning-components)
+6. [Internationalization](#internationalization)
+7. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -14,8 +15,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-7. [Base Lightning Components](#base-lightning-components)
-8. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+8. [Base Lightning Components](#base-lightning-components)
+9. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
      
 
 
@@ -366,6 +367,9 @@ File Name : setterDemoParent.html
 
 ## Create Static Resources
 https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
+
+## Internationalization
+
 
 ## Base Lightning Components
 ### Introduction to Work With Data In LWC
