@@ -1131,7 +1131,7 @@ propertyOrFunction
 **optionalFields -** a field name or an array of field names. If a field is accessible to the user, it includes in response otherwise it will not throw an error. </br>
 
 
-**Example**
+**Example** </br>
 File Name : getRecordDemo.js
 ```javascript
 import { LightningElement, wire, api } from 'lwc';
