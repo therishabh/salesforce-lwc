@@ -27,6 +27,72 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
+10. [Apex In LWC](#1)
+    1. [Expose Apex Methods to LWC](#1)
+
+
+## Apex In LWC
+### Expose Apex Methods to LWC
+1. Apex Method must be static and either global or public
+2. Method should be annotated with @AuraEnabled
+   
+**Syntax**
+```js
+public with sharing class AccountController {
+	@AuraEnabled(cacheable=true)
+	public static List<Account> getAccountList() {
+		return [SELECT Id, Name, Type, Industry from Account];
+	}
+｝
+```
+
+**Example** </br>
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(){
+        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      
 
 
