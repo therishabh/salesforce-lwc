@@ -1282,6 +1282,78 @@ File Name : getListInfoByNameDemo.html
 </template>
 ```
 
+### createRecord
+Creates a record.
+
+Syntax
+```js
+import { createRecord } from 'lightning/uiRecordApi';
+createRecord(recordInput: Record): Promise<Record>
+```
+
+**Example**
+File Name : createRecordDemo.js
+```js
+import { LightningElement } from 'lwc';
+import {createRecord} from 'lightning/uiRecordApi'
+import CONTACT_OBJECT from '@salesforce/schema/Contact'
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+export default class CreateRecordDemo extends LightningElement {
+    formFields={}
+    changeHandler(event){
+        const {name, value} = event.target
+        this.formFields[name]=value
+    }
+    createContact(){
+        const recordInput = {apiName:CONTACT_OBJECT.objectApiName, fields:this.formFields}
+        createRecord(recordInput).then(result=>{
+            this.showToast('Success!!', `contact created with is ${result.id}`)
+            this.template.querySelector('form.createForm').reset()
+            this.formFields={}
+        }).catch(error=>{
+            this.showToast('Error Creating record', error.body.message, 'error')
+        })
+    }
+
+    showToast(title, message, variant){
+        this.dispatchEvent(new ShowToastEvent({
+            title,
+            message,
+            variant:variant || 'success'
+        }))
+    }
+}
+```
+
+File Name : createRecordDemo.html
+```html
+<template>
+    <lightning-card title="create record form demo">
+        <div class="slds-p-around_medium">
+            <form class="createForm">
+                <lightning-input label="First Name" name="FirstName"
+                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
+                 <lightning-input label="Last Name" name="LastName"
+                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
+                 <lightning-input label="Title" name="Title"
+                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
+                 <lightning-input type="tel" label="Phone" name="Phone"
+                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
+                 <lightning-input type="email" label="Email" name="Email"
+                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
+                 <lightning-button label="Create Contact" variant="brand" onclick={createContact}></lightning-button>
+            </form>
+        </div>
+    </lightning-card>
+</template>
+```
+
+
+
+
+
+
+
 
 
 
