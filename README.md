@@ -1240,7 +1240,7 @@ export default class Example extends LightningElement {
 **listViewApiName —** (Required) The API name of a list view, such as **AllAccounts**.
 
 **Example** </br>
-File Name : getRecordDemo.js
+File Name : getListInfoByNameDemo.js
 ```javascript
 import { LightningElement, wire } from 'lwc';
 import { getListInfoByName } from "lightning/uiListsApi";
@@ -1265,7 +1265,7 @@ export default class GetListInfoByNameDemo extends LightningElement {
 }
 ```
 
-File Name : getRecordDemo.html
+File Name : getListInfoByNameDemo.html
 ```html
 <template>
   <lightning-card title="getListInfoByName Demo">
