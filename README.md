@@ -22,6 +22,9 @@
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
     4. [getObjectInfos adapter](#getObjectInfos-adapter)
     5. [getPicklistValues adapter](#getPicklistValues-adapter)
+    6. [getPicklistValuesByRecordType adapter](#getPicklistValuesByRecordType-adapter)
+    7. [getRecord adapter](#getRecord-adapter)
+    8. [getFieldValue & getFieldDisplayValue adapter](#getRecord-adapter)
      
 
 
@@ -1009,6 +1012,30 @@ File Name : getPicklistValuesDemo.html
 </template>
 ```
 
+### getPicklistValuesByRecordType adapter
+Use this wire adapter to get the values for every picklist of a specified record type.
 
+Syntax
+```javascript
+import { LightningElement, wire } from 'Iwc';
+import { getPicklistValuesByRecordType } from 'lightning/uiobjectInfoApi';
+import ACCOUNT_OBJECT from '@salesforce/schema/Account';
 
+export default class Example extends LightningElement {
+    @wire(getPicklistValuesByRecordType, { recordTypeId: 012000000000000AAA', objectApiName: ACCOUNT_OBJECT })
+    propertyOrFunction;
+｝
+```
 
+> **_NOTE:_**
+
+**recordTypeld -** The ID of the record type. Use the Object Info _defaultRecordTypeId_ property, which is returned from _getObjectInfo_
+**objectApiName -** The API name of the object
+
+**Example**
+File Name : getPicklistValuesByRecordTypeDemo.js
+```javascript
+
+```
+
+File Name : getPicklistValuesByRecordTypeDemo.html
