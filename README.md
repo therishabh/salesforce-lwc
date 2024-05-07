@@ -29,6 +29,7 @@
     10. [createRecord](#createRecord)
 10. [Apex In LWC](#1)
     1. [Expose Apex Methods to LWC](#1)
+    2. [Import Apex Methods](#import-apex-methods)
 
 
 ## Apex In LWC
@@ -57,6 +58,20 @@ public with sharing class AccountController {
     }
 }
 ```
+
+### Import Apex Methods
+Use default import syntax in JavaScript to import an Apex method via the @salesforce/apex scoped packages.
+
+**Syntax**
+```js
+import apexMethodName from "@salesforce/apex/Namespace.Classname.apexMethodReference';
+```
+
+**apexMethodName —** A symbol that identifies the Apex method. </br>
+**apexMethodReference —** The name of the Apex method to import.</br>
+**Classname —** The name of the Apex class.</br>
+**Namespace —** lf the class is in the same namespace as the component, don't specify a namespace. If the class is in a managed package, specify the namespace of the managed package.
+
 
 
 
