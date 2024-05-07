@@ -1124,10 +1124,11 @@ modes?: string|string|],
 optionalFields?: string|string[])
 propertyOrFunction
 ```
-**recordld -** The ID of the record type. fields- A field or an array of fields to return or
-**layoutType -** it support two values Compact or Full(default)
-**Modes -** used with layout. Values supported are Create, Edit and View(default)
-**optionalFields -** a field name or an array of field names. If a field is accessible to the user, it includes in response otherwise it will not throw an error.
+**recordld -** The ID of the record type. </br>
+**fields -** A field or an array of fields to return or</br>
+**layoutType -** it support two values Compact or Full(default) </br>
+**Modes -** used with layout. Values supported are Create, Edit and View (default) </br>
+**optionalFields -** a field name or an array of field names. If a field is accessible to the user, it includes in response otherwise it will not throw an error. </br>
 
 
 **Example**
