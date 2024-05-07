@@ -26,6 +26,7 @@
     7. [getRecord adapter](#getRecord-adapter)
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
+    10. [createRecord](#createRecord)
      
 
 
