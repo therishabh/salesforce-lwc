@@ -30,6 +30,7 @@
 10. [Apex In LWC](#1)
     1. [Expose Apex Methods to LWC](#1)
     2. [Import Apex Methods](#import-apex-methods)
+    3. [Wire Apex Method](#wire-apex-method)
 
 
 ## Apex In LWC
@@ -72,7 +73,78 @@ import apexMethodName from "@salesforce/apex/Namespace.Classname.apexMethodRefer
 **Classname —** The name of the Apex class.</br>
 **Namespace —** lf the class is in the same namespace as the component, don't specify a namespace. If the class is in a managed package, specify the namespace of the managed package.
 
+**Example** </br>
+```js
+import { LightningElement } from 'lwc';
+import getAccountList from '@salesforce/apex/AccountController.getAccountList';
 
+export default class ApexWireDemo extends LightningElement {
+    
+}
+```
+
+### Wire Apex Method
+```js
+import { LightningElement, wire } from 'lwc';
+import getAccountList from '@salesforce/apex/AccountController.getAccountList'
+export default class ApexWireDemo extends LightningElement {
+    accountList
+    
+    @wire(getAccountList)
+    accounts
+
+    
+    @wire(getAccountList)
+    accountsHandler({data, error}){
+        if(data){
+            this.accountList = data.map(item=>{
+                let newType = item.Type === 'Customer - Channel' ? 'Channel':
+                item.Type === 'Customer - Direct' ? 'Direct':'-------'
+                return {...item, newType}
+            })
+        }
+        if(error){
+            console.error(error)
+        }
+    }
+}
+```
+
+```html
+<template>
+    <lightning-card title="Apex Wire to Property Demo">
+        <div class="slds-p-around_medium">
+            <template if:true={accounts.data}>
+                <template for:each={accounts.data} for:item="account">
+                    <div class="slds-box sldx-box_xx-small" key={account.Id}>
+                       <p><strong>Name : </strong>{account.Name}</p>
+                       <p><strong>Type : </strong>{account.Type}</p>
+                       <p><strong>Industry : </strong>{account.Industry}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+
+    <div class="slds-m-top_medium"></div>
+
+    <lightning-card title="Apex Wire To Function Demo">
+        <div class="slds-p-around_medium">
+            <template if:true={accountList}>
+                <template for:each={accountList} for:item="account">
+                    <div class="slds-box slds-box_xx-small" key={account.Id}>
+                        <p><strong>Name : </strong> {account.Name}</p>
+                        <p><strong>Type : </strong> {account.newType}</p>
+                        <p><strong>Industry : </strong> {account.Industry}</p>
+                    </div>
+                </template>
+               
+            </template>
+        </div>
+    </lightning-card>
+
+</template>
+```
 
 
 
