@@ -25,6 +25,7 @@
     6. [getPicklistValuesByRecordType adapter](#getPicklistValuesByRecordType-adapter)
     7. [getRecord adapter](#getRecord-adapter)
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
+    9. [getListInfoByName adapter](#getListInfoByName-adapter)
      
 
 
@@ -1221,7 +1222,65 @@ export default class GetRecordDemo extends LightningElement {
 }
 ```
 
+### getListInfoByName adapter
+Use this wire adapter to get the metadata for a list view.
 
+Syntax
+```javascript
+import { LightningElement, wire } from "lwc";
+import { getListInfoByName } from "lightning/uiListsApi";
+import ACCOUNT_OBJECT from "@salesforce/schema/Account";
+
+export default class Example extends LightningElement {
+  @wire(getListInfoByName, { objectApiName: ACCOUNT_OBJECT, listViewApiName: "AllAccounts" })
+  propertyOrFunction;
+}
+```
+**objectApiName —** (Required) The API name of a supported object.
+**listViewApiName —** (Required) The API name of a list view, such as **AllAccounts**.
+
+**Example** </br>
+File Name : getRecordDemo.js
+```javascript
+import { LightningElement, wire } from 'lwc';
+import { getListInfoByName } from "lightning/uiListsApi";
+import CASE_OBJECT from '@salesforce/schema/Case';
+export default class GetListInfoByNameDemo extends LightningElement {
+    error;
+    displayColumns;
+    @wire(getListInfoByName, {
+      objectApiName: CASE_OBJECT.objectApiName,
+      listViewApiName: "MyCases",
+    })
+    listInfo({ error, data }) {
+      if (data) {
+        console.log(data);
+        this.displayColumns = data.displayColumns;
+        this.error = undefined;
+      } else if (error) {
+        this.error = error;
+        this.displayColumns = undefined;
+      }
+    }
+}
+```
+
+File Name : getRecordDemo.html
+```html
+<template>
+  <lightning-card title="getListInfoByName Demo">
+    <div class="slds-p-around_medium">
+      <template lwc:if={displayColumns}>
+        <div class="slds-m-around_medium">
+          <template for:each={displayColumns} for:item="col">
+            <p key={col.fieldApiName}>{col.fieldApiName} : {col.label}</p>
+          </template>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>
+```
 
 
 
