@@ -1236,7 +1236,7 @@ export default class Example extends LightningElement {
   propertyOrFunction;
 }
 ```
-**objectApiName —** (Required) The API name of a supported object.
+**objectApiName —** (Required) The API name of a supported object.</br>
 **listViewApiName —** (Required) The API name of a list view, such as **AllAccounts**.
 
 **Example** </br>
