@@ -1106,3 +1106,71 @@ File Name : getPicklistValuesByRecordTypeDemo.html
     </lightning-card>
 </template>
 ```
+
+### getRecord adapter
+Use this wire adapter to get the record's data
+
+Syntax
+```javascript
+import { LightningElement, wire } from "Iwc';
+import { getRecord } from 'lightning/uiRecordApi';
+@wire(getRecord, { recordId: string, fields: string|string|], optionalFields?: string|string[])
+propertyOrFunction
+
+@wire(getRecord, {
+recordId: string,
+layoutTypes: string|string[],
+modes?: string|string|],
+optionalFields?: string|string[])
+propertyOrFunction
+```
+**recordld -** The ID of the record type. fields- A field or an array of fields to return or
+**layoutType -** it support two values Compact or Full(default)
+**Modes -** used with layout. Values supported are Create, Edit and View(default)
+**optionalFields -** a field name or an array of field names. If a field is accessible to the user, it includes in response otherwise it will not throw an error.
+
+
+**Example**
+File Name : getRecordDemo.js
+```javascript
+import { LightningElement, wire, api } from 'lwc';
+import {getRecord} from 'lightning/uiRecordApi'
+import NAME_FIELD from '@salesforce/schema/Account.Name'
+import OWNER_NAME_FIELD from '@salesforce/schema/Account.Owner.Name'
+import ANNUAL_REVENUE_FIELD from '@salesforce/schema/Account.AnnualRevenue'
+export default class GetRecordDemo extends LightningElement {
+    name
+    owner
+    AnnualRevenue
+    @api recordId
+    // @wire(getRecord, {recordId:'$recordId',
+    //  fields:[NAME_FIELD, OWNER_NAME_FIELD, ANNUAL_REVENUE_FIELD]})
+    @wire(getRecord, {recordId:'$recordId',
+     layoutTypes:['Full'], modes:['View']})
+     accountHandler({data}){
+         if(data){
+             console.log(data)
+             this.name = data.fields.Name.displayValue ? data.fields.Name.displayValue:
+             data.fields.Name.value
+             this.AnnualRevenue = data.fields.AnnualRevenue.displayValue ? data.fields.AnnualRevenue.displayValue:
+             data.fields.AnnualRevenue.value
+             this.owner = data.fields.Owner.displayValue ? data.fields.Owner.displayValue:
+             data.fields.Owner.value
+
+         }
+     }
+}
+```
+
+File Name : getRecordDemo.html
+```html
+<template>
+    <lightning-card title="getRecord Adapter">
+        <div class="slds-p-around_medium">
+            <div>Name - {name}</div>
+            <div>owner - {owner}</div>
+            <div>AnnualRevenue - {AnnualRevenue}</div>
+        </div>
+    </lightning-card>
+</template>
+```
