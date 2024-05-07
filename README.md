@@ -24,7 +24,7 @@
     5. [getPicklistValues adapter](#getPicklistValues-adapter)
     6. [getPicklistValuesByRecordType adapter](#getPicklistValuesByRecordType-adapter)
     7. [getRecord adapter](#getRecord-adapter)
-    8. [getFieldValue & getFieldDisplayValue adapter](#getRecord-adapter)
+    8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
      
 
 
