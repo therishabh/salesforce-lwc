@@ -1175,3 +1175,40 @@ File Name : getRecordDemo.html
     </lightning-card>
 </template>
 ```
+
+### getFieldValue & getFieldDisplayValue
+**getFieldValue**
+Use this to gets a field's value from a record
+
+Syntax
+```js
+import { getFieldValue } from 'lightning/uiRecordApi';
+getFieldValue(record: Record, field: string)
+```
+
+**getFieldDisplayValue**
+Use this to gets a field's value in formatted and localized format from a record
+
+Syntax
+```js
+import { getFieldDisplayValue } from 'lightning/uiRecordApi';
+getFieldDisplayValue(record, field)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
