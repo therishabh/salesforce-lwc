@@ -1035,7 +1035,74 @@ export default class Example extends LightningElement {
 **Example**
 File Name : getPicklistValuesByRecordTypeDemo.js
 ```javascript
+import { LightningElement, wire } from 'lwc';
+import {getPicklistValuesByRecordType, getObjectInfo} from 'lightning/uiObjectInfoApi'
+import ACCOUNT_OBJECT from '@salesforce/schema/Account'
+export default class GetPicklistValuesByRecordTypeDemo extends LightningElement {
+    ratingOptions
+    industryOptions
+    selectedRating
+    selectedIndustry
+    @wire(getObjectInfo, {objectApiName:ACCOUNT_OBJECT})
+    objectInfo
 
+    @wire(getPicklistValuesByRecordType, {objectApiName:ACCOUNT_OBJECT, 
+        recordTypeId:'$objectInfo.data.defaultRecordTypeId'})
+        picklistHandler({data, error}){
+            if(data){
+                console.log(data)
+                this.ratingOptions = this.picklistGenerator(data.picklistFieldValues.Rating)
+                this.industryOptions = this.picklistGenerator(data.picklistFieldValues.Industry)
+            }
+            if(error){
+                console.error(error)
+            }
+        }
+
+    picklistGenerator(data){
+        return data.values.map(item=>({"label":item.label, "value":item.value}))
+    }
+
+    handleChange(event){
+        const {name, value} = event.target
+        console.log(name +'==>' +value)
+        if(name === 'industry'){
+            this.selectedIndustry = value
+        }
+        if(name === 'rating'){
+            this.selectedRating = value
+        }
+    }
+}
 ```
 
 File Name : getPicklistValuesByRecordTypeDemo.html
+```html
+<template>
+    <lightning-card title="getPicklistValuesByRecordType Adapter">
+        <div class="slds-var-p-around_medium">
+            <template if:true={ratingOptions}>
+                <lightning-combobox
+                name="rating"
+                label="Rating"
+                value={selectedRating}
+                placeholder="Select Rating"
+                options={ratingOptions}
+                onchange={handleChange}></lightning-combobox>
+                <p>selectedRating: {selectedRating}</p>
+            </template>
+            
+            <template if:true={industryOptions}>
+                <lightning-combobox
+                name="industry"
+                label="Industry"
+                value={selectedIndustry}
+                placeholder="Select Industry"
+                options={industryOptions}
+                onchange={handleChange}></lightning-combobox>
+                <p>selectedIndustry: {selectedIndustry}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
