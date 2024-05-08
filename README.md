@@ -161,10 +161,10 @@ public with sharing class AccountController {
 File Name : wireApexWithParams.js
 ```js
 import { LightningElement, wire } from 'lwc';
-import filterAccountTypeType from '@salesforce/apex/AccountController.filterAccountTypeType'
+import filterAccountType from '@salesforce/apex/AccountController.filterAccountType'
 export default class WireApexWithParams extends LightningElement {
     selectedType=''
-    @wire(filterAccountTypeType, {type:'$selectedType'})
+    @wire(filterAccountType, {type:'$selectedType'})
     filteredAccounts
 
     get typeOptions(){
@@ -215,7 +215,7 @@ public with sharing class AccountController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Account> filterAccountTypeType(String type){
+    public static List<Account> filterAccountType(String type){
         return [SELECT Id, Name, Type from Account where Type=:type LIMIT 5];
     }
 
