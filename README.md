@@ -148,6 +148,15 @@ export default class ApexWireDemo extends LightningElement {
 
 ### Wire Apex Method with Parameters
 
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(String type){
+        return [SELECT Id, Name, Type, Industry from Account WHERE Type:type LIMIT 5];
+    }
+}
+```
 
 File Name : wireApexWithParams.js
 ```js
@@ -195,7 +204,83 @@ File Name : wireApexWithParams.html
 </template>
 ```
 
+### Call Apex Methods Imperatively
 
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(){
+        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> filterAccountTypeType(String type){
+        return [SELECT Id, Name, Type from Account where Type=:type LIMIT 5];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> findAccounts(String searchKey){
+        String key = '%' + searchKey + '%';
+        return [SELECT Id, Name, Type, Industry FROM Account WHERE Name LIKE :key LIMIT 5];
+    }
+
+}
+```
+
+File Name : apexImperativeWithParamsDemo.js
+```js
+import { LightningElement } from 'lwc';
+import findAccounts from '@salesforce/apex/AccountController.findAccounts'
+export default class ApexImperativeWithParamsDemo extends LightningElement {
+    searchKey=''
+    accounts
+    timer
+    searchHandler(event){
+        window.clearTimeout(this.timer)
+        this.searchKey = event.target.value
+        this.timer = setTimeout(()=>{
+            this.callApex()
+        }, 1000)
+    }
+
+    callApex(){
+        findAccounts({searchKey:this.searchKey})
+        .then(result=>{
+            this.accounts = result
+        }).catch(error=>{
+            console.error(error)
+        })
+    }
+}
+```
+
+File Name : apexImperativeWithParamsDemo.html
+```html
+<template>
+    <lightning-card title="Apex imperative with params demo">
+        <div class="slds-p-around_medium">
+            <lightning-input
+            type="search"
+            onchange={searchHandler}
+            label="Search Account"
+            value={searchKey}
+            ></lightning-input>
+        </div>
+
+        <template if:true={accounts}>
+            <template for:each={accounts} for:item="account">
+                <div class="slds-box slds-box_xx-small" key={account.Id}>
+                    <p>Name - {account.Name}</p>
+                    <p>Type - {account.Type}</p>
+                    <p>Industry - {account.Industry}</p>
+                </div>
+            </template>
+        </template>
+
+    </lightning-card>
+</template>
+```
 
 
 
