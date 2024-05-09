@@ -347,10 +347,78 @@ Below is the syntax of the for:each loop
 ```
 ![Screenshot 2024-05-09 at 11 47 26 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/f115df74-b4ac-4e07-b926-2f597d7926e5)
 
-**what is key and it's importance in the loop**
+**What is key and it's importance in the loop**
 - A **key** is a special string attribute you need to include to the first element inside the template when creating lists of elements.
 - Keys help the LWC engine identify which items have changed, are added, or are removed.
 - The best way to pick a key is to use a string that uniquely identifies a list item among its siblings.
+
+**Example**
+File Name : templateLoopingForEach.js
+```js
+import { LightningElement } from "lwc";
+export default class TemplateLoopingForEach extends LightningElement {
+  carList = ["Ford", "Audi", "Maruti", "Hyundai", "Mercedes"];
+  programmingList = [
+    {
+      id: "06868",
+      language: "HTML"
+    },
+    {
+      id: "19797",
+      language: "CSS"
+    },
+    {
+      id: "298789",
+      language: "Javascript"
+    },
+    {
+      id: "398798",
+      language: "Apex"
+    },
+    {
+      id: "48967",
+      language: "Aura"
+    },
+    {
+      id: "58798",
+      language: "Java"
+    }
+  ];
+}
+```
+
+File Name : templateLoopingForEach.html
+```html
+<template>
+  <!-- Card for for:each demo with an array -->
+  <lightning-card title="for:each demo with array" icon-name="custom:custom14">
+    <ul class="slds-m-around_medium">
+      <template for:each={carList} for:item="car">
+        <a href="#" class="list-group-item list-group-item-action" key={car}
+          >{car}</a
+        >
+      </template>
+    </ul>
+  </lightning-card>
+  <hr />
+  <!-- Card for for:each demo with an array of objects -->
+  <lightning-card
+    title="for:each demo with array of objects"
+    icon-name="custom:custom14"
+  >
+    <ul class="slds-m-around_medium">
+      <template for:each={programmingList} for:item="program">
+        <a
+          href="#"
+          class="list-group-item list-group-item-action"
+          key={program.id}
+          >{program.language}</a
+        >
+      </template>
+    </ul>
+  </lightning-card>
+</template>
+```
 
 
 ## Setter Method
