@@ -11,10 +11,11 @@
 8. [@track properties](#track-properties)
 9. [Getters](#getters)
 10. [Conditional Rendering](#conditional-rendering)
-11. [Setter Method](#setter-method)
-12. [Create Static Resources](#create-static-resources)
-13. [Internationalization](#internationalization)
-14. [Base Lightning Components](#base-lightning-components)
+11. [Template Looping (for:each and iterator)](#template-looping-foreach-and-iterator)
+12. [Setter Method](#setter-method)
+13. [Create Static Resources](#create-static-resources)
+14. [Internationalization](#internationalization)
+15. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -22,8 +23,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-15. [Base Lightning Components](#base-lightning-components)
-16. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+16. [Base Lightning Components](#base-lightning-components)
+17. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -34,50 +35,12 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-17. [Apex In LWC](#apex-in-lwc)
+18. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
     4. [Wire Apex Method with Parameters](#wire-apex-method-with-parameters)
     5. [Call Apex Methods Imperatively](#call-apex-methods-imperatively-with-and-without-parameters)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
-
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
@@ -367,8 +330,28 @@ export default class ConditionalComponent extends LightningElement {
     return this.text?.toLowerCase() === 'japan'
   }
 }
-
 ```
+
+## Template Looping (for:each and iterator)
+There are many scenarios in which we have to render the same set of elements with mostly same styling with different data in the HTML. To solve this issue, we have template looping in the LWC
+**Template Looping Types**
+1. for:Each
+2. iterator
+
+### for:each loop
+Below is the syntax of the for:each loop
+```js
+<template for:each={array} for:item="currentItem" for:index="index">
+  -----Here your repeatable template comes-----
+</template>
+```
+![Screenshot 2024-05-09 at 11 47 26 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/f115df74-b4ac-4e07-b926-2f597d7926e5)
+
+**what is key and it's importance in the loop**
+- A **key** is a special string attribute you need to include to the first element inside the template when creating lists of elements.
+- Keys help the LWC engine identify which items have changed, are added, or are removed.
+- The best way to pick a key is to use a string that uniquely identifies a list item among its siblings.
+
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
