@@ -518,9 +518,12 @@ Composition is Adding Component Within the body of another component
 • Composition enables you to build complex components from simpler building-block components.
 
 **How to refer child components name in parent components**
-1. childComponent		<c-child-component></c-child-component>
-2. childComponentDemo		<c-child-component-demo></c-child-component-demo>
-3. sampleDemoLWC		<c-sample-demo-l-w-c></c-sample-demo-l-w-c>
+1. childComponent	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	&lt;c-child-component&gt;&lt;/c-child-component&gt;
+2. childComponentDemo	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	&lt;c-child-component-demo&gt;&lt;/c-child-component-demo&gt;
+3. sampleDemoLWC	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	&lt;c-sample-demo-l-w-c&gt;&lt;/c-sample-demo-l-w-c&gt;
+
+_**Replace capital letter with small letter and prefixed with hyphen**_ <br/>
+Try to avoid continuous capital letters in your component name.
 
 ## Accessing Elements in LWC
 To access elements rendered by a component, use the template property. 
@@ -533,9 +536,6 @@ element. template.querySelectorAll (selector);
 
 **lwc:dom="manual"** </br>
 Add this directive to a native HTML element to attach an HTML element as a child.
-
-_**Replace capital letter with small letter and prefixed with hyphen**_ <br/>
-Try to avoid continuous capital letters in your component name.
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
