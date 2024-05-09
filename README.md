@@ -31,256 +31,11 @@
     1. [Expose Apex Methods to LWC](#1)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
+    4. [Wire Apex Method with Parameters](#1)
+    5. [Call Apex Methods Imperatively](#1)
 
 
-## Apex In LWC
-### Expose Apex Methods to LWC
-1. Apex Method must be static and either global or public
-2. Method should be annotated with @AuraEnabled
-   
-**Syntax**
-```js
-public with sharing class AccountController {
-	@AuraEnabled(cacheable=true)
-	public static List<Account> getAccountList() {
-		return [SELECT Id, Name, Type, Industry from Account];
-	}
-｝
-```
 
-**Example** </br>
-File Name : AccountController.cls
-```java
-public with sharing class AccountController {
-    
-    @AuraEnabled(cacheable=true)
-    public static List<Account> getAccountList(){
-        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
-    }
-}
-```
-
-### Import Apex Methods
-Use default import syntax in JavaScript to import an Apex method via the @salesforce/apex scoped packages.
-
-**Syntax**
-```js
-import apexMethodName from "@salesforce/apex/Namespace.Classname.apexMethodReference';
-```
-
-**apexMethodName —** A symbol that identifies the Apex method. </br>
-**apexMethodReference —** The name of the Apex method to import.</br>
-**Classname —** The name of the Apex class.</br>
-**Namespace —** lf the class is in the same namespace as the component, don't specify a namespace. If the class is in a managed package, specify the namespace of the managed package.
-
-**Example** </br>
-```js
-import { LightningElement } from 'lwc';
-import getAccountList from '@salesforce/apex/AccountController.getAccountList';
-
-export default class ApexWireDemo extends LightningElement {
-    
-}
-```
-
-### Wire Apex Method
-```js
-import { LightningElement, wire } from 'lwc';
-import getAccountList from '@salesforce/apex/AccountController.getAccountList'
-export default class ApexWireDemo extends LightningElement {
-    accountList
-    
-    @wire(getAccountList)
-    accounts
-
-    
-    @wire(getAccountList)
-    accountsHandler({data, error}){
-        if(data){
-            this.accountList = data.map(item=>{
-                let newType = item.Type === 'Customer - Channel' ? 'Channel':
-                item.Type === 'Customer - Direct' ? 'Direct':'-------'
-                return {...item, newType}
-            })
-        }
-        if(error){
-            console.error(error)
-        }
-    }
-}
-```
-
-```html
-<template>
-    <lightning-card title="Apex Wire to Property Demo">
-        <div class="slds-p-around_medium">
-            <template if:true={accounts.data}>
-                <template for:each={accounts.data} for:item="account">
-                    <div class="slds-box sldx-box_xx-small" key={account.Id}>
-                       <p><strong>Name : </strong>{account.Name}</p>
-                       <p><strong>Type : </strong>{account.Type}</p>
-                       <p><strong>Industry : </strong>{account.Industry}</p>
-                    </div>
-                </template>
-            </template>
-        </div>
-    </lightning-card>
-
-    <div class="slds-m-top_medium"></div>
-
-    <lightning-card title="Apex Wire To Function Demo">
-        <div class="slds-p-around_medium">
-            <template if:true={accountList}>
-                <template for:each={accountList} for:item="account">
-                    <div class="slds-box slds-box_xx-small" key={account.Id}>
-                        <p><strong>Name : </strong> {account.Name}</p>
-                        <p><strong>Type : </strong> {account.newType}</p>
-                        <p><strong>Industry : </strong> {account.Industry}</p>
-                    </div>
-                </template>
-               
-            </template>
-        </div>
-    </lightning-card>
-
-</template>
-```
-
-### Wire Apex Method with Parameters
-
-File Name : AccountController.cls
-```java
-public with sharing class AccountController {
-    @AuraEnabled(cacheable=true)
-    public static List<Account> getAccountList(String type){
-        return [SELECT Id, Name, Type, Industry from Account WHERE Type:type LIMIT 5];
-    }
-}
-```
-
-File Name : wireApexWithParams.js
-```js
-import { LightningElement, wire } from 'lwc';
-import filterAccountType from '@salesforce/apex/AccountController.filterAccountType'
-export default class WireApexWithParams extends LightningElement {
-    selectedType=''
-    @wire(filterAccountType, {type:'$selectedType'})
-    filteredAccounts
-
-    get typeOptions(){
-        return [
-            {label:"Customer - Channel", value:"Customer - Channel"},
-            {label:"Customer - Direct", value:"Customer - Direct"}
-        ]
-    }
-    typeHandler(event){
-        this.selectedType = event.target.value
-    }
-}
-```
-
-File Name : wireApexWithParams.html
-```html
-<template>
-    <lightning-card title="Apex Wire Demo with params">
-        <div class="slds-var-p-around_medium">
-            <lightning-combobox
-                name="type"
-                lable="Choose your Type"
-                value={selectedType}
-                options={typeOptions}
-                onchange={typeHandler}
-            ></lightning-combobox>
-            <template if:true={filteredAccounts.data}>
-                <template for:each={filteredAccounts.data} for:item="account">
-                    <div class="slds-box slds-box_xx-small" key={account.Id}>
-                        <p><strong>Name:</strong> {account.Name}</p>
-                        <p><strong>Type:</strong> {account.Type}</p>
-                    </div>
-                </template>
-            </template>
-        </div>
-    </lightning-card>
-</template>
-```
-
-### Call Apex Methods Imperatively
-
-File Name : AccountController.cls
-```java
-public with sharing class AccountController {
-    @AuraEnabled(cacheable=true)
-    public static List<Account> getAccountList(){
-        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
-    }
-
-    @AuraEnabled(cacheable=true)
-    public static List<Account> filterAccountType(String type){
-        return [SELECT Id, Name, Type from Account where Type=:type LIMIT 5];
-    }
-
-    @AuraEnabled(cacheable=true)
-    public static List<Account> findAccounts(String searchKey){
-        String key = '%' + searchKey + '%';
-        return [SELECT Id, Name, Type, Industry FROM Account WHERE Name LIKE :key LIMIT 5];
-    }
-
-}
-```
-
-File Name : apexImperativeWithParamsDemo.js
-```js
-import { LightningElement } from 'lwc';
-import findAccounts from '@salesforce/apex/AccountController.findAccounts'
-export default class ApexImperativeWithParamsDemo extends LightningElement {
-    searchKey=''
-    accounts
-    timer
-    searchHandler(event){
-        window.clearTimeout(this.timer)
-        this.searchKey = event.target.value
-        this.timer = setTimeout(()=>{
-            this.callApex()
-        }, 1000)
-    }
-
-    callApex(){
-        findAccounts({searchKey:this.searchKey})
-        .then(result=>{
-            this.accounts = result
-        }).catch(error=>{
-            console.error(error)
-        })
-    }
-}
-```
-
-File Name : apexImperativeWithParamsDemo.html
-```html
-<template>
-    <lightning-card title="Apex imperative with params demo">
-        <div class="slds-p-around_medium">
-            <lightning-input
-            type="search"
-            onchange={searchHandler}
-            label="Search Account"
-            value={searchKey}
-            ></lightning-input>
-        </div>
-
-        <template if:true={accounts}>
-            <template for:each={accounts} for:item="account">
-                <div class="slds-box slds-box_xx-small" key={account.Id}>
-                    <p>Name - {account.Name}</p>
-                    <p>Type - {account.Type}</p>
-                    <p>Industry - {account.Industry}</p>
-                </div>
-            </template>
-        </template>
-
-    </lightning-card>
-</template>
-```
 
 
 
@@ -1637,6 +1392,260 @@ File Name : createRecordDemo.html
 ```
 
 
+
+## Apex In LWC
+### Expose Apex Methods to LWC
+1. Apex Method must be static and either global or public
+2. Method should be annotated with @AuraEnabled
+   
+**Syntax**
+```js
+public with sharing class AccountController {
+	@AuraEnabled(cacheable=true)
+	public static List<Account> getAccountList() {
+		return [SELECT Id, Name, Type, Industry from Account];
+	}
+｝
+```
+
+**Example** </br>
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(){
+        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
+    }
+}
+```
+
+### Import Apex Methods
+Use default import syntax in JavaScript to import an Apex method via the @salesforce/apex scoped packages.
+
+**Syntax**
+```js
+import apexMethodName from "@salesforce/apex/Namespace.Classname.apexMethodReference';
+```
+
+**apexMethodName —** A symbol that identifies the Apex method. </br>
+**apexMethodReference —** The name of the Apex method to import.</br>
+**Classname —** The name of the Apex class.</br>
+**Namespace —** lf the class is in the same namespace as the component, don't specify a namespace. If the class is in a managed package, specify the namespace of the managed package.
+
+**Example** </br>
+```js
+import { LightningElement } from 'lwc';
+import getAccountList from '@salesforce/apex/AccountController.getAccountList';
+
+export default class ApexWireDemo extends LightningElement {
+    
+}
+```
+
+### Wire Apex Method
+```js
+import { LightningElement, wire } from 'lwc';
+import getAccountList from '@salesforce/apex/AccountController.getAccountList'
+export default class ApexWireDemo extends LightningElement {
+    accountList
+    
+    @wire(getAccountList)
+    accounts
+
+    
+    @wire(getAccountList)
+    accountsHandler({data, error}){
+        if(data){
+            this.accountList = data.map(item=>{
+                let newType = item.Type === 'Customer - Channel' ? 'Channel':
+                item.Type === 'Customer - Direct' ? 'Direct':'-------'
+                return {...item, newType}
+            })
+        }
+        if(error){
+            console.error(error)
+        }
+    }
+}
+```
+
+```html
+<template>
+    <lightning-card title="Apex Wire to Property Demo">
+        <div class="slds-p-around_medium">
+            <template if:true={accounts.data}>
+                <template for:each={accounts.data} for:item="account">
+                    <div class="slds-box sldx-box_xx-small" key={account.Id}>
+                       <p><strong>Name : </strong>{account.Name}</p>
+                       <p><strong>Type : </strong>{account.Type}</p>
+                       <p><strong>Industry : </strong>{account.Industry}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+
+    <div class="slds-m-top_medium"></div>
+
+    <lightning-card title="Apex Wire To Function Demo">
+        <div class="slds-p-around_medium">
+            <template if:true={accountList}>
+                <template for:each={accountList} for:item="account">
+                    <div class="slds-box slds-box_xx-small" key={account.Id}>
+                        <p><strong>Name : </strong> {account.Name}</p>
+                        <p><strong>Type : </strong> {account.newType}</p>
+                        <p><strong>Industry : </strong> {account.Industry}</p>
+                    </div>
+                </template>
+               
+            </template>
+        </div>
+    </lightning-card>
+
+</template>
+```
+
+### Wire Apex Method with Parameters
+
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(String type){
+        return [SELECT Id, Name, Type, Industry from Account WHERE Type:type LIMIT 5];
+    }
+}
+```
+
+File Name : wireApexWithParams.js
+```js
+import { LightningElement, wire } from 'lwc';
+import filterAccountType from '@salesforce/apex/AccountController.filterAccountType'
+export default class WireApexWithParams extends LightningElement {
+    selectedType=''
+    @wire(filterAccountType, {type:'$selectedType'})
+    filteredAccounts
+
+    get typeOptions(){
+        return [
+            {label:"Customer - Channel", value:"Customer - Channel"},
+            {label:"Customer - Direct", value:"Customer - Direct"}
+        ]
+    }
+    typeHandler(event){
+        this.selectedType = event.target.value
+    }
+}
+```
+
+File Name : wireApexWithParams.html
+```html
+<template>
+    <lightning-card title="Apex Wire Demo with params">
+        <div class="slds-var-p-around_medium">
+            <lightning-combobox
+                name="type"
+                lable="Choose your Type"
+                value={selectedType}
+                options={typeOptions}
+                onchange={typeHandler}
+            ></lightning-combobox>
+            <template if:true={filteredAccounts.data}>
+                <template for:each={filteredAccounts.data} for:item="account">
+                    <div class="slds-box slds-box_xx-small" key={account.Id}>
+                        <p><strong>Name:</strong> {account.Name}</p>
+                        <p><strong>Type:</strong> {account.Type}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+### Call Apex Methods Imperatively (with and without Parameters)
+
+Use this approach over @wire in the following situations
+1) To call a method that isn't annotated with **cacheable=true**, which includes any method that inserts, updates, or deletes data.
+2) To control when the invocation occurs.
+3) To work with objects that aren't _supported by User Interface API_, like Task and Event.
+4) To call a method from an ES6 module that doesn't extend LightningElement
+
+File Name : AccountController.cls
+```java
+public with sharing class AccountController {
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList(){
+        return [SELECT Id, Name, Type, Industry from Account LIMIT 5];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> filterAccountType(String type){
+        return [SELECT Id, Name, Type from Account where Type=:type LIMIT 5];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> findAccounts(String searchKey){
+        String key = '%' + searchKey + '%';
+        return [SELECT Id, Name, Type, Industry FROM Account WHERE Name LIKE :key LIMIT 5];
+    }
+}
+```
+
+File Name : apexImperativeWithParamsDemo.js
+```js
+import { LightningElement } from 'lwc';
+import findAccounts from '@salesforce/apex/AccountController.findAccounts'
+export default class ApexImperativeWithParamsDemo extends LightningElement {
+    searchKey=''
+    accounts
+    timer
+    searchHandler(event){
+        window.clearTimeout(this.timer)
+        this.searchKey = event.target.value
+        this.timer = setTimeout(()=>{
+            this.callApex()
+        }, 1000);
+    }
+
+    callApex(){
+        findAccounts({searchKey:this.searchKey})
+        .then(result=>{
+            this.accounts = result
+        }).catch(error=>{
+            console.error(error)
+        })
+    }
+}
+```
+
+File Name : apexImperativeWithParamsDemo.html
+```html
+<template>
+    <lightning-card title="Apex imperative with params demo">
+        <div class="slds-p-around_medium">
+            <lightning-input
+            type="search"
+            onchange={searchHandler}
+            label="Search Account"
+            value={searchKey}
+            ></lightning-input>
+        </div>
+
+        <template if:true={accounts}>
+            <template for:each={accounts} for:item="account">
+                <div class="slds-box slds-box_xx-small" key={account.Id}>
+                    <p>Name - {account.Name}</p>
+                    <p>Type - {account.Type}</p>
+                    <p>Industry - {account.Industry}</p>
+                </div>
+            </template>
+        </template>
+
+    </lightning-card>
+</template>
+```
 
 
 
