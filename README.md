@@ -724,6 +724,10 @@ File Name : modalParentComponent.html
 </template>
 ```
 
+> Once close event get's triggered it gonna catch my the method modalCloseHandler which is map to the c-modal-child-component component onclose attribute.
+> we are creating the custom event and passing the data by mapping it to **detail** property. Once event gets created we dispatch it to parent.
+> Once parent recieve the event it will extract the data using **event.detail** and show the selectedPlayer on the screen
+
 
 File Name : modalChildComponent.js
 ```js
