@@ -17,10 +17,12 @@
 12. [Component Composition](#component-composition)
 13. [Accessing Elements in LWC](#accessing-elements-in-lwc)
 14. [Parent to child Communication](#parent-to-child-communication)
-15. [Setter Method](#setter-method)
-16. [Create Static Resources](#create-static-resources)
-17. [Internationalization](#internationalization)
-18. [Base Lightning Components](#base-lightning-components)
+15. [Parent to Child Communication by calling the Child method from the parent component]()
+16. [Child to Parent Communication]()
+17. [Setter Method](#setter-method)
+18. [Create Static Resources](#create-static-resources)
+19. [Internationalization](#internationalization)
+20. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -28,8 +30,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-19. [Base Lightning Components](#base-lightning-components)
-20. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+21. [Base Lightning Components](#base-lightning-components)
+22. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -40,7 +42,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-21. [Apex In LWC](#apex-in-lwc)
+23. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -626,6 +628,135 @@ File Name : alertChildComponent.css
 .alert.info {background-color: #2196F3;}
 .alert.warning {background-color: #ff9800;}
 ```
+
+## Parent to Child Communication by calling the Child method from the parent component
+
+**Example**
+**Parent component**
+
+File Name : barParentComponent.js
+```js
+import { LightningElement } from 'lwc';
+
+export default class BarParentComponent extends LightningElement {
+    changeColor() {
+        this.template.querySelector('c-bar-child-component').changeBarColor();
+    }
+}
+```
+
+File Name : barParentComponent.html
+```html
+<template>
+    <div class="margin-bottom-2rem">
+        <lightning-card title="Calling child method from parent" icon-name="custom:custom14">
+            <div class="slds-m-around_medium">
+                <div class="parent-wrapper">
+                    <button class="btn" onclick={changeColor}>Click me to change bar color</button>
+                    <div class="child-wrapper">
+                        <c-bar-child-component></c-bar-child-component>
+                    </div>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+</template>
+```
+
+**Child component**
+File Name : barChildComponent.js
+```js
+import { LightningElement, api } from 'lwc';
+
+export default class BarChildComponent extends LightningElement {
+    className = "greenBar";
+    @api changeBarColor() {
+        this.className = "redBar"
+    }
+}
+```
+
+File Name : barChildComponent.html
+```html
+ <template>
+    <div class={className}>I am child component</div>
+</template>
+```
+
+## Child to Parent Communication
+There are Three kind of child to parent communication
+
+1. Simple Event
+2. Event With Data
+3. Event Bubbling
+
+**Example**
+File Name : modalParentComponent.js
+```js
+import { LightningElement } from 'lwc';
+
+export default class ModalParentComponent extends LightningElement {
+    showModal = false
+    showHandler() {
+        this.showModal = true
+    }
+    modalCloseHandler(){
+        this.showModal = false
+    }
+}
+```
+
+File Name : modalParentComponent.html
+```html
+<template>
+    <lightning-card title="Simple Event" icon-name="custom:custom14">
+        <div class="slds-var-m-around_medium">
+            <button class="slds-button slds-button_success" onclick={showHandler}>Open Modal</button>
+            <template if:true={showModal}>
+                <c-modal-child-component
+                header-text="Message!!"
+                body-text="This Modal is a Child Component. Triggered from parent and on click of close button it will dispatch an event to parent handler"
+                onclose={modalCloseHandler}
+                ></c-modal-child-component>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+
+File Name : modalChildComponent.js
+```js
+import { LightningElement, api } from 'lwc';
+
+export default class ModalChildComponent extends LightningElement {
+    @api headerText
+    @api bodyText
+    closeHandler(){
+        this.dispatchEvent(new CustomEvent('close'))
+    }
+}
+```
+
+
+File Name : modalChildComponent.html
+```html
+<template>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <header>
+                <strong>{headerText}</strong>
+            </header>
+            <p>{bodyText}</p>
+            <footer class="text-right">
+                <button class="btn danger" onclick={closeHandler}>Close</button>
+            </footer>
+        </div>
+    </div>
+</template>
+```
+
+
 
 
 
