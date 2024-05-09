@@ -15,7 +15,7 @@
     1. [for:each loop](#foreach-loop)
     2. [iterator loop](#iterator-loop)
 12. [Component Composition](#component-composition)
-13. [Accessing Elements in LWC](#ss)
+13. [Accessing Elements in LWC](#accessing-elements-in-lwc)
 14. [Setter Method](#setter-method)
 15. [Create Static Resources](#create-static-resources)
 16. [Internationalization](#internationalization)
@@ -531,10 +531,10 @@ element. template.querySelectorAll (selector);
 ```
 > **Note -** Don't use ID selector with querySelector
 
-**lwc:dom="manual"**
+**lwc:dom="manual"** </br>
 Add this directive to a native HTML element to attach an HTML element as a child.
 
-_**Replace capital letter with small letter and prefixed with hyphen**_
+_**Replace capital letter with small letter and prefixed with hyphen**_ <br/>
 Try to avoid continuous capital letters in your component name.
 
 ## Setter Method
