@@ -14,10 +14,12 @@
 11. [Template Looping (for:each and iterator)](#template-looping-foreach-and-iterator)
     1. [for:each loop](#foreach-loop)
     2. [iterator loop](#iterator-loop)
-13. [Setter Method](#setter-method)
-14. [Create Static Resources](#create-static-resources)
-15. [Internationalization](#internationalization)
-16. [Base Lightning Components](#base-lightning-components)
+12. [Component Composition](#component-composition)
+13. [Accessing Elements in LWC](#ss)
+14. [Setter Method](#setter-method)
+15. [Create Static Resources](#create-static-resources)
+16. [Internationalization](#internationalization)
+17. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -25,8 +27,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-17. [Base Lightning Components](#base-lightning-components)
-18. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+18. [Base Lightning Components](#base-lightning-components)
+19. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -37,7 +39,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-19. [Apex In LWC](#apex-in-lwc)
+20. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -510,6 +512,30 @@ File Name : templateLoopingIterator.html
     </lightning-card>
   </template>
 ```
+
+## Component Composition
+Composition is Adding Component Within the body of another component
+• Composition enables you to build complex components from simpler building-block components.
+
+**How to refer child components name in parent components**
+1. childComponent		<c-child-component></c-child-component>
+2. childComponentDemo		<c-child-component-demo></c-child-component-demo>
+3. sampleDemoLWC		<c-sample-demo-l-w-c></c-sample-demo-l-w-c>
+
+## Accessing Elements in LWC
+To access elements rendered by a component, use the template property. 
+```js
+this.template.querySelector (selector);
+this.template.querySelectorAll (selector);
+element. template.querySelectorAll (selector);
+```
+> **Note -** Don't use ID selector with querySelector
+
+**lwc:dom="manual"**
+Add this directive to a native HTML element to attach an HTML element as a child.
+
+_**Replace capital letter with small letter and prefixed with hyphen**_
+Try to avoid continuous capital letters in your component name.
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
