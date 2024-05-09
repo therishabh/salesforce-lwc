@@ -12,10 +12,12 @@
 9. [Getters](#getters)
 10. [Conditional Rendering](#conditional-rendering)
 11. [Template Looping (for:each and iterator)](#template-looping-foreach-and-iterator)
-12. [Setter Method](#setter-method)
-13. [Create Static Resources](#create-static-resources)
-14. [Internationalization](#internationalization)
-15. [Base Lightning Components](#base-lightning-components)
+    1. [for:each loop](#2)
+    2. [iterator loop](#3)
+13. [Setter Method](#setter-method)
+14. [Create Static Resources](#create-static-resources)
+15. [Internationalization](#internationalization)
+16. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -23,8 +25,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-16. [Base Lightning Components](#base-lightning-components)
-17. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+17. [Base Lightning Components](#base-lightning-components)
+18. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -35,7 +37,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-18. [Apex In LWC](#apex-in-lwc)
+19. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -352,6 +354,8 @@ Below is the syntax of the for:each loop
 - Keys help the LWC engine identify which items have changed, are added, or are removed.
 - The best way to pick a key is to use a string that uniquely identifies a list item among its siblings.
 
+> **Note :** The key must be a string or a number, it can't be an object. You can't use the index as a value for the key.
+
 **Example**
 File Name : templateLoopingForEach.js
 ```js
@@ -394,13 +398,13 @@ File Name : templateLoopingForEach.html
   <lightning-card title="for:each demo with array" icon-name="custom:custom14">
     <ul class="slds-m-around_medium">
       <template for:each={carList} for:item="car">
-        <a href="#" class="list-group-item list-group-item-action" key={car}
-          >{car}</a
-        >
+        <a href="#" class="list-group-item list-group-item-action" key={car}>{car}</a>
       </template>
     </ul>
   </lightning-card>
+
   <hr />
+
   <!-- Card for for:each demo with an array of objects -->
   <lightning-card
     title="for:each demo with array of objects"
@@ -412,14 +416,100 @@ File Name : templateLoopingForEach.html
           href="#"
           class="list-group-item list-group-item-action"
           key={program.id}
-          >{program.language}</a
-        >
+          >{program.language}
+	</a>
       </template>
     </ul>
   </lightning-card>
 </template>
 ```
 
+### iterator loop
+To apply a special behavior to the first or last item in a list we prefer iterator over for:each
+
+Below is the syntax of the iterator loop
+```js
+<template iterator:iteratorName={array}>
+  -----Here your repeatable template comes-----
+</template>
+```
+![Screenshot 2024-05-09 at 11 55 25 PM](https://github.com/therishabh/salesforce-lwc/assets/7955435/48ec0601-2f97-4faa-b186-767387d1d1b7)
+
+**Properties of iterator name**
+Using iterator name you can access the following properties
+1. value — The value of the item in the list. Use this property to access the properties of the array. For example -iteratorName.value.propertyName
+2. index — The index of the item in the list. For example -iteratorName.index
+3. first — A boolean value indicating whether this item is the first item in the list. For example -iteratorName.first
+4. last — A boolean value indicating whether this item is the last item in the list. For example -iteratorName.last
+
+**Example**
+
+File Name : templateLoopingIterator.js
+```js
+import { LightningElement } from "lwc";
+export default class TemplateLoopingIterator extends LightningElement {
+  ceoList = [
+    {
+      id: 1,
+      company: "Google",
+      name: "Sundar Pichai"
+    },
+    {
+      id: 2,
+      company: "Apple Inc.",
+      name: "Tim cook"
+    },
+    {
+      id: 3,
+      company: "Facebook",
+      name: "Mark Zuckerberg"
+    },
+    {
+      id: 4,
+      company: "Amazon.com",
+      name: "Jeff Bezos"
+    },
+    {
+      id: 5,
+      company: "Capgemini",
+      name: "Paul Hermelin"
+    }
+  ];
+}
+```
+
+File Name : templateLoopingIterator.html
+```html
+<template>
+    <lightning-card title="Iterator loop demo" icon-name="custom:custom14">
+      <ul class="slds-m-around_medium">
+        <div class="list-group-inline">
+          <template iterator:ceo={ceoList}>
+            <div key={ceo.value.id}>
+              <a
+                href="#"
+                if:true={ceo.first}
+                class="list-group-item list-group-item-action header"
+              >
+                <strong>List of top companies and there CEO's : </strong>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <strong>{ceo.value.company} : </strong>{ceo.value.name}
+              </a>
+              <a
+                href="#"
+                if:true={ceo.last}
+                class="list-group-item list-group-item-action footer"
+              >
+                <strong>&copy; 2019 Lightning school salesforce </strong>
+              </a>
+            </div>
+          </template>
+        </div>
+      </ul>
+    </lightning-card>
+  </template>
+```
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
