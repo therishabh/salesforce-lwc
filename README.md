@@ -16,10 +16,11 @@
     2. [iterator loop](#iterator-loop)
 12. [Component Composition](#component-composition)
 13. [Accessing Elements in LWC](#accessing-elements-in-lwc)
-14. [Setter Method](#setter-method)
-15. [Create Static Resources](#create-static-resources)
-16. [Internationalization](#internationalization)
-17. [Base Lightning Components](#base-lightning-components)
+14. [Parent to child Communication](#parent-to-child-communication)
+15. [Setter Method](#setter-method)
+16. [Create Static Resources](#create-static-resources)
+17. [Internationalization](#internationalization)
+18. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -27,8 +28,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-18. [Base Lightning Components](#base-lightning-components)
-19. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+19. [Base Lightning Components](#base-lightning-components)
+20. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -39,7 +40,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-20. [Apex In LWC](#apex-in-lwc)
+21. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -536,6 +537,102 @@ element. template.querySelectorAll (selector);
 
 **lwc:dom="manual"** </br>
 Add this directive to a native HTML element to attach an HTML element as a child.
+
+## Parent to child Communication
+Parent to child communication is always crucial for building a more significant and reusable component in a large application.
+
+Let's understand how parent component pass string data to child component from the below fig
+![parent-to-child-string](https://github.com/therishabh/salesforce-lwc/assets/7955435/eb5fd7df-0c3a-4416-b97a-e798963fce94)
+
+### @api decorator
+
+1. To make a field/property or method public, decorate it with @api decorator
+2. When we want to expose the property we decorate the field with @api.
+3. An owner component that uses the component in its HTML markup can access the component's public properties via HTML attributes. 
+4. Public properties are reactive in nature and if the value of the property changes the component's template re-renders.
+
+**Example**
+
+**Parent component**
+File Name : alertParentComponent.js
+```js
+import { LightningElement } from 'lwc';
+
+export default class AlertParentComponent extends LightningElement {}
+```
+
+File Name : alertParentComponent.html
+```html
+<template>
+    <div class="margin-bottom-2rem">
+        <lightning-card title="Parent to child data communication using strings" icon-name="custom:custom14">
+            <div class="slds-m-around_medium">
+                <div>
+                    <c-alert-child-component message="Indicates a dangerous or potentially negative action"></c-alert-child-component>
+                    <c-alert-child-component class-name="success" message="Success! Indicates a successful or positive action.">
+                    </c-alert-child-component>
+                    <c-alert-child-component class-name="info" message="Info! Indicates a neutral informative change or action.">
+                    </c-alert-child-component>
+                    <c-alert-child-component class-name="warning" message="Warning! Indicates a warning that might need attention.">
+                    </c-alert-child-component>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+    
+</template>
+```
+
+> Note - In Lightning Web Components we should conventionally use camelCase (lower case first letter, upper case subsequent words) to name the component and kebab-case (lower case words preceded with c- and spaced with '-' minus sign) when nesting the components in a composition scenario.
+
+If your child public property is camelCase as in our case className, then we need to use the attribute as class-name in our child component calling
+
+**Child component**
+File Name : alertChildComponent.js
+```js
+import { LightningElement, api } from 'lwc';
+
+export default class AlertChildComponent extends LightningElement {
+    @api message
+    @api className
+
+    get alertClassName() {
+        return this.className ? 'alert ' + this.className : 'alert'
+    }
+}
+```
+
+File Name : alertChildComponent.html
+```html
+<template>
+    <div class={alertClassName}>
+        {message}
+    </div>
+</template>
+```
+
+File Name : alertChildComponent.css
+```css
+.alert {
+        padding: 20px;
+        background-color: #f44336;
+        color: white;
+        opacity: 1;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+      }
+      
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+```
+
+
+
+
+
+
+
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
