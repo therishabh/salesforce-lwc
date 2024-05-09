@@ -31,8 +31,8 @@
     1. [Expose Apex Methods to LWC](#1)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
-    4. [Wire Apex Method with Parameters](#1)
-    5. [Call Apex Methods Imperatively](#1)
+    4. [Wire Apex Method with Parameters](#wire-apex-method-with-parameters)
+    5. [Call Apex Methods Imperatively](#call-apex-methods-imperatively-with-and-without-parameters)
 
 
 
