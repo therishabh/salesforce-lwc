@@ -1388,7 +1388,7 @@ import { getPicklistvalues } from 'lightning/uiobjectInfoApi';
 import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 
 export default class Example extends LightningElement {
-    @wire(getPicklistvalues, { recordTypeId: 012000000000000AAA', fieldApiName: INDUSTRY_FIELD })
+    @wire(getPicklistvalues, { recordTypeId: '012000000000000AAA', fieldApiName: INDUSTRY_FIELD })
     propertyOrFunction;
 ｝
 ```
@@ -1472,7 +1472,7 @@ import { getPicklistValuesByRecordType } from 'lightning/uiobjectInfoApi';
 import ACCOUNT_OBJECT from '@salesforce/schema/Account';
 
 export default class Example extends LightningElement {
-    @wire(getPicklistValuesByRecordType, { recordTypeId: 012000000000000AAA', objectApiName: ACCOUNT_OBJECT })
+    @wire(getPicklistValuesByRecordType, { objectApiName: ACCOUNT_OBJECT })
     propertyOrFunction;
 ｝
 ```
