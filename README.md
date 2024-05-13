@@ -20,10 +20,11 @@
 15. [Parent to Child Communication by calling the Child method from the parent component](#parent-to-child-communication-by-calling-the-child-method-from-the-parent-component)
 16. [Child to Parent Communication](#child-to-parent-communication)
 17. [Setter Method](#setter-method)
-18. [Create Static Resources](#create-static-resources)
-19. [Internationalization](#internationalization)
-20. [Navigation Service](#navigation-service)
-21. [Base Lightning Components](#base-lightning-components)
+18. [Slot](#slot)
+19. [Create Static Resources](#create-static-resources)
+20. [Internationalization](#internationalization)
+21. [Navigation Service](#navigation-service)
+22. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -31,8 +32,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-22. [Base Lightning Components](#base-lightning-components)
-23. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+23. [Base Lightning Components](#base-lightning-components)
+24. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -43,7 +44,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-24. [Apex In LWC](#apex-in-lwc)
+25. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -813,6 +814,16 @@ File Name : setterDemoParent.html
     </lightning-card>
 </template>
 ```
+
+## Slot
+**Passing Markup into Slots**
+1. Slot is useful to pass HTML markup into the another component.
+2. &lt;slot&gt;&lt;/slot&gt; markup is used to catch the HTML passed by parent component
+3. You can't pass an Aura component into a slot.
+   
+**There are two types of Slots**
+**Named Slots :** When name attribute is defined in slot element &lt;slot name="head"&gt;&lt;/slot&gt;
+**Unnamed Slots :** When a slot without a name attribute &lt;slot&gt;&lt;/slot&gt;
 
 
 
