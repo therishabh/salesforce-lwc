@@ -887,6 +887,12 @@ File Name : slotChildDemo.html
 ## Create Static Resources
 https://developer.salesforce.com/docs/platform/lwc/guide/create-resources.html
 
+## How do you handle data security in Salesforce
+https://www.apexhours.com/how-do-you-handle-data-security-in-salesforce/
+
+## Salesforce Security Best Practices: Protecting Data and Ensuring Compliance
+https://www.apexhours.com/salesforce-security-best-practices-protecting-data-and-ensuring-compliance/
+
 ## Internationalization
 Import internationalization properties from the @salesforce/i18n scoped module. Lightning web components have internationalization properties that you can use to adapt your components for users worldwide, across languages, currencies, and timezones.
 
