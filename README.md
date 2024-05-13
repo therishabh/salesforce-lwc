@@ -22,7 +22,8 @@
 17. [Setter Method](#setter-method)
 18. [Create Static Resources](#create-static-resources)
 19. [Internationalization](#internationalization)
-20. [Base Lightning Components](#base-lightning-components)
+20. [Navigation Service](#navigation-service)
+21. [Base Lightning Components](#base-lightning-components)
     1. [Introduction to Work With Data In LWC](#introduction-to-work-with-data-in-lwc)
     2. [Lightning Data Service](#lightning-data-service)
     3. [Base Lightning Components](#base-lightning-components-1)
@@ -30,8 +31,8 @@
     5. [lightning-record-view-form](#lightning-record-view-form)
     6. [lightning-record-edit-form](#lightning-record-edit-form)
     7. [Custom Validation in lightning-record-edit-form](#custom-validation-in-lightning-record-edit-form)
-21. [Base Lightning Components](#base-lightning-components)
-22. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
+22. [Base Lightning Components](#base-lightning-components)
+23. [Lightning Data Service Wire Adapter and Functions](#lightning-data-service-wire-adapter-and-functions)
     1. [wire Service](#wire-service)
     2. [How @wire is reactive](#how-wire-is-reactive)
     3. [getObjectInfo adapter](#getobjectinfo-adapter)
@@ -42,7 +43,7 @@
     8. [getFieldValue & getFieldDisplayValue adapter](#getfieldvalue--getfielddisplayvalue)
     9. [getListInfoByName adapter](#getListInfoByName-adapter)
     10. [createRecord](#createRecord)
-23. [Apex In LWC](#apex-in-lwc)
+24. [Apex In LWC](#apex-in-lwc)
     1. [Expose Apex Methods to LWC](#expose-apex-methods-to-lwc)
     2. [Import Apex Methods](#import-apex-methods)
     3. [Wire Apex Method](#wire-apex-method)
@@ -447,6 +448,8 @@ Using iterator name you can access the following properties
 3. first — A boolean value indicating whether this item is the first item in the list. For example -iteratorName.first
 4. last — A boolean value indicating whether this item is the last item in the list. For example -iteratorName.last
 
+> Note : In iterator loop array item will be store one by one in iteratorName (as per syntax) and those item not directly accessible from iteratorName we will get array item inside value object example -iteratorName.value.propertyName
+
 **Example**
 
 File Name : templateLoopingIterator.js
@@ -760,15 +763,6 @@ File Name : modalChildComponent.html
 </template>
 ```
 
-
-
-
-
-
-
-
-
-
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
 File Name : setterDemoChild.js
@@ -865,6 +859,49 @@ File Name : internationalization.html
     </lightning-card>
 </template>
 ```
+
+## Navigation Service
+The lightning/navigation service is used to navigate in Lightning Experience, Lightning Communities and in Salesforce Application. Navigation Service in Lightning Web Components are used to navigate to Record Pages, Web Pages, Objects, List Views, Custom Tabs, Related Lists, Files etc.
+
+Navigation Service uses a PageReference rather than a URL. A PageReference is a JavaScript object that provides the details of Page Type, attributes and state of the Page.
+
+The PageReference envelopes a component from future changes to URL formats. Page type(String) and attributes(Object) are required parameters, state(Object) is optional parameter. To use the navigation service in Lightning Web Components, first import it in the JavaScript file
+
+```js
+import { NavigationMixin } from 'lightning/navigation';
+```
+
+Next apply NavigationMixin function to component’s base class
+```js
+export default class SampleNavigationService extends NavigationMixin(LightningElement) {}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Base Lightning Components
 ### Introduction to Work With Data In LWC
