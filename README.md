@@ -821,9 +821,9 @@ File Name : setterDemoParent.html
 2. &lt;slot&gt;&lt;/slot&gt; markup is used to catch the HTML passed by parent component
 3. You can't pass an Aura component into a slot.
    
-**There are two types of Slots**
-**Named Slots :** When name attribute is defined in slot element &lt;slot name="head"&gt;&lt;/slot&gt;
-**Unnamed Slots :** When a slot without a name attribute &lt;slot&gt;&lt;/slot&gt;
+**There are two types of Slots**</br></br>
+**Named Slots :** When name attribute is defined in slot element &lt;slot name="head"&gt;&lt;/slot&gt;</br>
+**Unnamed Slots :** When a slot without a name attribute &lt;slot&gt;&lt;/slot&gt;</br>
 
 
 
