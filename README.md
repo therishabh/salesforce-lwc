@@ -825,7 +825,63 @@ File Name : setterDemoParent.html
 **Named Slots :** When name attribute is defined in slot element &lt;slot name="head"&gt;&lt;/slot&gt;</br>
 **Unnamed Slots :** When a slot without a name attribute &lt;slot&gt;&lt;/slot&gt;</br>
 
+**Example**
 
+File Name : slotParentDemo.js
+```js
+import { LightningElement } from 'lwc';
+
+export default class SlotParentDemo extends LightningElement {}
+```
+
+File Name : slotParentDemo.html
+```html
+<template>
+    <lightning-card title="Slot Demos">
+        <div class="slds-p-around_medium">
+            <c-slot-child-demo>
+                <p class="slds-text-color_success" slot="first">My Name is Salesforcetroop</p>
+                <p class="slds-text-color_error" slot="second">My Age is 25</p>
+                <p slot="footer"> I am footer</p>
+            </c-slot-child-demo>
+        </div>
+        <div class="slds-p-around_medium">
+            <c-slot-child-demo>
+                <p class="slds-text-color_success" slot="first">My Name is Salesforcetroop</p>
+                <p class="slds-text-color_error" slot="second">My Age is 25</p>
+                <!-- <p slot="footer"> I am footer</p> -->
+            </c-slot-child-demo>
+        </div>
+    </lightning-card>
+</template>
+```
+
+File Name : slotChildDemo.js
+```js
+import { LightningElement } from 'lwc';
+
+export default class SlotChildDemo extends LightningElement {
+    handleFooterChange(){
+        const footerElem = this.template.querySelector('.slds-card__footer')
+        if(footerElem){
+            footerElem.classList.remove('slds-hide')
+        }
+    }
+}
+```
+
+File Name : slotChildDemo.html
+```html
+<template>
+    <div>What is Your Name?</div>
+    <div><slot name="first"></slot></div> <!--named slots-->
+    <div>What is Your Age?</div>
+    <div><slot name="second"></slot></div> 
+    <footer class="slds-card__footer slds-hide">
+        <slot name="footer" onslotchange={handleFooterChange}></slot>
+    </footer>
+</template>
+```
 
 
 ## Create Static Resources
