@@ -887,6 +887,33 @@ connectedCallback(){
 }
 ```
 
+3. Rendering:
+
+`renderedCallback()`: This hook is triggered after the component’s initial render. It’s suitable for actions that require knowledge of the rendered DOM, like interacting with elements.
+
+**renderedCallback()**
+
+1. Use it to perform logic after a component has finished the rendering phase. **It invoked when a component is completely rendered on UI.**
+2. Flows from **child to parent** component.
+3. Component rendered many times during there lifecycle, **to track renderedCallBack(), use isRendered boolean field.**
+4. Property **leads to infinite loop** in renderedCallBack().
+
+```js
+import { LightningElement } from 'lwc';
+export default class LifeCycleHookParent extends LightningElement {
+  isRendered = true // to check component is rendered
+  renderedCallback() {
+    if (this.isRendered) {
+      console.log('Parent Rendered call Back called');
+      this.isRendered = false
+    }
+  ?
+ }
+```
+
+4. Reactivity:
+
+Whenever a property or variable changes in the component, it may trigger a reactivity cycle. During this cycle, the component checks for changes in properties, and if changes are detected, it re-renders and invokes the **`renderedCallback`** again.
 
 
 
