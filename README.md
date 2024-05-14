@@ -20,10 +20,11 @@
 15. [Parent to Child Communication by calling the Child method from the parent component](#parent-to-child-communication-by-calling-the-child-method-from-the-parent-component)
 16. [Child to Parent Communication](#child-to-parent-communication)
 17. [Setter Method](#setter-method)
-18. [Slot](#slot)
-19. [Create Static Resources](#create-static-resources)
-20. [Internationalization](#internationalization)
-21. [Navigation Service](#navigation-service)
+18. [Lifecycle Hooks](#lifecycle-hooks)
+19. [Slot](#slot)
+20. [Create Static Resources](#create-static-resources)
+21. [Internationalization](#internationalization)
+22. [Navigation Service](#navigation-service)
 	- [Navigate to New Case record creation](#navigate-to-new-case-record-creation)
 	- [Navigate to Case Home Page](#navigate-to-case-home-page)
 	- [Navigation to record page](##navigation-to-record-page)
@@ -826,6 +827,68 @@ File Name : setterDemoParent.html
     </lightning-card>
 </template>
 ```
+
+## Lifecycle Hooks
+Lifecycle Hooks in Lightning Web Component can be considered as a callback method that is triggered at a particular phase of a component instance’s lifecycle.
+Lifecycle hooks are special methods or functions that are automatically called at specific stages of a component’s life in a web application.
+
+Here’s a brief overview of some essential lifecycle hooks:
+
+**constructor():** This is where the component is initialized. You can set default values and perform one-time setup.</br>
+**connectedCallback():** After the component is added to the DOM, this hook runs. It’s a great place to perform DOM manipulations and data retrieval.</br>
+**renderedCallback():** This hook is triggered after rendering occurs. It’s ideal for operations that require knowledge of the rendered DOM.</br>
+**disconnectedCallback():** When the component is removed from the DOM, this hook is invoked. Use it for cleanup operations and resource releases.</br>
+**errorCallback():** If an error occurs during rendering, this hook is called. It’s your opportunity to gracefully handle errors.</br>
+
+**Flow of Lifecycle hooks**</br>
+First it called parent constructor then parent connectedCallBack and then if there is any child component then it moves to child constructor → connectedCall Back → renderedCallBack then it moves to parent renderedCallback</br>
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/f28ee98b-47a5-49cc-9ee7-d95254425b60)
+
+
+1. Creation:
+
+`constructor()`: This is the first hook to run when an instance of the component is created. It’s where you initialize variables and set default values.
+
+**constructor()**
+
+1. Invoked when the **instance of the component is created** (similar to init() in aura).
+2. Fired in the parent component first since it **flows from parent to child**.
+3. You have to **call super() inside first** to call parent class constructor ie. LightningElement.
+4. Access element in the component template, **use this.template**.
+
+```js
+import { LightningElement } from 'lwc';
+ 
+export default class LifeCycleHookParent extends LightningElement {
+  constructor() {
+    super(); // call LightningElement class constructor console.log('Parent Constructor Called');
+    let con = this.template //access host element
+    console.log(con);
+  }
+}
+```
+
+2. Initialization:
+
+`connectedCallback()`: After the component is initialized, this hook is called. It’s an ideal place for DOM manipulations and data retrieval.
+
+**connectedCallback()**
+
+1. Invoke when **component inserted into DOM**.
+2. It flows **Parent to Child**.
+3. Used for to **perform initialisation task** such as fetch data, set up cache, listen events.
+4. To check component is **connected** in DOM, use isConnected method.
+
+```js
+connectedCallback(){
+  console.log('Parent Connected Call Back called');
+  let cb = this.template
+  console.log('is connected=> ' + cb.isConnected);
+}
+```
+
+
+
 
 ## Slot
 **Passing Markup into Slots**
