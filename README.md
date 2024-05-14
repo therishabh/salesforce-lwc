@@ -915,7 +915,36 @@ export default class LifeCycleHookParent extends LightningElement {
 
 Whenever a property or variable changes in the component, it may trigger a reactivity cycle. During this cycle, the component checks for changes in properties, and if changes are detected, it re-renders and invokes the **`renderedCallback`** again.
 
+5. Destruction:
 
+`disconnectedCallback()`: When the component is removed from the DOM, this hook is called. It’s an excellent place for cleanup operations and releasing resources like event listeners.
+
+**disconnectedCallback()**
+
+1. Called when the element is **removed from a documen**t (remove event listener, remove time interval etc).
+2. Follows **Parent to Child.**
+3. Use disconnectedCallback() **to clean up work done in the connectedCallback()**, like removing event listeners.
+4. You can also use this hook to **unsubscribe message channel.**
+
+6. Error Handling:
+
+`errorCallback()`: If an error occurs during rendering, this hook is invoked. It provides an opportunity to gracefully handle errors and display appropriate messages.
+
+**errorCallback()**
+
+Implement it to create an error boundary component that captures errors in all the descendent components in its tree.
+
+It captures errors that occur in the descendant’s lifecycle hooks or during an event handler declared in an HTML template.
+
+1. Called when a descendant(Child) component throws an error.
+2. Two arguments are passed in errorCallback(error,stack), the error argument is a JavaScript native error object, and the stack argument is a string.
+
+```js
+errorCallback(error, stack){
+  console.log(error message);
+  console.log('Stack: - ' + stack);
+}
+```
 
 ## Slot
 **Passing Markup into Slots**
