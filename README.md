@@ -921,11 +921,10 @@ Whenever a property or variable changes in the component, it may trigger a react
 
 **disconnectedCallback()**
 
-1. Called when the element is **removed from a documen**t (remove event listener, remove time interval etc).
-2. Follows **Parent to Child.**
-3. Use disconnectedCallback() **to clean up work done in the connectedCallback()**, like removing event listeners.
-4. You can also use this hook to **unsubscribe message channel.** </br>
-
+- Called when the element is **removed from a documen**t (remove event listener, remove time interval etc).
+- Follows **Parent to Child.**
+- Use disconnectedCallback() **to clean up work done in the connectedCallback()**, like removing event listeners.
+- You can also use this hook to **unsubscribe message channel.** </br>
 
 6. Error Handling:
 
