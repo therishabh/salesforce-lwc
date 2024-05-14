@@ -949,11 +949,213 @@ Next apply NavigationMixin function to component’s base class
 export default class SampleNavigationService extends NavigationMixin(LightningElement) {}
 ```
 
+NavigateMixin adds two API’s to component’s class: </br>
+
+**NavigateMixin.Navigate :** To navigate to another page in the application</br>
+**NavigateMixin.GenerateURL :** To get a promise that resolves to the resulting URL. The URL can be used in the href attribute of an anchor. It can utilize the URL to open a new window using the Browser api – Window.open(url)</br>
+
+**Examples**
+#### Navigate to New Case record creation
+```html
+<!-- sampleNavigationService.html -->
+<template>
+    <lightning-card title="Navigation Service">
+        <div class="slds-p-left_medium">
+            <lightning-button label="New Case" onclick={navigateToNewCasePage}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```js
+import { LightningElement } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+ 
+export default class SampleNavigationService extends NavigationMixin(LightningElement) {
+ 
+    navigateToNewCasePage() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Case',
+                actionName: 'new'
+            },
+        });
+    }
+}
+```
+
+#### Navigate to Case Home Page
+```html
+<template>
+    <lightning-card title="Case Home Page Navigation">
+        <div class="slds-p-left_medium">
+            <a href={refUrl} onclick={handleNavigationClick}>Case Home</a>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```js
+import { LightningElement, wire } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+ 
+export default class BasicNavigationLWC extends NavigationMixin(LightningElement) {
+ 
+    refUrl;
+ 
+    connectedCallback() {
+        this.caseHomePageRef = {
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Case',
+                actionName: 'home'
+            }
+        };
+        this[NavigationMixin.GenerateUrl](this.caseHomePageRef)
+            .then(url => this.refUrl = url);
+    }
+ 
+    handleNavigationClick(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        this[NavigationMixin.Navigate](this.caseHomePageRef);
+    }
+}
+```
+
+#### Navigation to record page
+```js
+navigateToViewCasePage() {
+	this[NavigationMixin.Navigate]({
+	    type: 'standard__recordPage',
+	    attributes: {
+		recordId: this.recId,
+		objectApiName: 'Case',
+		actionName: 'view'
+	    },
+	});
+}
+```
+
+#### Navigation to custom application
+```js
+navigateToMyCustomApplication() {
+	this[NavigationMixin.Navigate]({
+	    type: 'standard__app',
+	    attributes: {
+		appTarget: 'c__MyCustomApplication',
+	    }
+	});
+}
+```
+
+#### Navigation to external URL
+```js
+navigateToApexHoursPage() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: 'https://www.apexhours.com/'
+            }
+        });
+}
+```
+
+#### Navigation to custom tab
+```js
+navigateToCustomTab() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                apiName: 'CustomTabName'
+            },
+        });
+ }
+```
+
+#### Navigation to List View
+```js
+    navigateToCaseListView() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Case',
+                actionName: 'list'
+            },
+            state: {
+                filterName: 'Recent'
+            },
+        });
+    }
+```
+
+#### Navigation to Related List
+```js
+    navigateToContactRelatedList() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                recordId: this.recordId,
+                objectApiName: 'Account',
+                relationshipApiName: 'Contacts',
+                actionName: 'view'
+            },
+        });
+    }
+```
+
+#### Navigation to Files
+```js
+    navToFilesPage() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'ContentDocument',
+                actionName: 'home'
+            },
+        });
+    }
+```
+
+#### Navigation to Tab
+```js
+    navigateToCustomTab() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                apiName: 'CustomTabName'
+            },
+        });
+    }
+```
 
 
+#### Navigation to Visualforce Page
+```js
+navigateToVisualForcePage() {
+        this[NavigationMixin.GenerateUrl]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/apex/CaseVFExample?id=' + this.recordId
+            }
+        }).then(generatedUrl => {
+            window.open(generatedUrl);
+        });
+}
+```
 
-
-
+#### Navigation to Custom Aura Component
+```js
+openCustomLightningComponent(){
+	this[NavigationMixin.Navigate]({
+	    type: 'standard__component',
+	    attributes: {
+		componentName: 'c__AuraComponentName'
+	    }
+	});
+}
+```
 
 
 
