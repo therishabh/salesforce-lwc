@@ -754,7 +754,10 @@ export default class ModalChildComponent extends LightningElement {
     @api headerText
     @api bodyText
     closeHandler(){
-        this.dispatchEvent(new CustomEvent('close'))
+	const selectEvent = new CustomEvent('mycustomevent', {
+            detail: 'fooo'
+        });
+       this.dispatchEvent(selectEvent);
     }
 }
 ```
