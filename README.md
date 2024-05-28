@@ -2559,6 +2559,46 @@ commuteFlowToLWC.js-meta.xml
 ![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/0ac5f1ff-0be4-4288-aaba-7e0aa8dcb71a)
 
 
+## LWC to Flow data Transfer
+commuteLWCToFlow.html
+```html
+<template>
+    <lightning-input label="Email" type="email" onchange={getEmail}></lightning-input>
+</template>
+```
+
+commuteLWCToFlow.js
+```js
+import { LightningElement, api } from 'lwc';
+import {FlowAttributeChangeEvent} from 'lightning/flowSupport';
+
+export default class CommuteLWCToFlow extends LightningElement {
+    @api email;
+
+    getEmail(event){
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
+        this.email = event.target.value;
+        this.dispatchEvent(new FlowAttributeChangeEvent('email', this.email))
+    }
+}
+```
+
+commuteLWCToFlow.js-meta.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="email" type="String" label="Email Input" role="outputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
+```
 
 
 
