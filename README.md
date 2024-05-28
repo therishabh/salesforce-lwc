@@ -2501,9 +2501,62 @@ File Name : apexImperativeWithParamsDemo.html
 </template>
 ```
 
+## Flow to LWC data Transfer
+commuteFlowToLWC.html
+```html
+<template>
+    <lightning-input label="Address" value={myname}></lightning-input> 
+</template>
+```
 
+CommuteFlowToLWC.js
+```js
+import { LightningElement, api } from 'lwc';
 
+export default class CommuteFlowToLWC extends LightningElement {
+    name;
 
+    connectedCallback() {
+        console.log(this.myname);
+    }
+
+    @api
+    get myname() {
+        return this.name;
+    }
+    set myname(data) {
+        this.name = data.toUpperCase() + ' bansal';
+    }
+}
+```
+
+commuteFlowToLWC.js-meta.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="myname" type="String" label="Shikha Input"  />
+        </targetConfig>
+
+    </targetConfigs>
+</LightningComponentBundle>
+```
+
+#### Create Screen Flow – Flow To LWC Communication
+- Create a Screen flow and name it Flow to Lightning Web Component Communication
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/d10b225e-a65e-40be-9aa3-07d39b20ed5e)
+
+- Add a text input element and provide Label/Api name
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/d06b7eeb-a3c1-4401-9046-f34b596bea25)
+
+- Add the Lightning Web Component on Screen you created previously and pass text input element value to it
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/0ac5f1ff-0be4-4288-aaba-7e0aa8dcb71a)
 
 
 
