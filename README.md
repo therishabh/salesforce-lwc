@@ -63,6 +63,8 @@
     3. [Wire Apex Method](#wire-apex-method)
     4. [Wire Apex Method with Parameters](#wire-apex-method-with-parameters)
     5. [Call Apex Methods Imperatively](#call-apex-methods-imperatively-with-and-without-parameters)
+27. [Flow to LWC data Transfer](#flow-to-lwc-data-transfer)
+28. [LWC to Flow data Transfer](#lwc-to-flow-data-transfer)
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
