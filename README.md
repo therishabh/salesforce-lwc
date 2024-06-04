@@ -2724,9 +2724,58 @@ export default class PubsubComponentB extends LightningElement {
 ```
 
 ### Lightning Messaging Service
+How Component will communicate through Lightning Message Service (LMS) in LWC
 
+##### Define Message Channel Metadata in your org
+- Make a folder under force-app/main/default with name "messageChannels".
+- Create an xml file "messageChannelName.messageChannel-meta.xml"
+- Define lightning message field in .xml file, see code below
 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>SampleMessageChannel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>This is a sample Lightning Message Channel.</description>
+    
+<!--A list of message payload fields for a given Lightning Message Channel.-->
+    <lightningMessageFields>
+        <fieldName>recordId</fieldName>
+        <description>This is the record Id that changed</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>recordData</fieldName>
+        <description>The current data representing the record that changed</description>
+    </lightningMessageFields>
 
+</LightningMessageChannel>
+```
 
+**Import message service**
 
+```js
+import msgService from '@salesforce/messageChannel/messageChannelName__c';
+```
+
+**import message service features**
+```js
+import {publish,subscribe,unsubscribe,APPLICATION_SCOPE,MessageContext} from 'lightning/messageService';
+```
+
+**Define the Scope of the Message Service**
+The Lightning message service lets you define the scope of where subscribing components receive messages in your application.
+
+>> For Lightning web components, the scoping feature is available only when using **@wire adapter**
+
+```js
+@wire(MessageContext)
+messageContext
+```
+
+**Publish Message Channel**
+To publish message, we have publish() method in Lightning message service’s.</br>
+publish() method accept 3 parameter :-</br>
+1. Message Context (Type Object)
+2. Message Channel (Type Object)
+3. Message Payload (The message payload is a JSON object)
 
