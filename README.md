@@ -2782,3 +2782,98 @@ publish() method accept 3 parameter :-</br>
 2. Message Channel (Type Object)
 3. Message Payload (The message payload is a JSON object)
 
+#### Example
+
+// Component lmsComponentA
+
+```html
+<template>
+    <lightning-card title="LWC LMS Component A">
+        <div class="slds-m-around_medium">
+            <lightning-input type="text" label="Enter message to publish" onkeyup={inputHandler}></lightning-input>
+        </div>
+        <div class="slds-m-around_medium">
+            <lightning-button label="Publish" onclick={publishButtonHandler}></lightning-button>
+        </div>
+    </lightning-card>
+    <c-lms-component-b></c-lms-component-b>
+</template>
+```
+```js
+import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
+import { MessageContext, publish } from 'lightning/messageService';
+import { LightningElement, wire } from 'lwc';
+
+export default class LmsComponentA extends LightningElement {
+    
+    inputValue;
+
+    @wire(MessageContext)
+    context;
+
+    inputHandler(event) {
+        this.inputValue = event.target.value;
+    }
+
+    publishButtonHandler(){
+        const message = {
+            recordId : 1234321,
+            lmsData: {
+                value : this.inputValue
+            },
+            myMsg : 'Hello'
+        }
+        console.log('message => ', message);
+        //publish(messageContext: Object, messageChannel: Object, message?: Object, publisherOptions?: Object)
+        publish(this.context,SAMPLEMC, message);
+    }
+}
+```
+
+// Component lmsComponentB
+
+```html
+<template>
+    <lightning-card title="LWC LMS Component A">
+        <div class="slds-m-around_medium">
+            <p>
+                Received Message : <strong>{receivedMessage}</strong>
+            </p>
+        </div>
+    </lightning-card>
+    <c-lms-component-y></c-lms-component-y>
+</template>
+```
+```js
+import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
+import { APPLICATION_SCOPE, MessageContext, subscribe } from 'lightning/messageService';
+import { LightningElement, wire } from 'lwc';
+
+export default class LmsComponentX extends LightningElement {
+   receivedMessage;
+
+    @wire(MessageContext)
+    context;
+
+    connectedCallback() {
+        this.subscribeMessage();
+    }
+
+    subscribeMessage( ){
+        subscribe(this.context, SAMPLEMC, (message) => {this.handleMessage(message)}, {scope: APPLICATION_SCOPE})
+    } 
+
+    handleMessage(message){
+        this.receivedMessage = message.lmsData.value ? message.lmsData.value : 'No Message' 
+        console.log(message);
+    }
+}
+```
+
+
+
+
+
+
+
+
