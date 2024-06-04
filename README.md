@@ -65,6 +65,9 @@
     5. [Call Apex Methods Imperatively](#call-apex-methods-imperatively-with-and-without-parameters)
 27. [Flow to LWC data Transfer](#flow-to-lwc-data-transfer)
 28. [LWC to Flow data Transfer](#lwc-to-flow-data-transfer)
+29. [Component Communication](#component-communication)
+    - [PubSub](#pubsub)
+    - [a](#a)
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
