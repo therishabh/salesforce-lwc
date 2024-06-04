@@ -2600,12 +2600,127 @@ commuteLWCToFlow.js-meta.xml
 </LightningComponentBundle>
 ```
 
+## Component Communication
+There are two ways to communicate between Independent Components
+1) pubsub
+2) Lightning Messaging Service
 
+>> NOTE ** Use this approach, if Lightning Messaging Service not serve your purpose. It's an Old technique to communicate with the independent components in LWC
 
+### Pubsub
+PubSub module is nothing, just a JavaScript file that contains different methods that are exported so that the other components can make use of it.
+It is not provided to you by default, so you have to add it by yourself. It can be simply created by creating a new lightning web component with only JavaScript and meta.xml file.
 
+Let’s take a look over the pubsub.js file.
 
+```js
+// Filename:  pubsub.js
 
+/* eslint-disable no-console */
+const store = {};
+/**
+ * subscribers a callback for an event
+ * @param {string} eventName - Name of the event to listen for.
+ * @param {function} callback - Function to invoke when said event is fired.
+ */
 
+const subscribe = (eventName, callback) => {
+    if (!store[eventName]) {
+        store[eventName] = new Set();
+    }
+    store[eventName].add(callback);
+};
+
+/**
+ * unsubscribe a callback for an event
+ * @param {string} eventName - Name of the event to unsubscribe from.
+ * @param {function} callback - Function to unsubscribe.
+ */
+const unsubscribe = (eventName, callback) => {
+    if (store[eventName]) {
+        store[eventName].delete(callback);
+    }
+};
+
+/**
+ * Publish an event to listeners.
+ * @param {string} eventName - Name of the event to publish.
+ * @param {*} payload - Payload of the event to publish.
+ */
+
+const publish = (eventName, payload) => {
+    if (store[eventName]) {
+        store[eventName].forEach(callback => {
+            try {
+                callback(payload);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+};
+
+export default {
+    subscribe,
+    unsubscribe,
+    publish
+};
+```
+
+// Component PubsubComponentA
+```html
+<template>
+    <lightning-card title="Pubsub demo Component A">
+        <div class="slds-p-around_medium">
+            <lightning-input type="text" onkeyup={inputHandler} class="slds-m-bottom_medium"></lightning-input>
+            <lightning-button variant="brand" onclick={publishHandler} label="publish"></lightning-button>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```js
+import { LightningElement } from 'lwc';
+import pubsub from 'c/pubsub'
+export default class PubsubComponentA extends LightningElement {
+    message
+    inputHandler(event){
+        this.message = event.target.value
+    }
+    publishHandler(){
+        pubsub.publish('componentA', this.message)
+    }
+}
+```
+
+// Component PubsubComponentB
+```html
+<template>
+    <lightning-card title="Pubsub demo Component B">
+        <div class="slds-p-around_medium">
+            Message Recieved - {message}
+        </div>
+    </lightning-card>
+</template>
+```
+
+```js
+import { LightningElement } from 'lwc';
+import pubsub from 'c/pubsub'
+export default class PubsubComponentB extends LightningElement {
+    message
+    connectedCallback(){
+        this.callSubscriber()
+    }
+    callSubscriber(){
+        pubsub.subscribe('componentA', (message)=>{
+            this.message = message
+        })
+    }
+}
+```
+
+### Lightning Messaging Service
 
 
 
