@@ -67,7 +67,7 @@
 28. [LWC to Flow data Transfer](#lwc-to-flow-data-transfer)
 29. [Component Communication](#component-communication)
     - [PubSub](#pubsub)
-    - [a](#a)
+    - [Lightning Messaging Service](##lightning-messaging-service)
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
@@ -2724,6 +2724,9 @@ export default class PubsubComponentB extends LightningElement {
 ```
 
 ### Lightning Messaging Service
+
+Reference Link : https://medium.com/@sendtosachin27/communication-through-lms-in-lwc-748290185c9c
+
 How Component will communicate through Lightning Message Service (LMS) in LWC
 
 ##### Define Message Channel Metadata in your org
@@ -2772,7 +2775,7 @@ The Lightning message service lets you define the scope of where subscribing com
 messageContext
 ```
 
-**Publish Message Channel**
+**Publish Message Channel**</br></br>
 To publish message, we have publish() method in Lightning message service’s.</br>
 publish() method accept 3 parameter :-</br>
 1. Message Context (Type Object)
