@@ -67,7 +67,7 @@
 28. [LWC to Flow data Transfer](#lwc-to-flow-data-transfer)
 29. [Component Communication](#component-communication)
     - [PubSub](#pubsub)
-    - [Lightning Messaging Service](##lightning-messaging-service)
+    - [Lightning Messaging Service](#lightning-messaging-service)
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
