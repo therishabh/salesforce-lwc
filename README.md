@@ -31,6 +31,7 @@
 	- [Navigation to custom application](#navigation-to-custom-application)
 	- [Navigation to external URL](#navigation-to-external-url)
 	- [Navigation to custom tab](#navigation-to-custom-tab)
+ 	- [Navigation to named page](#navigation-to-named-page)  
 	- [Navigation to List View](#navigation-to-list-view)
 	- [Navigation to Related List](#navigation-to-related-list)
 	- [Navigation to Files](#navigation-to-files)
@@ -1213,7 +1214,7 @@ navigateToCustomTab() {
  }
 ```
 
-### Navigation to named page
+#### Navigation to named page
 ```js
 import { LightningElement } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
