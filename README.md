@@ -1213,6 +1213,24 @@ navigateToCustomTab() {
  }
 ```
 
+### Navigation to named page
+```js
+import { LightningElement } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+
+export default class NavigateToPage extends NavigationMixin(LightningElement) {
+    navigateToPage() {
+        // Navigation to a standard named page
+        this[NavigationMixin.Navigate]({
+            type: 'standard__namedPage',
+            attributes: {
+                pageName: 'home'
+            }
+        });
+    }
+}
+```
+
 #### Navigation to List View
 ```js
     navigateToCaseListView() {
