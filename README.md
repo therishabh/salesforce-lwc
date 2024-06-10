@@ -2870,10 +2870,17 @@ export default class LmsComponentX extends LightningElement {
 }
 ```
 
+## Locker Service in Lightning Web Components
+Locker Service is a security architecture in Salesforce that enhances the security of Lightning components (both Aura and Lightning Web Components).
+
+Lightning Locker is a layer which sits in between your browser and DOM (document object). In other words, Lightning Locker is a virtual browser that allows only secure request to go through and have access to real DOM. This virtual browser sits in front of your unsafe real browser.
+
+#### How to disable lightning locker?
+You can disable lightning locker by changing the api version of lightning component bundle to 39 or below.
 
 
-
-
+#### How to enable lightning locker?
+Lightning locker is automatically enabled for component bundles having api version 40 or above.
 
 
 
