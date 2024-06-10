@@ -2882,5 +2882,39 @@ You can disable lightning locker by changing the api version of lightning compon
 #### How to enable lightning locker?
 Lightning locker is automatically enabled for component bundles having api version 40 or above.
 
+## Call LWC in Visualforce Page
 
+To load your LWC or Aura Component inside the VF page we will use the $Lightning.use() method.
+
+The **$Lightning.use()** function takes four arguments & they are as follows:
+
+- appName(String): Required* (The name of our lightning dependency app, including namespace. For example, “c:visualforceAuraApplications”)
+
+> Note: We must follow ‘Camel Case’ notation while calling our LWC component inside our Aura Application
+
+- Callback(function): A function to call once the Lightning Component framework and our app have fully loaded. The callback receives no arguments. This callback is usually where you call $Lightning.createComponent() to add our app to the page
+- lightningEndPointURL(String): Optional if we are using inside Salesforce. The URL for the Lightning domain on your Salesforce instance. For example, https://MyDomain.lightning.force.com.
+- authToken: Optional if we are using inside Salesforce.
+  
+VF Page Code:
+
+```apex
+<apex:page standardStylesheets="true" showHeader="false">
+	<apex:includeLightning />    
+	<div id="LwcId" />
+	<script>
+             $Lightning.use("c:visualforceAuraApplications", function() {
+	        $Lightning.createComponent("c:callingLwcInVfPages",
+	        {
+	            note   : 'I am coming from VF Page', // You can pass the value to @api attributes if you have inside JavaScript Class.
+	            recordId : '{!$CurrentPage.parameters.id}'
+	        },
+	        "LwcId", // the Id of div tag where your component will be rendered
+	        function(cmp) {
+	            console.log('Calling the LWC Component');
+	        });
+	    });
+	</script>
+</apex:page>
+```
 
