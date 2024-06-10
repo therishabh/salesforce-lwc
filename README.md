@@ -2918,3 +2918,7 @@ VF Page Code:
 </apex:page>
 ```
 
+Reference : https://hicglobalsolutions.com/blog/how-to-call-lwc-in-visualforce-pages/
+
+##
+
