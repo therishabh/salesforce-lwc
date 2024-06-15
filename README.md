@@ -1335,6 +1335,16 @@ openCustomLightningComponent(){
 
 
 
+## Lightning Data Service
+Lightning Data Service is a centralized data caching mechanism which is utilized to perform create, read, update or delete on a record without having a server side apex call in Lightning web components.
+
+https://developer.salesforce.com/docs/platform/lwc/guide/data-ui-api.html
+
+![Screenshot Capture - 2024-05-05 - 19-01-36](https://github.com/therishabh/salesforce-lwc/assets/7955435/25ef2090-c02f-4a08-9390-3b0eb9f6de3c)
+
+### Advantages of Lightning Data Service
+
+
 
 ## Base Lightning Components
 ### Introduction to Work With Data In LWC
@@ -1342,20 +1352,16 @@ There are many ways of interacting with Salesforce data in the Lightning web com
 
 ![Screenshot Capture - 2024-05-05 - 18-58-24](https://github.com/therishabh/salesforce-lwc/assets/7955435/b7dbe4e8-4133-4b16-9679-867bbee91b14)
 
-### Lightning Data Service
-Lightning Data Service is a centralized data caching framework and it is built on top of User Interface API 
-https://developer.salesforce.com/docs/platform/lwc/guide/data-ui-api.html
-
-![Screenshot Capture - 2024-05-05 - 19-01-36](https://github.com/therishabh/salesforce-lwc/assets/7955435/25ef2090-c02f-4a08-9390-3b0eb9f6de3c)
 
 ### Base Lightning Components
 Base Lightning Components are built on Lightning Data Service. So, Lightning Data Service is used behind the scenes by base components and inherits its caching and synchronisation capabilities
 
-There are three types of base lightning components built on LDS are
+Below are the 3 base lightning components build on Lightning Data Service:
 
-1) lightning-record-form
-2) lightning-record-edit-form
-3) lightning-record-view-form
+**1. lightning-record-form:** A form with standard lightning UI to create, view or edit a record
+**2. lightning-record-edit-form:** A form to create record with specified fields or update fields in an existing record
+**3. lightning-record-view-form:** A form to display specific fields data of a record in read-only mode
+
 
 **When to Use these form?**
 - Create a metadata-driven Ul or form-based Ul similar to the record detail page in Salesforce.
