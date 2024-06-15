@@ -2945,5 +2945,50 @@ VF Page Code:
 
 Reference : https://hicglobalsolutions.com/blog/how-to-call-lwc-in-visualforce-pages/
 
-##
+## Call Thirdparty API in LWC
+Content security policy (CSP) is used by the Lightning Component framework to restrict content. The main goal is to aid in the prevention of cross-site scripting (XSS) and other code injection attacks.
 
+Let’s add CSP trusted site to Salesforce org in order to make an API call from javascript code without error.
+
+In this example, I’ll use the data-faker API hosted on Heroku: this is the endpoint https://data-faker.herokuapp.com that I’ll use to make a callout from javascript code.
+
+Go to setup > search ‘ CSP ‘ > click on CSP Trusted Sites
+
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/49bc81e3-c513-41a6-aeae-6d8c5c610d10)
+Create a CSP trusted site by clicking on ‘New Trusted Site,’ as shown in the screenshot below.
+
+![image](https://github.com/therishabh/salesforce-lwc/assets/7955435/9708724e-a421-44b7-b66d-ca502190aa90)
+
+We are now ready to make a callout from javascript code in the lightning web component.
+
+```js
+import { LightningElement } from "lwc";
+
+export default class AsyncDemo extends LightningElement {
+
+	connectedCallback() {
+
+		this.callThirdPartyApi(); // call using async await..
+        this.callThirdPartySecondApi(); // call using then catch.
+	}
+
+	async callThirdPartyApi() {
+		// here we are using try and catch to capture error.
+		try {
+			const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+			const data = await response.json();
+			console.log("ThirdParty API Data", data); // data will print in 
+		}
+		catch(error){
+			console.log('error', error.message);
+		}
+	}
+
+    callThirdPartySecondApi() {
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(response => response.json())
+        .then(json => console.log(json))
+    }
+}
+
+```
