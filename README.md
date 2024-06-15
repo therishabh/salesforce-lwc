@@ -2992,3 +2992,39 @@ export default class AsyncDemo extends LightningElement {
 }
 
 ```
+
+## Check User Permissions for Logged-In User in Lightning Web Component
+```js
+//to check standard permission
+
+import hasPermission from '@salesforce/userPermission/PermissionName';
+
+//to check custom permission
+import hasCustomPermission from '@salesforce/customPermission/Custom_Permission_Api_Name';
+```
+
+```js
+// userPermissionCheck.js
+import { LightningElement } from 'lwc';
+import hasRunReports from '@salesforce/userPermission/RunReports';
+
+export default class PermissionCheck extends LightningElement {
+    get isRunReport() {
+        return hasRunReports;
+    }
+}
+```
+```html
+<!-- userPermissionCheck.html -->
+<template>
+    <lightning-card title="User Permisison Check Example">
+    <template if:true={isRunReport}>
+        <h2>User has Permission to Run Reports.</h2>
+    </template>
+
+    <template if:false={isRunReport}>
+        <h2>User Does Not have Permission to Run Reports.</h2>
+    </template>
+</lightning-card>
+</template>
+```
