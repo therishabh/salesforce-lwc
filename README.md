@@ -218,11 +218,147 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 ### Methods and Two way Data binding
 Example : See getters section js and HTML file
 
-### @track properties
-When a field contains an object or an array, there's a limit to the depth of changes that are tracked. To tell the framework to observe changes to the properties of an object or to the elements of an array, decorate the field with @track.
+# @track
+## 🔹 `@track` kya hota hai?
 
-**Normal Property vs @track property**
-Without using @track, the framework observes changes that assign a new value to a field/property. If the new value is not === to the previous value, the component re-renders.
+`@track` ek **decorator** hai jo batata hai ki **kisi variable ke andar agar change ho**, to **UI (HTML)** automatically re-render ho jaye.
+
+> Matlab: data change → screen pe turant update.
+
+---
+
+## 🔹 Kab `@track` use karte hain?
+
+### 1️⃣ **Primitive data types** (string, number, boolean)
+
+👉 **LWC me by default reactive hote hain**, `@track` ki zarurat nahi hoti.
+
+### 2️⃣ **Objects & Arrays**
+
+👉 Agar **object ke andar ke fields** ya **array ke items** change ho rahe hain → **`@track` chahiye**
+
+---
+
+## 🔹 Example 1: Primitive variable (NO @track needed)
+
+### JS
+
+```js
+import { LightningElement } from 'lwc';
+
+export default class Counter extends LightningElement {
+    count = 0;
+
+    increase() {
+        this.count++;
+    }
+}
+```
+
+### HTML
+
+```html
+<template>
+    <p>Count: {count}</p>
+    <lightning-button label="Add" onclick={increase}></lightning-button>
+</template>
+```
+
+✅ Kaam karega bina `@track`
+
+---
+
+## 🔹 Example 2: Object WITHOUT `@track` (❌ issue)
+
+### JS
+
+```js
+import { LightningElement } from 'lwc';
+
+export default class UserInfo extends LightningElement {
+    user = {
+        name: 'Rahul',
+        age: 25
+    };
+
+    changeAge() {
+        this.user.age = 30; // UI update nahi hogi ❌
+    }
+}
+```
+
+👉 **Problem:** Object ke andar change ho raha hai, LWC ko pata hi nahi chalta
+
+---
+
+## 🔹 Example 3: Object WITH `@track` (✅ correct way)
+
+### JS
+
+```js
+import { LightningElement, track } from 'lwc';
+
+export default class UserInfo extends LightningElement {
+    @track user = {
+        name: 'Rahul',
+        age: 25
+    };
+
+    changeAge() {
+        this.user.age = 30; // UI update ho jayegi ✅
+    }
+}
+```
+
+### HTML
+
+```html
+<template>
+    <p>Name: {user.name}</p>
+    <p>Age: {user.age}</p>
+
+    <lightning-button label="Change Age" onclick={changeAge}></lightning-button>
+</template>
+```
+
+---
+
+## 🔹 Example 4: Array ke saath `@track`
+
+```js
+import { LightningElement, track } from 'lwc';
+
+export default class StudentList extends LightningElement {
+    @track students = ['Amit', 'Ravi'];
+
+    addStudent() {
+        this.students.push('Neha');
+    }
+}
+```
+
+```html
+<template>
+    <template for:each={students} for:item="stu">
+        <p key={stu}>{stu}</p>
+    </template>
+
+    <lightning-button label="Add Student" onclick={addStudent}></lightning-button>
+</template>
+```
+
+---
+
+## 🔹 Important Interview Points ⭐
+
+* `@track` mainly **objects & arrays** ke liye
+* Primitive variables ke liye **required nahi**
+* Salesforce ne later versions me reactivity improve kar di, but **nested changes ke liye @track safest**
+---
+
+## 🔹 One-line summary
+
+> **Jab data change hone par UI update nahi ho rahi ho, aur data object/array ho → `@track` use karo.**
 
 Example : See getters example
 
