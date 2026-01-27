@@ -360,7 +360,210 @@ export default class StudentList extends LightningElement {
 
 > **Jab data change hone par UI update nahi ho rahi ho, aur data object/array ho → `@track` use karo.**
 
-Example : See getters example
+# Conditional Rendering
+
+> **Condition ke basis par HTML ko show / hide karna**
+
+Matlab:
+
+* Agar condition **true** → HTML dikhega
+* Agar condition **false** → HTML hide ho jayega
+
+---
+
+## 🔹 LWC me Conditional Rendering ke 2 tareeke
+
+### 1️⃣ `if:true` / `if:false`  ✅ (MOST USED)
+
+### 2️⃣ `<template if:true>` & `<template if:false>`
+
+---
+
+## 🔹 Example 1: Simple Boolean Condition
+
+### JS
+
+```js
+import { LightningElement } from 'lwc';
+
+export default class ConditionalDemo extends LightningElement {
+    showMessage = false;
+
+    toggleMessage() {
+        this.showMessage = !this.showMessage;
+    }
+}
+```
+
+### HTML
+
+```html
+<template>
+    <lightning-button label="Toggle" onclick={toggleMessage}></lightning-button>
+
+    <template if:true={showMessage}>
+        <p>🎉 Message is visible</p>
+    </template>
+
+    <template if:false={showMessage}>
+        <p>❌ Message is hidden</p>
+    </template>
+</template>
+```
+
+---
+
+## 🔹 Example 2: `if:true` directly on element
+
+```html
+<template>
+    <p if:true={showMessage}>Hello User 👋</p>
+    <p if:false={showMessage}>Bye User 👋</p>
+</template>
+```
+
+📌 **Rule:**
+
+* Ek hi element par **`if:true` ya `if:false`** lag sakta hai
+* Dono ek saath ❌
+
+---
+
+## 🔹 Example 3: Login / Logout Scenario (Real Use Case)
+
+### JS
+
+```js
+export default class LoginStatus extends LightningElement {
+    isLoggedIn = false;
+
+    login() {
+        this.isLoggedIn = true;
+    }
+
+    logout() {
+        this.isLoggedIn = false;
+    }
+}
+```
+
+### HTML
+
+```html
+<template>
+    <template if:true={isLoggedIn}>
+        <p>Welcome User 😊</p>
+        <lightning-button label="Logout" onclick={logout}></lightning-button>
+    </template>
+
+    <template if:false={isLoggedIn}>
+        <p>Please Login 😐</p>
+        <lightning-button label="Login" onclick={login}></lightning-button>
+    </template>
+</template>
+```
+
+---
+
+## 🔹 Example 4: Conditional Rendering with Object Data
+
+### JS
+
+```js
+import { LightningElement, track } from 'lwc';
+
+export default class UserCard extends LightningElement {
+    @track user = {
+        name: 'Amit',
+        isAdmin: true
+    };
+}
+```
+
+### HTML
+
+```html
+<template>
+    <p>Name: {user.name}</p>
+
+    <template if:true={user.isAdmin}>
+        <p>👑 Admin Access Granted</p>
+    </template>
+
+    <template if:false={user.isAdmin}>
+        <p>🚫 Normal User</p>
+    </template>
+</template>
+```
+
+---
+
+## 🔹 Example 5: Multiple Conditions (getter use karo) ⭐
+
+❌ Direct comparison allowed nahi hoti:
+
+```html
+<!-- WRONG -->
+<template if:true={age > 18}>
+```
+
+✅ **Correct way: getter**
+
+### JS
+
+```js
+export default class AgeCheck extends LightningElement {
+    age = 20;
+
+    get isAdult() {
+        return this.age >= 18;
+    }
+}
+```
+
+### HTML
+
+```html
+<template>
+    <template if:true={isAdult}>
+        <p>Adult ✅</p>
+    </template>
+
+    <template if:false={isAdult}>
+        <p>Minor ❌</p>
+    </template>
+</template>
+```
+
+---
+
+## 🔹 Important Rules (Interview GOLD ⭐)
+
+✔ LWC HTML me **expressions allowed nahi**
+✔ Always use **boolean variable / getter**
+✔ `if:true` / `if:false` sirf **HTML ke liye**
+✔ JavaScript logic → **JS file me**
+
+---
+
+## 🔹 Common Mistakes ❌
+
+* `{age > 18}` directly HTML me likhna
+* String `"true"` ko boolean samajhna
+* Same element pe `if:true` & `if:false` dono lagana
+
+---
+
+## 🔹 One-Line Summary
+
+> **LWC me conditional rendering ka matlab hai: JS me condition banao → HTML me `if:true / if:false` se show-hide karo**
+
+---
+
+
+
+
+
 
 ### Getters
 
@@ -437,63 +640,6 @@ File : helloWorld.html
   </lightning-card>
 </template>
 
-```
-
-## Conditional Rendering
-
-File : conditionalComponent.html
-```html
-<template>
-    <lightning-card title="Conditional rendring">
-
-        <div class="slds-m-around_medium">
-            <lightning-button variant="brand" label="Show Data" title="Show Data" onclick={handleShowDataButtonClick} class="slds-m-left_x-small"></lightning-button>
-            <div>
-                <template lwc:if={isVisible}>
-                    Button Clicked
-                </template>
-                <template lwc:else>
-                    Please click button to show data.
-                </template> 
-            </div>
-            <div class="slds-m-top_medium">
-                <lightning-input type="text" label="Enter some text" onkeyup={handleCondtionalInputText}></lightning-input>
-                <template lwc:if={checkHelloText}>
-                    yooo... you typed hello
-                </template>
-                <template lwc:elseif={checkJapanText}>
-                    yooo... you typed Japan
-                </template>
-            </div>
-        </div>
-    </lightning-card>
-</template>
-```
-
-File : conditionalComponent.js
-```javascript
-import { LightningElement } from "lwc";
-
-export default class ConditionalComponent extends LightningElement {
-  isVisible = false;
-  text;
-
-  handleShowDataButtonClick() {
-    this.isVisible = true;
-  }
-
-  handleCondtionalInputText(event) {
-    this.text = event.target.value;
-  }
-
-  get checkHelloText() {
-    return this.text?.toLowerCase() === 'hello'
-  }
-
-  get checkJapanText() {
-    return this.text?.toLowerCase() === 'japan'
-  }
-}
 ```
 
 ## Template Looping (for:each and iterator)
