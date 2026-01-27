@@ -558,6 +558,144 @@ export default class AgeCheck extends LightningElement {
 
 > **LWC me conditional rendering ka matlab hai: JS me condition banao → HTML me `if:true / if:false` se show-hide karo**
 
+
+# 🔹 1️⃣ `if:true / if:false` (OLD STYLE)
+
+### Example
+
+```html
+<template>
+    <template if:true={isVisible}>
+        <p>Hello</p>
+    </template>
+
+    <template if:false={isVisible}>
+        <p>Bye</p>
+    </template>
+</template>
+```
+
+### ✅ Pros
+
+* Simple
+* Easy to understand
+* Aaj bhi kaam karta hai
+
+### ❌ Cons
+
+* `else if` directly nahi
+* Multiple `<template>` likhne padte
+* Readability kam ho jaati hai
+
+---
+
+# 🔹 2️⃣ `lwc:if / lwc:elseif / lwc:else` (NEW STYLE ⭐)
+
+🔥 **Salesforce ne ye syntax introduce kiya** taaki code clean ho.
+
+### Example (Exactly tum jo bole)
+
+```html
+<template>
+    <template lwc:if={isVisible}>
+        <p>Visible Content</p>
+    </template>
+
+    <template lwc:elseif={checkJapanText}>
+        <p>Japan Text 🇯🇵</p>
+    </template>
+
+    <template lwc:else>
+        <p>Default Text</p>
+    </template>
+</template>
+```
+
+### ✅ Pros
+
+* Clean & readable
+* Proper **if / else if / else**
+* Interview me **ye bolo to impression padta hai 😄**
+* Best for **multiple conditions**
+
+### ❌ Rules (IMPORTANT)
+
+* `lwc:elseif` ke baad **condition required**
+* `lwc:else` ke saath **koi condition nahi hoti**
+* Sab `<template>` **continuous hone chahiye**
+* Beech me koi HTML nahi
+
+❌ WRONG:
+
+```html
+<template lwc:if={a}></template>
+<p>break</p>
+<template lwc:else></template>
+```
+
+---
+
+# 🔹 3️⃣ Same Example using both (Comparison)
+
+### OLD WAY
+
+```html
+<template if:true={isAdmin}>
+    <p>Admin</p>
+</template>
+
+<template if:false={isAdmin}>
+    <p>User</p>
+</template>
+```
+
+### NEW WAY ⭐
+
+```html
+<template lwc:if={isAdmin}>
+    <p>Admin</p>
+</template>
+<template lwc:else>
+    <p>User</p>
+</template>
+```
+
+---
+
+# 🔹 4️⃣ Kab kya use karein? (REAL PROJECT ADVICE)
+
+| Situation           | Best Choice                      |
+| ------------------- | -------------------------------- |
+| Simple true/false   | `lwc:if / lwc:else`              |
+| Multiple conditions | `lwc:if / lwc:elseif / lwc:else` |
+| Old project         | `if:true / if:false`             |
+| New project         | ⭐ `lwc:*`                        |
+
+---
+
+# 🔹 5️⃣ Interview Answer (ONE-LINER ⭐)
+
+> “Earlier LWC used `if:true / if:false`, but now Salesforce recommends `lwc:if`, `lwc:elseif`, and `lwc:else` for cleaner and more readable conditional rendering.”
+
+---
+
+# 🔹 6️⃣ Common Mistake ❌
+
+❌ `lwc:else={condition}`
+✅ `lwc:else` (no condition)
+
+Tum jo likh rahe the:
+
+```html
+lwc:else={checkJapanText} ❌
+```
+
+Correct:
+
+```html
+lwc:else ✅
+```
+
 ---
 
 
