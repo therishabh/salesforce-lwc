@@ -8,7 +8,7 @@
 5. [Create First Component in LWC](#create-first-component-in-lwc)
 6. [Component Deployment](#component-deployment)
 7. [Local Properties and Data Binding](#local-properties-and-data-binding)
-8. [@track properties](#track-properties)
+8. [@track properties](#track)
 9. [Getters](#getters)
 10. [Conditional Rendering](#conditional-rendering)
 11. [Template Looping (for:each and iterator)](#template-looping-foreach-and-iterator)
