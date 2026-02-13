@@ -284,6 +284,13 @@ export default class UserInfo extends LightningElement {
     changeAge() {
         this.user.age = 30; // UI update nahi hogi ❌
     }
+
+	// new version
+	/*
+ 	changeAge() {
+        this.user = {...this.user, age : 30} // UI will update when we redeclare values in an variable.
+    }
+	*/
 }
 ```
 
