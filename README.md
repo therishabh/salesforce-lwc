@@ -1133,85 +1133,183 @@ File Name : barChildComponent.html
 </template>
 ```
 
-## Child to Parent Communication
-There are Three kind of child to parent communication
+# Child to Parent Communication
 
-1. Simple Event
-2. Event With Data
-3. Event Bubbling
+In Lightning Web Components, **a child component communicates with its parent by dispatching a CustomEvent**.
+The parent listens to that event using the **`on<eventname>`** handler in its template.
 
-**Example**
-File Name : modalParentComponent.js
+```
+Child Component ──(dispatchEvent)──▶ Parent Component
+```
+
+---
+
+## 🧩 Example Scenario
+
+* The **child** has a button.
+* When clicked, it sends some data (e.g., a name or record Id) to the **parent**.
+* The **parent** receives that data and handles it.
+
+---
+
+## 🟦 1) Child Component
+
+### childComponent.html
+
+```html
+<template>
+    <lightning-button
+        label="Send Data to Parent"
+        onclick={handleClick}>
+    </lightning-button>
+</template>
+```
+
+### childComponent.js
+
 ```js
 import { LightningElement } from 'lwc';
 
-export default class ModalParentComponent extends LightningElement {
-    showModal = false
-    showHandler() {
-        this.showModal = true
-    }
-    modalCloseHandler(){
-        this.showModal = false
-    }
-}
-```
+export default class ChildComponent extends LightningElement {
 
-File Name : modalParentComponent.html
-```html
-<template>
-    <lightning-card title="Simple Event" icon-name="custom:custom14">
-        <div class="slds-var-m-around_medium">
-            <button class="slds-button slds-button_success" onclick={showHandler}>Open Modal</button>
-            <template if:true={showModal}>
-                <c-modal-child-component
-                header-text="Message!!"
-                body-text="This Modal is a Child Component. Triggered from parent and on click of close button it will dispatch an event to parent handler"
-                onclose={modalCloseHandler}
-                ></c-modal-child-component>
-            </template>
-        </div>
-    </lightning-card>
-</template>
-```
+    handleClick() {
+        const payload = {
+            name: 'Rishabh',
+            action: 'clicked'
+        };
 
-> Once close event get's triggered it gonna catch my the method modalCloseHandler which is map to the c-modal-child-component component onclose attribute.
-> we are creating the custom event and passing the data by mapping it to **detail** property. Once event gets created we dispatch it to parent.
-> Once parent recieve the event it will extract the data using **event.detail** and show the selectedPlayer on the screen
-
-
-File Name : modalChildComponent.js
-```js
-import { LightningElement, api } from 'lwc';
-
-export default class ModalChildComponent extends LightningElement {
-    @api headerText
-    @api bodyText
-    closeHandler(){
-	const selectEvent = new CustomEvent('mycustomevent', {
-            detail: 'fooo'
+        // Create custom event (name should be lowercase)
+        const evt = new CustomEvent('senddata', {
+            detail: payload
         });
-       this.dispatchEvent(selectEvent);
+
+        // Dispatch to parent
+        this.dispatchEvent(evt);
     }
 }
 ```
 
+---
 
-File Name : modalChildComponent.html
+## 🟩 2) Parent Component
+
+### parentComponent.html
+
 ```html
 <template>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <header>
-                <strong>{headerText}</strong>
-            </header>
-            <p>{bodyText}</p>
-            <footer class="text-right">
-                <button class="btn danger" onclick={closeHandler}>Close</button>
-            </footer>
-        </div>
-    </div>
+    <c-child-component onsenddata={handleChildData}></c-child-component>
 </template>
 ```
+
+> Note: `onsenddata` corresponds to the child’s event name `senddata`.
+
+---
+
+### parentComponent.js
+
+```js
+import { LightningElement } from 'lwc';
+
+export default class ParentComponent extends LightningElement {
+
+    handleChildData(event) {
+        const dataFromChild = event.detail;
+
+        console.log('Received from child:', dataFromChild);
+
+        // You can now use this data (update UI, call Apex, etc.)
+    }
+}
+```
+
+---
+
+### ✅ What Happens
+
+When the button in the **child** is clicked:
+
+* The child dispatches `senddata` with `detail`.
+* The parent’s `handleChildData` is invoked.
+* `event.detail` contains the payload.
+
+Console output:
+
+```
+Received from child: { name: 'Rishabh', action: 'clicked' }
+```
+
+---
+
+#### ⚡ Key Rules (Important for Interviews)
+
+1. **Event name must be lowercase**
+
+   ```js
+   new CustomEvent('senddata') // ✅
+   ```
+
+2. **Data is always passed via `detail`**
+
+   ```js
+   new CustomEvent('senddata', { detail: payload })
+   ```
+
+3. **Parent listens using `on<eventname>`**
+
+   ```html
+   <c-child-component onsenddata={handleChildData}></c-child-component>
+   ```
+
+---
+
+## 🚀 Passing Record Id (Common Real Use Case)
+
+### Child
+
+```js
+handleSelect(event) {
+    const recordId = event.target.dataset.id;
+
+    this.dispatchEvent(
+        new CustomEvent('select', { detail: recordId })
+    );
+}
+```
+
+### Parent
+
+```html
+<c-child-component onselect={handleSelectRecord}></c-child-component>
+```
+
+```js
+handleSelectRecord(event) {
+    console.log('Selected record Id:', event.detail);
+}
+```
+
+---
+
+#### ⭐ Advanced Tip (Cross Shadow DOM)
+
+If you need the event to bubble up through multiple levels:
+
+```js
+new CustomEvent('senddata', {
+    detail: payload,
+    bubbles: true,
+    composed: true
+});
+```
+
+---
+
+# 🎤 Interview-Ready Answer
+
+> In LWC, child-to-parent communication is done using Custom Events. The child dispatches an event using `this.dispatchEvent(new CustomEvent('eventname', { detail }))`, and the parent listens to it in the template using `on<eventname>={handler}` to receive the data from `event.detail`.
+
+---
+
 
 ## Setter Method
 This method is use to modified the data coming from parent component. If Object is passed as data to setter, to mutate the object we have to create a shallow copy.
