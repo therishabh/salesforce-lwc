@@ -990,148 +990,193 @@ element. template.querySelectorAll (selector);
 **lwc:dom="manual"** </br>
 Add this directive to a native HTML element to attach an HTML element as a child.
 
-## Parent to child Communication
-Parent to child communication is always crucial for building a more significant and reusable component in a large application.
+# Parent to child Communication
 
-Let's understand how parent component pass string data to child component from the below fig
-![parent-to-child-string](https://github.com/therishabh/salesforce-lwc/assets/7955435/eb5fd7df-0c3a-4416-b97a-e798963fce94)
+In Lightning Web Components, a **parent component sends data or calls methods on a child component using `@api`**.
 
-### @api decorator
+There are **2 main ways**:
 
-1. To make a field/property or method public, decorate it with @api decorator
-2. When we want to expose the property we decorate the field with @api.
-3. An owner component that uses the component in its HTML markup can access the component's public properties via HTML attributes. 
-4. Public properties are reactive in nature and if the value of the property changes the component's template re-renders.
+1️⃣ **Pass data via public property (`@api`)**
+2️⃣ **Call child’s public method (`@api`)**
 
-**Example**
-
-**Parent component**
-File Name : alertParentComponent.js
-```js
-import { LightningElement } from 'lwc';
-
-export default class AlertParentComponent extends LightningElement {}
+```
+Parent Component ──▶ Child Component
 ```
 
-File Name : alertParentComponent.html
-```html
-<template>
-    <div class="margin-bottom-2rem">
-        <lightning-card title="Parent to child data communication using strings" icon-name="custom:custom14">
-            <div class="slds-m-around_medium">
-                <div>
-                    <c-alert-child-component message="Indicates a dangerous or potentially negative action"></c-alert-child-component>
-                    <c-alert-child-component class-name="success" message="Success! Indicates a successful or positive action.">
-                    </c-alert-child-component>
-                    <c-alert-child-component class-name="info" message="Info! Indicates a neutral informative change or action.">
-                    </c-alert-child-component>
-                    <c-alert-child-component class-name="warning" message="Warning! Indicates a warning that might need attention.">
-                    </c-alert-child-component>
-                </div>
-            </div>
-        </lightning-card>
-    </div>
-    
-</template>
-```
+---
 
-> Note - In Lightning Web Components we should conventionally use camelCase (lower case first letter, upper case subsequent words) to name the component and kebab-case (lower case words preceded with c- and spaced with '-' minus sign) when nesting the components in a composition scenario.
+# 🧩 Example Scenario
 
-If your child public property is camelCase as in our case className, then we need to use the attribute as class-name in our child component calling
+* Parent has a button
+* Parent sends a **message** to child
+* Child displays that message
 
-**Child component**
-File Name : alertChildComponent.js
+---
+
+## 🟦 1) Passing Data via Public Property (`@api`)
+
+## 👉 Child Component
+
+### childComponent.js
+
 ```js
 import { LightningElement, api } from 'lwc';
 
-export default class AlertChildComponent extends LightningElement {
-    @api message
-    @api className
-
-    get alertClassName() {
-        return this.className ? 'alert ' + this.className : 'alert'
-    }
+export default class ChildComponent extends LightningElement {
+    @api message; // public property from parent
 }
 ```
 
-File Name : alertChildComponent.html
+---
+
+### childComponent.html
+
 ```html
 <template>
-    <div class={alertClassName}>
-        {message}
-    </div>
+    <p>Message from Parent: {message}</p>
 </template>
 ```
 
-File Name : alertChildComponent.css
-```css
-.alert {
-        padding: 20px;
-        background-color: #f44336;
-        color: white;
-        opacity: 1;
-        transition: opacity 0.6s;
-        margin-bottom: 15px;
-      }
-      
-.alert.success {background-color: #4CAF50;}
-.alert.info {background-color: #2196F3;}
-.alert.warning {background-color: #ff9800;}
-```
+---
 
-## Parent to Child Communication by calling the Child method from the parent component
+## 👉 Parent Component
 
-**Example**
-**Parent component**
+### parentComponent.js
 
-File Name : barParentComponent.js
 ```js
 import { LightningElement } from 'lwc';
 
-export default class BarParentComponent extends LightningElement {
-    changeColor() {
-        this.template.querySelector('c-bar-child-component').changeBarColor();
-    }
+export default class ParentComponent extends LightningElement {
+    parentMessage = 'Hello from Parent Component';
 }
 ```
 
-File Name : barParentComponent.html
+---
+
+### parentComponent.html
+
 ```html
 <template>
-    <div class="margin-bottom-2rem">
-        <lightning-card title="Calling child method from parent" icon-name="custom:custom14">
-            <div class="slds-m-around_medium">
-                <div class="parent-wrapper">
-                    <button class="btn" onclick={changeColor}>Click me to change bar color</button>
-                    <div class="child-wrapper">
-                        <c-bar-child-component></c-bar-child-component>
-                    </div>
-                </div>
-            </div>
-        </lightning-card>
-    </div>
+    <c-child-component message={parentMessage}></c-child-component>
 </template>
 ```
 
-**Child component**
-File Name : barChildComponent.js
+---
+
+### ✅ Output
+
+Child UI will show:
+
+```
+Message from Parent: Hello from Parent Component
+```
+
+---
+
+## 🟩 2) Calling Child Method from Parent
+
+👉 Sometimes parent needs to **trigger an action in child**
+
+---
+
+## 👉 Child Component
+
+### childComponent.js
+
 ```js
 import { LightningElement, api } from 'lwc';
 
-export default class BarChildComponent extends LightningElement {
-    className = "greenBar";
-    @api changeBarColor() {
-        this.className = "redBar"
+export default class ChildComponent extends LightningElement {
+
+    @api
+    showAlert() {
+        alert('Child method called from Parent!');
     }
 }
 ```
 
-File Name : barChildComponent.html
+---
+
+## 👉 Parent Component
+
+### parentComponent.html
+
 ```html
- <template>
-    <div class={className}>I am child component</div>
+<template>
+    <lightning-button
+        label="Call Child Method"
+        onclick={handleClick}>
+    </lightning-button>
+
+    <c-child-component></c-child-component>
 </template>
 ```
+
+---
+
+### parentComponent.js
+
+```js
+import { LightningElement } from 'lwc';
+
+export default class ParentComponent extends LightningElement {
+
+    handleClick() {
+        const child = this.template.querySelector('c-child-component');
+        child.showAlert(); // calling child method
+    }
+}
+```
+
+---
+
+### 🎯 What Happens
+
+👉 Button click in parent →
+👉 Parent finds child using `querySelector` →
+👉 Calls `@api` method →
+👉 Child executes method
+
+---
+
+## ⚡ Important Rules (Interview Must)
+
+### 🔹 1. Use `@api` for public access
+
+```js
+@api property;
+@api method() {}
+```
+
+---
+
+### 🔹 2. Data binding is **reactive**
+
+Agar parent value change kare:
+
+```js
+this.parentMessage = 'Updated Message';
+```
+
+👉 child UI automatically update ho jayega
+
+---
+
+### 🔹 3. `querySelector` returns first matching child
+
+Agar multiple child components ho to:
+
+```js
+this.template.querySelectorAll('c-child-component')
+```
+
+---
+
+#### 🎤 Interview Ready Answer
+
+> In LWC, parent-to-child communication is achieved using the `@api` decorator. The parent can pass data to the child via public properties, and it can also call public methods defined in the child component using `this.template.querySelector()`.
+
+---
 
 # Child to Parent Communication
 
@@ -1308,6 +1353,16 @@ new CustomEvent('senddata', {
 
 > In LWC, child-to-parent communication is done using Custom Events. The child dispatches an event using `this.dispatchEvent(new CustomEvent('eventname', { detail }))`, and the parent listens to it in the template using `on<eventname>={handler}` to receive the data from `event.detail`.
 
+
+### 🆚 Parent → Child vs Child → Parent
+
+| Direction      | Technique                |
+| -------------- | ------------------------ |
+| Parent → Child | `@api` property / method |
+| Child → Parent | `CustomEvent`            |
+| Unrelated      | LMS / PubSub             |
+
+---
 ---
 
 
