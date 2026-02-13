@@ -356,7 +356,7 @@ export default class StudentList extends LightningElement {
 
 ---
 
-## 🔹 Important Interview Points ⭐
+### 🔹 Important Interview Points ⭐
 
 * `@track` mainly **objects & arrays** ke liye
 * Primitive variables ke liye **required nahi**
@@ -680,7 +680,7 @@ export default class AgeCheck extends LightningElement {
 
 ---
 
-# 🔹 5️⃣ Interview Answer (ONE-LINER ⭐)
+### 🔹 5️⃣ Interview Answer (ONE-LINER ⭐)
 
 > “Earlier LWC used `if:true / if:false`, but now Salesforce recommends `lwc:if`, `lwc:elseif`, and `lwc:else` for cleaner and more readable conditional rendering.”
 
@@ -1304,7 +1304,7 @@ new CustomEvent('senddata', {
 
 ---
 
-# 🎤 Interview-Ready Answer
+### 🎤 Interview-Ready Answer
 
 > In LWC, child-to-parent communication is done using Custom Events. The child dispatches an event using `this.dispatchEvent(new CustomEvent('eventname', { detail }))`, and the parent listens to it in the template using `on<eventname>={handler}` to receive the data from `event.detail`.
 
