@@ -221,13 +221,13 @@ Example : See getters section js and HTML file
 
 **🔥 Quick Points (Interview Notes)**
 
-👉 `@track` is a decorator used to make **properties reactive (especially objects & arrays)**
-👉 It ensures UI updates when **nested values change**
-👉 In **modern LWC (latest versions)**, simple properties are **reactive by default**
-👉 `@track` is mainly needed for **deep changes inside objects/arrays**
-👉 Without `@track`, LWC tracks only **reference changes**, not internal mutations
-👉 Overuse of `@track` is **not recommended**
-👉 It is **not needed for primitive types** (string, number, boolean)
+- 👉 `@track` is a decorator used to make **properties reactive (especially objects & arrays)**
+- 👉 It ensures UI updates when **nested values change**
+- 👉 In **modern LWC (latest versions)**, simple properties are **reactive by default**
+- 👉 `@track` is mainly needed for **deep changes inside objects/arrays**
+- 👉 Without `@track`, LWC tracks only **reference changes**, not internal mutations
+- 👉 Overuse of `@track` is **not recommended**
+- 👉 It is **not needed for primitive types** (string, number, boolean)
 
 ---
 
@@ -241,7 +241,7 @@ Meaning:
 
 ---
 
-#### ⚙️ 2. Basic Example
+**⚙️ 2. Basic Example**
 
 **❌ Without `@track`**
 
@@ -272,7 +272,7 @@ export default class TrackDemo extends LightningElement {
 
 ---
 
-#### 🔁 3. Array Example
+**🔁 3. Array Example**
 
 **❌ Without `@track`**
 
@@ -364,342 +364,147 @@ this.name = 'Rahul'; // works without @track
 
 # Conditional Rendering
 
-> **Condition ke basis par HTML ko show / hide karna**
+**🔥 Quick Points (Interview Notes)**
 
-Matlab:
+- 👉 Used to **show or hide UI based on conditions**
+- 👉 Done using **template directives**
+- 👉 Main directives:
+        * `if:true`
+        * `if:false`
+        * `lwc:if`
+        * `lwc:elseif`
+        * `lwc:else`
 
-* Agar condition **true** → HTML dikhega
-* Agar condition **false** → HTML hide ho jayega
+- 👉 Works with **boolean properties**
+- 👉 Helps create **dynamic UI**
+- 👉 Conditions must be **simple expressions (no complex JS in template)**
 
 ---
 
-## 🔹 LWC me Conditional Rendering ke 2 tareeke
+**🧠 1. What is Conditional Rendering?**
 
-### 1️⃣ `if:true` / `if:false`  ✅ (MOST USED)
+> It means **displaying different UI based on some condition (true/false)**
 
-### 2️⃣ `<template if:true>` & `<template if:false>`
+Example:
+
+* If user is logged in → show dashboard
+* Else → show login button
 
 ---
 
-## 🔹 Example 1: Simple Boolean Condition
+**2. Basic Example (`if:true` / `if:false`)**
 
-### JS
+**JS**
 
 ```js
-import { LightningElement } from 'lwc';
-
-export default class ConditionalDemo extends LightningElement {
-    showMessage = false;
-
-    toggleMessage() {
-        this.showMessage = !this.showMessage;
-    }
-}
+isLoggedIn = true;
 ```
 
-### HTML
-
-```html
-<template>
-    <lightning-button label="Toggle" onclick={toggleMessage}></lightning-button>
-
-    <template if:true={showMessage}>
-        <p>🎉 Message is visible</p>
-    </template>
-
-    <template if:false={showMessage}>
-        <p>❌ Message is hidden</p>
-    </template>
-</template>
-```
-
----
-
-## 🔹 Example 2: `if:true` directly on element
-
-```html
-<template>
-    <p if:true={showMessage}>Hello User 👋</p>
-    <p if:false={showMessage}>Bye User 👋</p>
-</template>
-```
-
-📌 **Rule:**
-
-* Ek hi element par **`if:true` ya `if:false`** lag sakta hai
-* Dono ek saath ❌
-
----
-
-## 🔹 Example 3: Login / Logout Scenario (Real Use Case)
-
-### JS
-
-```js
-export default class LoginStatus extends LightningElement {
-    isLoggedIn = false;
-
-    login() {
-        this.isLoggedIn = true;
-    }
-
-    logout() {
-        this.isLoggedIn = false;
-    }
-}
-```
-
-### HTML
+**HTML**
 
 ```html
 <template>
     <template if:true={isLoggedIn}>
-        <p>Welcome User 😊</p>
-        <lightning-button label="Logout" onclick={logout}></lightning-button>
+        <p>Welcome User</p>
     </template>
 
     <template if:false={isLoggedIn}>
-        <p>Please Login 😐</p>
-        <lightning-button label="Login" onclick={login}></lightning-button>
+        <p>Please Login</p>
     </template>
 </template>
 ```
 
 ---
 
-## 🔹 Example 4: Conditional Rendering with Object Data
+**3. Modern Syntax (`lwc:if`, `lwc:elseif`, `lwc:else`)**
 
-### JS
+👉 This is **newer and recommended**
+
+**JS**
 
 ```js
-import { LightningElement, track } from 'lwc';
-
-export default class UserCard extends LightningElement {
-    @track user = {
-        name: 'Amit',
-        isAdmin: true
-    };
-}
+status = 'success';
 ```
 
-### HTML
+**HTML**
 
 ```html
-<template>
-    <p>Name: {user.name}</p>
-
-    <template if:true={user.isAdmin}>
-        <p>👑 Admin Access Granted</p>
-    </template>
-
-    <template if:false={user.isAdmin}>
-        <p>🚫 Normal User</p>
-    </template>
-</template>
-```
-
----
-
-## 🔹 Example 5: Multiple Conditions (getter use karo) ⭐
-
-❌ Direct comparison allowed nahi hoti:
-
-```html
-<!-- WRONG -->
-<template if:true={age > 18}>
-```
-
-✅ **Correct way: getter**
-
-### JS
-
-```js
-export default class AgeCheck extends LightningElement {
-    age = 20;
-
-    get isAdult() {
-        return this.age >= 18;
-    }
-}
-```
-
-### HTML
-
-```html
-<template>
-    <template if:true={isAdult}>
-        <p>Adult ✅</p>
-    </template>
-
-    <template if:false={isAdult}>
-        <p>Minor ❌</p>
-    </template>
-</template>
-```
-
----
-
-## 🔹 Important Rules (Interview GOLD ⭐)
-
-✔ LWC HTML me **expressions allowed nahi**
-✔ Always use **boolean variable / getter**
-✔ `if:true` / `if:false` sirf **HTML ke liye**
-✔ JavaScript logic → **JS file me**
-
----
-
-## 🔹 Common Mistakes ❌
-
-* `{age > 18}` directly HTML me likhna
-* String `"true"` ko boolean samajhna
-* Same element pe `if:true` & `if:false` dono lagana
-
----
-
-## 🔹 One-Line Summary
-
-> **LWC me conditional rendering ka matlab hai: JS me condition banao → HTML me `if:true / if:false` se show-hide karo**
-
-
-# 🔹 1️⃣ `if:true / if:false` (OLD STYLE)
-
-### Example
-
-```html
-<template>
-    <template if:true={isVisible}>
-        <p>Hello</p>
-    </template>
-
-    <template if:false={isVisible}>
-        <p>Bye</p>
-    </template>
-</template>
-```
-
-### ✅ Pros
-
-* Simple
-* Easy to understand
-* Aaj bhi kaam karta hai
-
-### ❌ Cons
-
-* `else if` directly nahi
-* Multiple `<template>` likhne padte
-* Readability kam ho jaati hai
-
----
-
-# 🔹 2️⃣ `lwc:if / lwc:elseif / lwc:else` (NEW STYLE ⭐)
-
-🔥 **Salesforce ne ye syntax introduce kiya** taaki code clean ho.
-
-### Example (Exactly tum jo bole)
-
-```html
-<template>
-    <template lwc:if={isVisible}>
-        <p>Visible Content</p>
-    </template>
-
-    <template lwc:elseif={checkJapanText}>
-        <p>Japan Text 🇯🇵</p>
-    </template>
-
-    <template lwc:else>
-        <p>Default Text</p>
-    </template>
-</template>
-```
-
-### ✅ Pros
-
-* Clean & readable
-* Proper **if / else if / else**
-* Interview me **ye bolo to impression padta hai 😄**
-* Best for **multiple conditions**
-
-### ❌ Rules (IMPORTANT)
-
-* `lwc:elseif` ke baad **condition required**
-* `lwc:else` ke saath **koi condition nahi hoti**
-* Sab `<template>` **continuous hone chahiye**
-* Beech me koi HTML nahi
-
-❌ WRONG:
-
-```html
-<template lwc:if={a}></template>
-<p>break</p>
-<template lwc:else></template>
-```
-
----
-
-# 🔹 3️⃣ Same Example using both (Comparison)
-
-### OLD WAY
-
-```html
-<template if:true={isAdmin}>
-    <p>Admin</p>
+<template lwc:if={status === 'success'}>
+    <p>Success</p>
 </template>
 
-<template if:false={isAdmin}>
-    <p>User</p>
+<template lwc:elseif={status === 'error'}>
+    <p>Error</p>
 </template>
-```
 
-### NEW WAY ⭐
-
-```html
-<template lwc:if={isAdmin}>
-    <p>Admin</p>
-</template>
 <template lwc:else>
-    <p>User</p>
+    <p>Loading...</p>
 </template>
 ```
 
 ---
 
-# 🔹 4️⃣ Kab kya use karein? (REAL PROJECT ADVICE)
+**Important Rule**
 
-| Situation           | Best Choice                      |
-| ------------------- | -------------------------------- |
-| Simple true/false   | `lwc:if / lwc:else`              |
-| Multiple conditions | `lwc:if / lwc:elseif / lwc:else` |
-| Old project         | `if:true / if:false`             |
-| New project         | ⭐ `lwc:*`                        |
-
----
-
-### 🔹 5️⃣ Interview Answer (ONE-LINER ⭐)
-
-> “Earlier LWC used `if:true / if:false`, but now Salesforce recommends `lwc:if`, `lwc:elseif`, and `lwc:else` for cleaner and more readable conditional rendering.”
-
----
-
-# 🔹 6️⃣ Common Mistake ❌
-
-❌ `lwc:else={condition}`
-✅ `lwc:else` (no condition)
-
-Tum jo likh rahe the:
+❌ You **cannot write complex expressions directly** in template like:
 
 ```html
-lwc:else={checkJapanText} ❌
+<template lwc:if={status === 'success'}> ❌ not allowed
 ```
 
-Correct:
+**✔ Correct way (use getter)**
+
+```js
+get isSuccess() {
+    return this.status === 'success';
+}
+```
 
 ```html
-lwc:else ✅
+<template lwc:if={isSuccess}>
 ```
 
 ---
 
+**4. Toggle Example (Real Use Case)**
+
+**JS**
+
+```js
+showDetails = false;
+
+toggleDetails() {
+    this.showDetails = !this.showDetails;
+}
+```
+
+**HTML**
+
+```html
+<lightning-button label="Toggle" onclick={toggleDetails}></lightning-button>
+
+<template if:true={showDetails}>
+    <p>Here are the details...</p>
+</template>
+```
+
+---
+
+
+#### 🎤 Interview Ready Answer
+
+> Conditional rendering in LWC is used to show or hide parts of the UI based on a condition. It is implemented using directives like `if:true`, `if:false`, or the modern `lwc:if`, `lwc:elseif`, and `lwc:else`.
+
+---
+
+#### ⚡ Best Practices
+
+✔ Keep logic in JS (use getters)
+✔ Avoid complex expressions in template
+✔ Use `lwc:if` (modern syntax)
+✔ Keep conditions boolean and simple
+
+---
 
 
 
