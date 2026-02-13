@@ -1004,7 +1004,7 @@ Parent Component ──▶ Child Component
 
 ---
 
-# 🧩 Example Scenario
+**🧩 Example Scenario**
 
 * Parent has a button
 * Parent sends a **message** to child
