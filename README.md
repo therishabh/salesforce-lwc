@@ -218,153 +218,149 @@ VsCode => View => Command Palette => Type Create Lightning Web Component => Hit 
 Example : See getters section js and HTML file
 
 # @track
-## 🔹 `@track` kya hota hai?
 
-`@track` ek **decorator** hai jo batata hai ki **kisi variable ke andar agar change ho**, to **UI (HTML)** automatically re-render ho jaye.
+**🔥 Quick Points (Interview Notes)**
 
-> Matlab: data change → screen pe turant update.
-
----
-
-## 🔹 Kab `@track` use karte hain?
-
-### 1️⃣ **Primitive data types** (string, number, boolean)
-
-👉 **LWC me by default reactive hote hain**, `@track` ki zarurat nahi hoti.
-
-### 2️⃣ **Objects & Arrays**
-
-👉 Agar **object ke andar ke fields** ya **array ke items** change ho rahe hain → **`@track` chahiye**
+👉 `@track` is a decorator used to make **properties reactive (especially objects & arrays)**
+👉 It ensures UI updates when **nested values change**
+👉 In **modern LWC (latest versions)**, simple properties are **reactive by default**
+👉 `@track` is mainly needed for **deep changes inside objects/arrays**
+👉 Without `@track`, LWC tracks only **reference changes**, not internal mutations
+👉 Overuse of `@track` is **not recommended**
+👉 It is **not needed for primitive types** (string, number, boolean)
 
 ---
 
-## 🔹 Example 1: Primitive variable (NO @track needed)
+**🧠 1. What is `@track`?**
 
-### JS
+> `@track` makes a property **fully reactive**, including its **internal fields**
+
+Meaning:
+
+* If object/array ke **andar ka value change ho**, UI update ho jaye
+
+---
+
+#### ⚙️ 2. Basic Example
+
+**❌ Without `@track`**
 
 ```js
-import { LightningElement } from 'lwc';
+user = { name: 'Rishabh' };
 
-export default class Counter extends LightningElement {
-    count = 0;
-
-    increase() {
-        this.count++;
-    }
+changeName() {
+    this.user.name = 'Rahul'; // ❌ UI may NOT update
 }
 ```
 
-### HTML
-
-```html
-<template>
-    <p>Count: {count}</p>
-    <lightning-button label="Add" onclick={increase}></lightning-button>
-</template>
-```
-
-✅ Kaam karega bina `@track`
-
 ---
 
-## 🔹 Example 2: Object WITHOUT `@track` (❌ issue)
-
-### JS
-
-```js
-import { LightningElement } from 'lwc';
-
-export default class UserInfo extends LightningElement {
-    user = {
-        name: 'Rahul',
-        age: 25
-    };
-
-    changeAge() {
-        this.user.age = 30; // UI update nahi hogi ❌
-    }
-
-	// new version
-	/*
- 	changeAge() {
-        this.user = {...this.user, age : 30} // UI will update when we redeclare values in an variable.
-    }
-	*/
-}
-```
-
-👉 **Problem:** Object ke andar change ho raha hai, LWC ko pata hi nahi chalta
-
----
-
-## 🔹 Example 3: Object WITH `@track` (✅ correct way)
-
-### JS
+**✅ With `@track`**
 
 ```js
 import { LightningElement, track } from 'lwc';
 
-export default class UserInfo extends LightningElement {
-    @track user = {
-        name: 'Rahul',
-        age: 25
-    };
+export default class TrackDemo extends LightningElement {
 
-    changeAge() {
-        this.user.age = 30; // UI update ho jayegi ✅
+    @track user = { name: 'Rishabh' };
+
+    changeName() {
+        this.user.name = 'Rahul'; // ✅ UI updates
     }
 }
 ```
 
-### HTML
-
-```html
-<template>
-    <p>Name: {user.name}</p>
-    <p>Age: {user.age}</p>
-
-    <lightning-button label="Change Age" onclick={changeAge}></lightning-button>
-</template>
-```
-
 ---
 
-## 🔹 Example 4: Array ke saath `@track`
+#### 🔁 3. Array Example
+
+**❌ Without `@track`**
 
 ```js
-import { LightningElement, track } from 'lwc';
+items = ['A', 'B'];
 
-export default class StudentList extends LightningElement {
-    @track students = ['Amit', 'Ravi'];
-
-    addStudent() {
-        this.students.push('Neha');
-    }
+addItem() {
+    this.items.push('C'); // ❌ UI may not update
 }
 ```
 
-```html
-<template>
-    <template for:each={students} for:item="stu">
-        <p key={stu}>{stu}</p>
-    </template>
+---
 
-    <lightning-button label="Add Student" onclick={addStudent}></lightning-button>
-</template>
+**✅ With `@track`**
+
+```js
+@track items = ['A', 'B'];
+
+addItem() {
+    this.items.push('C'); // ✅ UI updates
+}
 ```
 
 ---
 
-### 🔹 Important Interview Points ⭐
+**⚡ 4. Modern Best Practice (Important)**
 
-* `@track` mainly **objects & arrays** ke liye
-* Primitive variables ke liye **required nahi**
-* Salesforce ne later versions me reactivity improve kar di, but **nested changes ke liye @track safest**
+👉 In latest LWC, instead of using `@track`, we usually use **immutable update pattern**
+
+**✔ Recommended way**
+
+```js
+items = ['A', 'B'];
+
+addItem() {
+    this.items = [...this.items, 'C']; // ✅ UI updates without @track
+}
+```
+
+👉 Because reference change ho raha hai
+
 ---
 
-## 🔹 One-line summary
+**🧩 5. When `@track` is Required?**
 
-> **Jab data change hone par UI update nahi ho rahi ho, aur data object/array ho → `@track` use karo.**
+Use `@track` when:
+
+- ✔ Complex object ho
+- ✔ Deep nested property change ho
+- ✔ Direct mutation kar rahe ho
+
+Example:
+
+```js
+@track user = {
+    name: 'Rishabh',
+    address: {
+        city: 'Delhi'
+    }
+};
+
+updateCity() {
+    this.user.address.city = 'Noida'; // needs @track
+}
+```
+
+---
+
+**❌ When NOT to use `@track`**
+
+Do NOT use `@track` for:
+
+```js
+name = 'Rishabh'; // primitive → already reactive
+```
+
+```js
+this.name = 'Rahul'; // works without @track
+```
+
+---
+
+#### 🎤 Interview Ready Answer
+
+> `@track` in LWC is used to make properties reactive for internal mutations of objects and arrays. In modern LWC, simple properties are reactive by default, and for arrays/objects we usually use immutable updates instead of `@track`.
+
+---
+---
 
 # Conditional Rendering
 
