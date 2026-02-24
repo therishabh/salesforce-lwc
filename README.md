@@ -1738,9 +1738,9 @@ Base Lightning Components are built on Lightning Data Service. So, Lightning Dat
 
 Below are the 3 base lightning components build on Lightning Data Service:
 
-**1. lightning-record-form:** A form with standard lightning UI to create, view or edit a record
-**2. lightning-record-edit-form:** A form to create record with specified fields or update fields in an existing record
-**3. lightning-record-view-form:** A form to display specific fields data of a record in read-only mode
+- **1. lightning-record-form:** A form with standard lightning UI to create, view or edit a record
+- **2. lightning-record-edit-form:** A form to create record with specified fields or update fields in an existing record
+- **3. lightning-record-view-form:** A form to display specific fields data of a record in read-only mode
 
 
 **When to Use these form?**
@@ -2910,6 +2910,15 @@ File Name : apexImperativeWithParamsDemo.html
 ```
 
 ## Flow to LWC data Transfer
+
+
+#### “How do you pass data from Flow to LWC?”
+
+You can say:
+>“When embedding a Screen Flow inside LWC using lightning-flow, we define output variables in the flow and mark them as available for output. In the LWC, we listen to the onstatuschange event, and when the flow finishes, we read event.detail.outputVariables to extract the values. These values can then be used for navigation, Apex calls, or UI updates.”
+
+<br/>
+<br/>
 commuteFlowToLWC.html
 ```html
 <template>
