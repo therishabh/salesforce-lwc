@@ -2915,7 +2915,7 @@ File Name : apexImperativeWithParamsDemo.html
 #### “How do you pass data from Flow to LWC?”
 
 You can say:
->“When embedding a Screen Flow inside LWC using lightning-flow, we define output variables in the flow and mark them as available for output. In the LWC, we listen to the onstatuschange event, and when the flow finishes, we read event.detail.outputVariables to extract the values. These values can then be used for navigation, Apex calls, or UI updates.”
+> “When embedding a Screen Flow inside LWC using lightning-flow, we define output variables in the flow and mark them as available for output. In the LWC, we listen to the onstatuschange event, and when the flow finishes, we read event.detail.outputVariables to extract the values. These values can then be used for navigation, Apex calls, or UI updates.”
 
 <br/>
 <br/>
@@ -3417,3 +3417,10 @@ export default class PermissionCheck extends LightningElement {
 </lightning-card>
 </template>
 ```
+
+
+#### 👉 “Difference between Lightning Locker and LWS?”
+
+You can say:
+
+> “Lightning Locker is the older security model in Salesforce that uses secure wrappers to isolate components and restrict DOM and global object access. Lightning Web Security is the newer model that uses modern JavaScript features like proxies to provide better performance, improved compatibility with third-party libraries, and a more natural JavaScript environment while still maintaining strong security boundaries.”
