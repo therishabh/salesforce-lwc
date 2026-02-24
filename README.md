@@ -3424,3 +3424,170 @@ export default class PermissionCheck extends LightningElement {
 You can say:
 
 > “Lightning Locker is the older security model in Salesforce that uses secure wrappers to isolate components and restrict DOM and global object access. Lightning Web Security is the newer model that uses modern JavaScript features like proxies to provide better performance, improved compatibility with third-party libraries, and a more natural JavaScript environment while still maintaining strong security boundaries.”
+
+
+> 🔥 **LWS vs Lightning Locker (Locker Service) — difference in simple language**
+
+Let’s understand this **in the simplest possible way first**, then we’ll go **slightly deeper for interview level**.
+
+---
+
+# 🧠 Simple One-Line Difference
+
+👉 **Locker Service** = Old strict security system
+👉 **LWS (Lightning Web Security)** = New modern, flexible security system
+
+---
+
+# 🧒 Simple Analogy (Real Life)
+
+Imagine you are working in a company building.
+
+### 🔒 Lightning Locker
+
+* You are locked in a **separate room**
+* You cannot see or touch other rooms
+* Everything is restricted
+
+### 🧠 LWS (Lightning Web Security)
+
+* You are in the **same building**
+* But each person has **smart access control**
+* You can work more freely but still secure
+
+---
+
+# ⚔️ Key Differences (Easy Table)
+
+| Feature        | Lightning Locker                    | LWS (Lightning Web Security)  |
+| -------------- | ----------------------------------- | ----------------------------- |
+| Technology     | Old security model                  | Modern browser-based security |
+| Isolation      | Strong isolation (separate sandbox) | Smart isolation using proxies |
+| Performance    | Slower                              | Faster ⚡                      |
+| Compatibility  | Many JS libraries break             | Works with modern JS libs     |
+| DOM Access     | Restricted heavily                  | More flexible                 |
+| Global Objects | Wrapped heavily                     | Less wrapping                 |
+| Debugging      | Hard                                | Easier                        |
+| Future         | Deprecated ❌                        | Recommended ✅                 |
+
+---
+
+# 🔍 Technical Difference (but still simple)
+
+## 🔒 Lightning Locker
+
+* Uses **Secure Wrappers**
+* Example:
+
+  ```js
+  window → SecureWindow
+  document → SecureDocument
+  ```
+* Every object is wrapped → performance overhead
+
+---
+
+## ⚡ Lightning Web Security (LWS)
+
+* Uses **ES6 Proxies + Real Browser Objects**
+* No heavy wrapping
+* Better performance
+* More compatibility
+
+---
+
+# 🎯 Real Project Impact
+
+### ❌ In Locker Service you face:
+
+* Third-party library not working
+* DOM manipulation blocked
+* Error like:
+
+  ```
+  access denied: SecureElement
+  ```
+
+---
+
+### ✅ In LWS:
+
+* Most modern libraries work
+* Better DOM access
+* Less errors
+
+---
+
+# 🧪 Example
+
+### Third-party library like Chart.js
+
+| With Locker   | With LWS         |
+| ------------- | ---------------- |
+| ❌ Might break | ✅ Works smoothly |
+
+---
+
+# 🚀 Why Salesforce introduced LWS?
+
+Because Locker had issues:
+
+* Too restrictive
+* Breaks JS libraries
+* Performance overhead
+* Hard to debug
+
+👉 So Salesforce introduced **LWS as next-gen security**
+
+---
+
+# 🔐 Is LWS still secure?
+
+👉 YES — 100%
+
+But security is handled using:
+
+* JS Proxies
+* Namespace isolation
+* Virtual environments
+
+---
+
+# ⚠️ When you migrate from Locker to LWS
+
+You should check:
+
+* Direct DOM manipulation
+* Window/global usage
+* Third-party scripts
+
+---
+
+# 🧠 Interview Ready Answer (Very Important)
+
+If interviewer asks:
+
+👉 **“Difference between Lightning Locker and LWS?”**
+
+You can say:
+
+> “Lightning Locker is the older security model in Salesforce that uses secure wrappers to isolate components and restrict DOM and global object access. Lightning Web Security is the newer model that uses modern JavaScript features like proxies to provide better performance, improved compatibility with third-party libraries, and a more natural JavaScript environment while still maintaining strong security boundaries.”
+
+---
+
+# 🏁 Final Summary
+
+✔ Lightning Locker = old, strict, slow
+✔ LWS = new, flexible, fast
+✔ LWS supports modern JS libraries
+✔ Salesforce recommends **LWS**
+
+---
+
+# 👍 Pro Tip for You (Senior Dev Level)
+
+In interviews, also say:
+
+> “All new Salesforce orgs use LWS by default, and Locker Service is being phased out.”
+
+---
