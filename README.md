@@ -1750,78 +1750,246 @@ openCustomLightningComponent(){
 
 
 
+## Lightning Data Service (LDS)?
 
+Lightning Data Service (LDS) is a Salesforce service used in LWC and Aura Components to:
 
-## Lightning Data Service
-Lightning Data Service is a centralized data caching mechanism which is utilized to perform create, read, update or delete on a record without having a server side apex call in Lightning web components.
+* Create records
+* Read records
+* Update records
+* Delete records
 
-https://developer.salesforce.com/docs/platform/lwc/guide/data-ui-api.html
+without writing Apex code.
 
-![Screenshot Capture - 2024-05-05 - 19-01-36](https://github.com/therishabh/salesforce-lwc/assets/7955435/25ef2090-c02f-4a08-9390-3b0eb9f6de3c)
+It automatically handles:
 
-### Advantages of Lightning Data Service
+* Security
+* Sharing rules
+* Field-level security
+* Data caching
+* Data synchronization
 
+---
+
+# Simple Definition
+
+> Lightning Data Service is a Salesforce framework that helps Lightning components work with Salesforce records without using Apex.
+
+---
+
+# Why is LDS Important?
+
+Before LDS, developers mostly used Apex for record operations.
+
+Problems with Apex:
+
+* More code
+* More server calls
+* Manual security handling
+* Slower performance
+
+LDS solves these problems.
+
+---
+
+# Main Benefits of LDS
+
+| Benefit                   | Explanation                            |
+| ------------------------- | -------------------------------------- |
+| No Apex Required          | Perform CRUD operations directly       |
+| Faster Performance        | Uses client-side caching               |
+| Security Support          | Automatically respects FLS and sharing |
+| Automatic Synchronization | Updates all components automatically   |
+| Less Code                 | Reduces backend code                   |
+
+---
+
+# What is Client-Side Caching?
+
+LDS stores record data in browser memory.
+
+So if another component requests the same record:
+
+* Salesforce does not call server again
+* Data loads faster
+
+---
+
+# Automatic Synchronization
+
+If one component updates a record:
+
+* Other LDS components using same record automatically refresh
+
+This is called **data synchronization**.
+
+---
+
+# CRUD Operations Supported
+
+| Operation | Meaning        |
+| --------- | -------------- |
+| Create    | Add new record |
+| Read      | Fetch record   |
+| Update    | Modify record  |
+| Delete    | Remove record  |
+
+---
+
+# LDS Works Behind These Components
+
+These Base Lightning Components internally use LDS:
+
+| Component                    |
+| ---------------------------- |
+| `lightning-record-form`      |
+| `lightning-record-edit-form` |
+| `lightning-record-view-form` |
+
+---
+
+# LDS in LWC
+
+LDS is mainly used through:
+
+## 1. Base Lightning Components
+
+Easy and automatic UI handling.
+
+Example:
+
+```html id="s1d3f9"
+<lightning-record-form></lightning-record-form>
+<lightning-record-edit-form></lightning-record-edit-form>
+<lightning-record-view-form></lightning-record-view-form>
+```
+
+---
+
+## 2. Wire Adapters
+
+Used for custom UI.
+
+Example:
+
+```js id="f8k2lp"
+import { getRecord } from 'lightning/uiRecordApi';
+```
+
+---
+
+## 3. JavaScript Record APIs
+
+Used for create/update/delete in JS.
+
+Example:
+
+```js id="n2mx7a"
+createRecord()
+updateRecord()
+deleteRecord()
+```
 
 
 ## Base Lightning Components
-### Introduction to Work With Data In LWC
-There are many ways of interacting with Salesforce data in the Lightning web components. Knowing which approach to use for a particular use case helps you to write less code, easier code, and code that is more maintainable. The efficiency of your components is improved by using the best solution for each situation.
 
-![Screenshot Capture - 2024-05-05 - 18-58-24](https://github.com/therishabh/salesforce-lwc/assets/7955435/b7dbe4e8-4133-4b16-9679-867bbee91b14)
+### What are Base Lightning Components?
 
+Base Lightning Components are ready-made Salesforce UI components used in Lightning Web Components (LWC).
 
-### Base Lightning Components
-Base Lightning Components are built on Lightning Data Service. So, Lightning Data Service is used behind the scenes by base components and inherits its caching and synchronisation capabilities
+These components are built on top of **Lightning Data Service (LDS)**.
 
-Below are the 3 base lightning components build on Lightning Data Service:
+Because of LDS, they automatically provide:
 
-- **1. lightning-record-form:** A form with standard lightning UI to create, view or edit a record
-- **2. lightning-record-edit-form:** A form to create record with specified fields or update fields in an existing record
-- **3. lightning-record-view-form:** A form to display specific fields data of a record in read-only mode
+* Data caching
+* Record synchronization
+* Security handling
+* Sharing rules support
+* Faster performance
 
+---
 
-**When to Use these form?**
-- Create a metadata-driven Ul or form-based Ul similar to the record detail page in Salesforce.
-- Display record values based on the field metadata.
-- Hide or show localized field labels.
-- Display the help text on a custom field.
-- Perform client-side validation and enforce validation rules.
+#### Types of Base Lightning Form Components
 
-https://developer.salesforce.com/docs/platform/lwc/guide/data-get-user-input.html
+There are 3 important form components:
 
-- lightning-record-edit-form—Displays an editable form.
-- lightning-record-view-form—Displays a read-only form.
-- lightning-record-form—Supports edit, view, and read-only modes.
+| Component                    | Purpose                                     |
+| ---------------------------- | ------------------------------------------- |
+| `lightning-record-form`      | Create, View, and Edit records quickly      |
+| `lightning-record-edit-form` | Create or Update records with custom layout |
+| `lightning-record-view-form` | Show record data in Read Only mode          |
 
-<img width="1057" alt="Screenshot 2024-05-05 at 7 08 58 PM" src="https://github.com/therishabh/salesforce-lwc/assets/7955435/14ba5360-dcd4-4102-9787-aa2f5c90b933">
+---
 
-For most use cases, lightning-record-form provides a great starting point. It combines and simplifies the functionality of lightning-record-view-form and lightning-record-edit-form. All three components support a multi column layout. For example, you can use <div class="slds-grid"> to create a column.
+### 1. lightning-record-form
 
-### lightning-record-form
-Use the lightning-record-form component to quickly create forms to add, view, or update a record.
+#### Purpose
 
-The lightning-record-form component provides these helpful features:
-- Switches between view and edit modes automatically when the user begins editing a field in a view form
-- Provides Cancel and Save buttons automatically in edit forms
-- Uses the object's default record layout with support for multiple columns
-- Loads all fields in the object's compact or full layout, or only the fields you specify
+Used to quickly create forms for:
 
-lightning-record-form is less customizable. To customize the form layout or provide custom rendering of record data, use lightning-record-edit-form (add or update a record) and lightning-record-view-form (view a record).
+* Creating records
+* Viewing records
+* Updating records
 
-**Key Attributes**
-- **object-api-name** - This attribute is always required. The lightning-record-form component requires you to specify the object-api-name attribute to establish the relationship between a record and an object.
-_Note- Event and Task objects are not supported._
-- **record-id** - This attribute is required only when you're editing or viewing a record.
-- **fields** - pass record fields as an array of strings. The fields display in the order you list them.
-- **layout-type** - Use this attribute to specify a Full or Compact layout. Layouts are typically defined (created and modified) by administrators..
-- **modes** - This form support three mode
-    - **edit** - Creates an editable form to add a record or update an existing one.. Edit mode is the default when record-id is not provided, and displays a form to create new records.
-    - **view** - Creates a form to display a record that the user can also edit. The record fields each have an edit button. View mode is the default when record-id is provided.
-    - **readonly** - Creates a form to display a record that the user can also edit
-- **columns** - Use this attribute to show multiple columns in the form
+This is the easiest and most commonly used form component.
 
-File Name : recordFormDemo.js
+---
+
+#### Features
+
+##### Automatic Mode Switching
+
+When user clicks Edit, it automatically changes from View mode to Edit mode.
+
+##### Auto Buttons
+
+Salesforce automatically provides:
+
+* Save button
+* Cancel button
+
+##### Layout Support
+
+Supports:
+
+* Full Layout
+* Compact Layout
+* Multiple columns
+
+##### Field Loading
+
+Can load:
+
+* All fields from layout
+* Only selected fields
+
+---
+
+#### Important Attributes
+
+| Attribute         | Purpose                                |
+| ----------------- | -------------------------------------- |
+| `object-api-name` | Required. Defines object name          |
+| `record-id`       | Required for Edit/View existing record |
+| `fields`          | Array of fields to display             |
+| `layout-type`     | Full or Compact layout                 |
+| `mode`            | edit, view, readonly                   |
+| `columns`         | Number of columns                      |
+
+---
+
+#### Modes
+
+| Mode       | Purpose                         |
+| ---------- | ------------------------------- |
+| `edit`     | Create or update record         |
+| `view`     | Display record with edit option |
+| `readonly` | Display only read-only data     |
+
+---
+
 ```javascript
+// File Name : recordFormDemo.js
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
