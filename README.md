@@ -1771,13 +1771,13 @@ It automatically handles:
 
 ---
 
-# Simple Definition
+### Simple Definition
 
 > Lightning Data Service is a Salesforce framework that helps Lightning components work with Salesforce records without using Apex.
 
 ---
 
-# Why is LDS Important?
+### Why is LDS Important?
 
 Before LDS, developers mostly used Apex for record operations.
 
@@ -1792,7 +1792,7 @@ LDS solves these problems.
 
 ---
 
-# Main Benefits of LDS
+### Main Benefits of LDS
 
 | Benefit                   | Explanation                            |
 | ------------------------- | -------------------------------------- |
@@ -1804,7 +1804,7 @@ LDS solves these problems.
 
 ---
 
-# What is Client-Side Caching?
+### What is Client-Side Caching?
 
 LDS stores record data in browser memory.
 
@@ -1815,7 +1815,7 @@ So if another component requests the same record:
 
 ---
 
-# Automatic Synchronization
+### Automatic Synchronization
 
 If one component updates a record:
 
@@ -1825,7 +1825,7 @@ This is called **data synchronization**.
 
 ---
 
-# CRUD Operations Supported
+### CRUD Operations Supported
 
 | Operation | Meaning        |
 | --------- | -------------- |
@@ -1836,7 +1836,7 @@ This is called **data synchronization**.
 
 ---
 
-# LDS Works Behind These Components
+### LDS Works Behind These Components
 
 These Base Lightning Components internally use LDS:
 
@@ -1848,11 +1848,11 @@ These Base Lightning Components internally use LDS:
 
 ---
 
-# LDS in LWC
+### LDS in LWC
 
 LDS is mainly used through:
 
-## 1. Base Lightning Components
+#### 1. Base Lightning Components
 
 Easy and automatic UI handling.
 
@@ -1866,7 +1866,7 @@ Example:
 
 ---
 
-## 2. Wire Adapters
+#### 2. Wire Adapters
 
 Used for custom UI.
 
@@ -1878,7 +1878,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 
 ---
 
-## 3. JavaScript Record APIs
+#### 3. JavaScript Record APIs
 
 Used for create/update/delete in JS.
 
