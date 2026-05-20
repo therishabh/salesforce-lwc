@@ -2068,40 +2068,177 @@ File Name : recordFormDemo.html
 </template>
 ```
 
-### lightning-record-view-form
-- Use the lightning-record-view-form component to create a form that displays Salesforce record data for specified fields associated with that record. The fields are rendered with their labels and current values as read-only.
-- You can customize the form layout or provide custom rendering of record data. If you don't require customizations, use lightning-record-form instead.
-- To specify read-only fields, use lightning-output-field components inside lightning-record-view-form.
+## lightning-record-view-form
 
-File Name : recordViewFormDemo.js
-```javascript
-import { LightningElement } from 'lwc';
+`lightning-record-view-form` is a Lightning base component used to display Salesforce record data in **read-only mode**.
 
-export default class RecordViewFormDemo extends LightningElement {}
+It uses:
+
+#### Lightning Data Service (LDS)
+
+behind the scenes.
+
+---
+
+### Simple Definition
+
+`lightning-record-view-form` allows you to create a custom read-only record UI without writing Apex.
+
+---
+
+### Main Purpose
+
+Use it when you want:
+
+✅ Read-only record display
+✅ Custom layout control
+✅ Better UI customization than `lightning-record-form`
+
+---
+
+### Important Point
+
+Unlike
+
+```html id="l8tmws"
+<lightning-record-form>
 ```
 
-File Name : recordViewFormDemo.html
+this component does NOT automatically render fields.
+
+You must manually use:
+
+```html id="1g2b0n"
+<lightning-output-field>
+```
+
+for each field.
+
+---
+
+### Syntax
+
+```html id="46ef4z"
+<lightning-record-view-form
+    record-id={recordId}
+    object-api-name="Account">
+
+    <lightning-output-field field-name="Name">
+    </lightning-output-field>
+
+</lightning-record-view-form>
+```
+
+### Difference from `lightning-record-form`
+
+| Feature                | record-form | record-view-form |
+| ---------------------- | ----------- | ---------------- |
+| Auto layout            | ✅           | ❌                |
+| Custom layout          | ❌ Limited   | ✅ Full           |
+| Read only              | ✅           | ✅                |
+| Edit support           | ✅           | ❌                |
+| Manual field placement | ❌           | ✅                |
+
+---
+
+### Basic Example
+
+---
+
+##### accountView.html
+
 ```html
 <template>
-    <lightning-card title="lightning record view form">
+    <lightning-card title="Account Details">
         <lightning-record-view-form
-        object-api-name="Account"
-        record-id="001N000001zcknoIAA"
-        >
-        <div class="slds-grid slds-gutters">
-            <div class="slds-col slds-size_6-of-12">
-                <lightning-output-field field-name="Name"></lightning-output-field>
-                <lightning-output-field field-name="Phone"></lightning-output-field>
-                <lightning-output-field field-name="Industry"></lightning-output-field>
+            record-id={recordId}
+            object-api-name="Account">
+
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="Name"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="Industry"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="Phone"></lightning-output-field>
+                </div>
             </div>
-            <div class="slds-col slds-size_6-of-12">
-                <lightning-output-field field-name="AnnualRevenue"></lightning-output-field>
-            </div>
-        </div>
+
         </lightning-record-view-form>
     </lightning-card>
 </template>
 ```
+
+---
+
+##### accountView.js
+
+```js id="7cm5vq"
+import { LightningElement, api } from 'lwc';
+
+export default class AccountView extends LightningElement {
+
+    @api recordId;
+
+}
+```
+
+---
+
+### Benefits of `lightning-output-field`
+
+It automatically:
+
+✅ Formats data
+✅ Shows labels
+✅ Handles lookup fields
+✅ Displays picklists properly
+✅ Applies locale formatting
+
+---
+
+### Using Schema Imports (Recommended)
+
+---
+
+##### JS
+
+```js id="3fc07v"
+import NAME_FIELD from '@salesforce/schema/Account.Name';
+import PHONE_FIELD from '@salesforce/schema/Account.Phone';
+```
+
+---
+
+##### HTML
+
+```html id="h06p4f"
+<lightning-output-field field-name={nameField}>
+</lightning-output-field>
+```
+
+---
+
+# JS
+
+```js id="2e9mnq"
+nameField = NAME_FIELD;
+phoneField = PHONE_FIELD;
+```
+
+---
+
+# Why Recommended?
+
+✅ Compile-time validation
+✅ Safer
+✅ Refactor-safe
+✅ Better IDE support
+
+---
+
 
 ### lightning-record-edit-form
 - This component is used to create and edit the records.
