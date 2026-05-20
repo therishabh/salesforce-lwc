@@ -95,7 +95,7 @@ Then:
 
 ---
 
-# Benefits of Disabling Cache During Development
+### Benefits of Disabling Cache During Development
 
 * Immediate reflection of component updates
 * Faster debugging
@@ -103,6 +103,7 @@ Then:
 * Proper loading of updated metadata configurations
 * Reduced confusion during deployment testing
 
+---
 ---
 
 ## Lightning Framework
