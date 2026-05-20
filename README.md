@@ -68,6 +68,42 @@
 28. [Component Communication](#component-communication)
     - [PubSub](#pubsub)
     - [Lightning Messaging Service](#lightning-messaging-service)
+   
+
+# Recommended Best Practice for LWC Development
+
+## In Sandbox or Developer Environments
+
+Disable persistent browser caching during active LWC development.
+
+### Navigation Path
+
+> **Setup → Session Settings**
+
+### Action
+
+Uncheck:
+
+> **Enable secure and persistent browser caching to improve performance**
+
+Then:
+
+1. Save the settings.
+2. Clear browser cache if necessary.
+3. Refresh the page.
+4. Reload the Lightning App Builder or record page.
+
+---
+
+# Benefits of Disabling Cache During Development
+
+* Immediate reflection of component updates
+* Faster debugging
+* Accurate rendering of HTML/template changes
+* Proper loading of updated metadata configurations
+* Reduced confusion during deployment testing
+
+---
 
 ## Lightning Framework
 The Lightning Component framework is a Ul framework for developing single page applications for mobile and desktop devices.
