@@ -2206,11 +2206,23 @@ It automatically:
 ##### JS
 
 ```js id="3fc07v"
-import NAME_FIELD from '@salesforce/schema/Account.Name';
-import PHONE_FIELD from '@salesforce/schema/Account.Phone';
-```
+import { LightningElement, api } from 'lwc';
 
----
+import NAME_FIELD from '@salesforce/schema/Account.Name';
+import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
+import PHONE_FIELD from '@salesforce/schema/Account.Phone';
+import WEBSITE_FIELD from '@salesforce/schema/Account.Website';
+
+export default class AccountDetails extends LightningElement {
+
+    @api recordId;
+
+    nameField = NAME_FIELD;
+    industryField = INDUSTRY_FIELD;
+    phoneField = PHONE_FIELD;
+    websiteField = WEBSITE_FIELD;
+}
+```
 
 ##### HTML
 
@@ -2218,19 +2230,9 @@ import PHONE_FIELD from '@salesforce/schema/Account.Phone';
 <lightning-output-field field-name={nameField}>
 </lightning-output-field>
 ```
-
 ---
 
-# JS
-
-```js id="2e9mnq"
-nameField = NAME_FIELD;
-phoneField = PHONE_FIELD;
-```
-
----
-
-# Why Recommended?
+#### Why Recommended?
 
 ✅ Compile-time validation
 ✅ Safer
