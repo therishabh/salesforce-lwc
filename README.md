@@ -2090,9 +2090,9 @@ behind the scenes.
 
 Use it when you want:
 
-✅ Read-only record display
-✅ Custom layout control
-✅ Better UI customization than `lightning-record-form`
+- ✅ Read-only record display
+- ✅ Custom layout control
+- ✅ Better UI customization than `lightning-record-form`
 
 ---
 
@@ -2191,11 +2191,11 @@ export default class AccountView extends LightningElement {
 
 It automatically:
 
-✅ Formats data
-✅ Shows labels
-✅ Handles lookup fields
-✅ Displays picklists properly
-✅ Applies locale formatting
+- ✅ Formats data
+- ✅ Shows labels
+- ✅ Handles lookup fields
+- ✅ Displays picklists properly
+- ✅ Applies locale formatting
 
 ---
 
@@ -2234,35 +2234,118 @@ export default class AccountDetails extends LightningElement {
 
 #### Why Recommended?
 
-✅ Compile-time validation
-✅ Safer
-✅ Refactor-safe
-✅ Better IDE support
+- ✅ Compile-time validation
+- ✅ Safer
+- ✅ Refactor-safe
+- ✅ Better IDE support
+
+---
+## lightning-record-edit-form
+
+`lightning-record-edit-form` is a Lightning base component used to create highly customizable record forms in LWC.
+
+It allows you to:
+
+- ✅ Create records
+- ✅ Edit records
+- ✅ Add custom layout
+- ✅ Add custom buttons
+- ✅ Add custom validation
+- ✅ Control form submission
+
+while still using:
+
+#### Lightning Data Service (LDS)
+
+behind the scenes.
 
 ---
 
+### Simple Definition
 
-### lightning-record-edit-form
-- This component is used to create and edit the records.
-- It provides custom layout of fields and custom rendering of record data.
+`lightning-record-edit-form` is a customizable editable Salesforce form component that uses LDS and allows developers to fully control the UI.
 
-File Name : recordEditForm.js
-```javascript
+---
+
+#### Main Child Components
+
+| Component               | Purpose                   |
+| ----------------------- | ------------------------- |
+| `lightning-input-field` | Editable Salesforce field |
+| `lightning-messages`    | Displays form errors      |
+
+---
+
+##### Basic Syntax
+
+```html id="rtflj9"
+<lightning-record-edit-form
+    object-api-name="Account">
+
+    <lightning-input-field field-name="Name">
+    </lightning-input-field>
+
+    <lightning-button
+        type="submit"
+        label="Save">
+    </lightning-button>
+
+</lightning-record-edit-form>
+```
+
+---
+#### 1. Create Record Example
+
+---
+
+##### accountCreate.html
+
+```html id="2wjce2"
+<template>
+
+    <lightning-card title="Create Account">
+
+        <lightning-record-edit-form
+            object-api-name="Account"
+            onsuccess={handleSuccess}>
+
+            <lightning-messages></lightning-messages>
+
+            <lightning-input-field field-name="Name"></lightning-input-field>
+
+            <lightning-input-field field-name="Phone"></lightning-input-field>
+
+            <lightning-input-field field-name="Industry"></lightning-input-field>
+
+            <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+
+            <lightning-button class="slds-m-around_xx-small" label="cancel" onclick={handleReset}></lightning-button>
+
+        </lightning-record-edit-form>
+
+    </lightning-card>
+
+</template>
+```
+
+---
+
+##### accountCreate.js
+
+```js id="fc2sow"
 import { LightningElement } from 'lwc';
-import CONTACT_OBJECT from '@salesforce/schema/Contact'
-import NAME_FIELD from '@salesforce/schema/Contact.Name'
-import TITLE_FIELD from '@salesforce/schema/Contact.Title'
-import PHONE_FIELD from '@salesforce/schema/Contact.Phone'
-import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
-import ACCOUNT_FIELD from '@salesforce/schema/Contact.AccountId';
-export default class RecordEditForm extends LightningElement {
-    objectName = CONTACT_OBJECT
-    fields={ 
-        accountField:ACCOUNT_FIELD,
-        nameField:NAME_FIELD,
-        titleField:TITLE_FIELD,
-        phoneField:PHONE_FIELD,
-        emailField:EMAIL_FIELD
+
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+export default class AccountCreate extends LightningElement {
+
+    handleSuccess(event) {
+        const toast = new ShowToastEvent({
+            title: 'Success',
+            message: 'Account Created: ' + event.detail.id,
+            variant: 'success'
+        });
+        this.dispatchEvent(toast);
     }
 
     handleReset(){ 
@@ -2276,96 +2359,54 @@ export default class RecordEditForm extends LightningElement {
 }
 ```
 
+---
+#### 2. Edit Existing Record Example
 
-File Name : recordEditForm.html
-```html
+---
+
+##### HTML
+
+```html id="nbp1rk"
 <template>
-    <lightning-card title="lightning record edit form">
-        <lightning-record-edit-form 
-        object-api-name={objectName}
-        >
-            <lightning-messages></lightning-messages>
-            <lightning-input-field field-name={fields.accountField}></lightning-input-field>
-            <lightning-input-field field-name={fields.nameField}></lightning-input-field>
-            <lightning-input-field field-name={fields.titleField}></lightning-input-field>
-            <lightning-input-field field-name={fields.phoneField}></lightning-input-field>
-            <label class="slds-p-left_x-small">Enter your email</label>
-            <lightning-input-field variant="label-hidden" field-name={fields.emailField}></lightning-input-field>
-            <lightning-button class="slds-m-around_xx-small" label="cancel" onclick={handleReset}></lightning-button>
-            <lightning-button variant="brand" type="submit" class="slds-m-around_xx-small" label="Save"></lightning-button>
-        </lightning-record-edit-form>
-    </lightning-card>
+
+    <lightning-record-edit-form
+        object-api-name="Account"
+        record-id={recordId}
+        onsuccess={handleSuccess}>
+
+        <lightning-input-field field-name="Name">
+        </lightning-input-field>
+
+        <lightning-input-field field-name="Industry">
+        </lightning-input-field>
+
+        <lightning-button
+            type="submit"
+            label="Update">
+        </lightning-button>
+
+    </lightning-record-edit-form>
+
 </template>
 ```
 
-#### Custom Validation in lightning-record-edit-form
+---
 
-File Name : recordEditForm.js
-```javascript
-import { LightningElement } from 'lwc';
-import ACCOUNT_OBJECT from '@salesforce/schema/Account'
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+##### JS
 
-export default class RecordEditCustom extends LightningElement {
-    objectName = ACCOUNT_OBJECT
-    inputValue=''
-    handleChange(event){ 
-        this.inputValue = event.target.value
-    }
-    handleSubmit(event){ 
-        event.preventDefault()
-        const inputCmp = this.template.querySelector('lightning-input')
-        const value= inputCmp.value
-        if(!value.includes('Australia')){ 
-            inputCmp.setCustomValidity("The account name must include 'Australia'")
-        } else { 
-            inputCmp.setCustomValidity("")
-            const fields = event.detail.fields
-            fields.Name = value
-            this.template.querySelector('lightning-record-edit-form').submit(fields)
-        }
-        inputCmp.reportValidity()
+```js id="2x6b9t"
+import { LightningElement, api } from 'lwc';
 
-    }
-    successHandler(event){ 
-        const toastEvent = new ShowToastEvent({ 
-            title:"Account created",
-            message: "Record ID: "+ event.detail.id,
-            variant:"success"
-        })
-        this.dispatchEvent(toastEvent)
+export default class EditAccount extends LightningElement {
 
-    }
-    handleError(event){ 
-        const toastEvent = new ShowToastEvent({ 
-            title:"Error creating Account",
-            message: event.detail.message,
-            variant:"error"
-        })
-        this.dispatchEvent(toastEvent)
+    @api recordId;
+
+    handleSuccess() {
+
+        console.log('Updated');
+
     }
 }
-```
-
-File Name : recordEditForm.html
-```html
-<template>
-    <lightning-card title="Custom validation in lightning record edit form">
-        <lightning-record-edit-form
-        object-api-name={objectName}
-        onsubmit={handleSubmit}
-        onsuccess={successHandler}
-        onerror={handleError}
-        >
-            <lightning-input label="Name"
-            value={inputValue}
-            onkeyup={handleChange}
-            class="slds-m-bottom_x-small"></lightning-input>
-    
-            <lightning-button class="slds-m-top_small" type="submit" label="Create Account"></lightning-button>
-        </lightning-record-edit-form>
-    </lightning-card>
-</template>
 ```
 
 ## Lightning Data Service Wire Adapter and Functions
